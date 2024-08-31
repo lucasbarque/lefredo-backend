@@ -1,0 +1,104 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String    @id @default(uuid())
+  name            String
+  email           String    @unique
+  password        String?
+  active          Boolean   @default(true)
+  token           String?
+  tokenExpiration DateTime?
+  expoToken       String?
+
+  Restaurant Restaurant[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Restaurant {
+  id   String @id @default(uuid())
+  name String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  Menu Menu[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("restaurants")
+}
+
+model Menu {
+  id    String @id @default(uuid())
+  title String
+
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  restaurantId String
+
+  Sections Section[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("menus")
+}
+
+model Section {
+  id    String @id @default(uuid())
+  title String
+
+  menu   Menu   @relation(fields: [menuId], references: [id])
+  menuId String
+
+  Dish Dish[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("sections")
+}
+
+model Dish {
+  id          String  @id @default(uuid())
+  title       String
+  description String?
+  price       Int
+
+  section   Section @relation(fields: [sectionId], references: [id])
+  sectionId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("dishes")
+}
+
+model Media {
+  id    String @id @default(uuid())
+  title String
+  type  String
+
+  referenceId   String
+  referenceName String
+  filename      String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("medias")
+}
