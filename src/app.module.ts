@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 
+// import { MiddlewareConsumer } from '@nestjs/common';
+// import { DelayMiddleware } from './http/middlewares/delay';
 import { DatabaseModule } from './database/database.module';
 import { HttpModule } from './http/http.module';
 
@@ -8,4 +10,8 @@ import { HttpModule } from './http/http.module';
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule {
+  // configure(consumer: MiddlewareConsumer) {
+  //   consumer.apply(DelayMiddleware).forRoutes('*');
+  // }
+}
