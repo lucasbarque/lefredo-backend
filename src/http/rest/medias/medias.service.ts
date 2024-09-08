@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { PrismaService } from 'src/database/prisma/prisma.service';
 
 import { getTypeByMimeType } from './medias.utils';
+import { UploadFilesInput } from './upload-files-input';
 
 interface CreateMediaParams {
   body: {
@@ -18,7 +19,7 @@ export class MediasService {
   constructor(
     private prisma: PrismaService,
     private configService: ConfigService,
-  ) {}
+  ) { }
 
   async uploadFiles({ body, files }: CreateMediaParams) {
     try {
@@ -51,10 +52,26 @@ export class MediasService {
     const medias = mediasFromDatabase.map((media) => {
       return {
         title: media.title,
-        url: `${this.configService.get('BASE_URL')}/files/${media.filename}`,
+        url: `${media.filename}`,
       };
     });
 
     return medias;
+  }
+
+  async uploadMediaByUrl(body: UploadFilesInput) {
+    try {
+      return await this.prisma.media.create({
+        data: {
+          title: body.title,
+          type: body.type,
+          referenceId: body.referenceId,
+          referenceName: body.referenceName,
+          filename: body.filename,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
