@@ -16,7 +16,7 @@ import { UploadFilesInput } from './upload-files-input';
 
 @Controller('medias')
 export class MediasController {
-  constructor(private mediasService: MediasService) {}
+  constructor(private mediasService: MediasService) { }
 
   @UseGuards(RestAuthGuard)
   @Post('upload-files')
@@ -34,5 +34,11 @@ export class MediasController {
     @UploadedFiles() files: Array<Express.Multer.File>,
   ) {
     return await this.mediasService.uploadFiles({ body, files });
+  }
+
+  @UseGuards(RestAuthGuard)
+  @Post('upload-url')
+  async uploadMediaByUrl(@Body() body: UploadFilesInput) {
+    return await this.mediasService.uploadMediaByUrl(body);
   }
 }
