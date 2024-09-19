@@ -5,12 +5,11 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { JwtModule } from '@nestjs/jwt';
 import { MulterModule } from '@nestjs/platform-express';
 import { join } from 'node:path';
-
-import { DishesResolver } from '@resolvers/dishes.resolver';
-import { MenusResolver } from '@resolvers/menus.resolver';
-import { RestaurantsResolver } from '@resolvers/restaurants.resolver';
-import { SectionsResolver } from '@resolvers/sections.resolver';
-import { UsersResolver } from '@resolvers/users.resolver';
+import { DishesResolver } from 'src/http/rest/controllers/dishes.resolver';
+import { MenusResolver } from 'src/http/rest/controllers/menus.resolver';
+import { SectionsResolver } from 'src/http/rest/controllers/sections.resolver';
+import { UsersResolver } from 'src/http/rest/controllers/users.resolver';
+import { RestaurantsResolver } from 'src/http/rest/resolvers/restaurants.resolver';
 
 import { DishesService } from '@services/dishes.service';
 import { MenusService } from '@services/menus.service';

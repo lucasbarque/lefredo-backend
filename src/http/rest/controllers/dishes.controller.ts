@@ -6,14 +6,12 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
+import { CreateDishInput } from 'src/http/rest/inputs/create-dish-input';
 import { MediasService } from 'src/http/rest/medias/medias.service';
+import { Dish } from 'src/http/rest/models/dish';
 
 import { DishesService } from '@services/dishes.service';
 import { SectionsService } from '@services/sections.service';
-
-import { Dish } from '@models/dish';
-
-import { CreateDishInput } from '@inputs/create-dish-input';
 
 @Resolver(() => Dish)
 export class DishesResolver {

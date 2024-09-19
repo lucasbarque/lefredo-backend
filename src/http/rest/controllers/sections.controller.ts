@@ -6,13 +6,11 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
+import { CreateSectionInput } from 'src/http/rest/inputs/create-section-input';
+import { Section } from 'src/http/rest/models/section';
 
 import { DishesService } from '@services/dishes.service';
 import { SectionsService } from '@services/sections.service';
-
-import { Section } from '@models/section';
-
-import { CreateSectionInput } from '@inputs/create-section-input';
 
 @Resolver(() => Section)
 export class SectionsResolver {

@@ -6,13 +6,11 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
+import { CreateMenuInput } from 'src/http/rest/inputs/create-menu-input';
+import { Menu } from 'src/http/rest/models/menu';
 
 import { MenusService } from '@services/menus.service';
 import { SectionsService } from '@services/sections.service';
-
-import { Menu } from '@models/menu';
-
-import { CreateMenuInput } from '@inputs/create-menu-input';
 
 @Resolver(() => Menu)
 export class MenusResolver {

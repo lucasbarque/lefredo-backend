@@ -8,13 +8,11 @@ import {
   Resolver,
 } from '@nestjs/graphql';
 import { GqlAuthGuard } from 'src/http/auth/guards/gql-jwt-auth.guard';
+import { CreateResturantInput } from 'src/http/rest/inputs/create-resturant-input';
+import { Restaurant } from 'src/http/rest/models/restaurant';
 
 import { MenusService } from '@services/menus.service';
 import { RestaurantsService } from '@services/restaurants.service';
-
-import { Restaurant } from '@models/restaurant';
-
-import { CreateResturantInput } from '@inputs/create-resturant-input';
 
 @Resolver(() => Restaurant)
 export class RestaurantsResolver {
