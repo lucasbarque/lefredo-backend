@@ -1,4 +1,6 @@
 import { PrismaClient } from '@prisma/client';
+import * as bcrypt from 'bcrypt';
+import slugify from 'slugify';
 
 const prisma = new PrismaClient();
 
@@ -10,13 +12,17 @@ async function main() {
   await prisma.restaurant.deleteMany();
   await prisma.user.deleteMany();
 
+  const passwordSalt = await bcrypt.genSalt(8);
+
+  const passwordHash = await bcrypt.hash('123123', passwordSalt);
+
   const john = await prisma.user.upsert({
     where: { email: 'johndoe@example.com' },
     update: {},
     create: {
       name: 'John Doe',
       email: 'johndoe@example.com',
-      password: '123123',
+      password: passwordHash,
     },
   });
 
@@ -420,6 +426,357 @@ async function main() {
       //   price: 9800,
       //   sectionId: sections[1].id,
       // },
+    ],
+  });
+
+  const dishes = await prisma.dish.findMany();
+
+  await prisma.media.createMany({
+    data: [
+      {
+        title: slugify(dishes[0].title),
+        type: 'image',
+        referenceId: dishes[0].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9585299/picture/medium/240603225919',
+      },
+      {
+        title: slugify(dishes[1].title),
+        type: 'image',
+        referenceId: dishes[1].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9585304/picture/medium/240604003614',
+      },
+      {
+        title: slugify(dishes[2].title),
+        type: 'image',
+        referenceId: dishes[2].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9585305/picture/medium/240824153635',
+      },
+      {
+        title: slugify(dishes[3].title),
+        type: 'image',
+        referenceId: dishes[3].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9693214/picture/medium/240604003636',
+      },
+      {
+        title: slugify(dishes[4].title),
+        type: 'image',
+        referenceId: dishes[4].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9737437/picture/medium/240603225811',
+      },
+      {
+        title: slugify(dishes[5].title),
+        type: 'image',
+        referenceId: dishes[5].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9737447/picture/medium/240603225836',
+      },
+      {
+        title: slugify(dishes[7].title),
+        type: 'image',
+        referenceId: dishes[7].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9585308/picture/medium/240603230447',
+      },
+      {
+        title: slugify(dishes[8].title),
+        type: 'image',
+        referenceId: dishes[8].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9585313/picture/medium/240604014345',
+      },
+      {
+        title: slugify(dishes[9].title),
+        type: 'image',
+        referenceId: dishes[9].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9585320/picture/medium/240603230536',
+      },
+      {
+        title: slugify(dishes[10].title),
+        type: 'image',
+        referenceId: dishes[10].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9585319/picture/medium/240603230607',
+      },
+      {
+        title: slugify(dishes[11].title),
+        type: 'image',
+        referenceId: dishes[11].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9585315/picture/medium/240603230633',
+      },
+      {
+        title: slugify(dishes[12].title),
+        type: 'image',
+        referenceId: dishes[12].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9585316/picture/medium/240603230647',
+      },
+      {
+        title: slugify(dishes[13].title),
+        type: 'image',
+        referenceId: dishes[13].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9585323/picture/medium/240603230730',
+      },
+      {
+        title: slugify(dishes[14].title),
+        type: 'image',
+        referenceId: dishes[14].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9585324/picture/medium/240603173943',
+      },
+      {
+        title: slugify(dishes[15].title),
+        type: 'image',
+        referenceId: dishes[15].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/10773180/picture/medium/240824174838',
+      },
+      {
+        title: slugify(dishes[16].title),
+        type: 'image',
+        referenceId: dishes[16].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/10773239/picture/medium/240702233956',
+      },
+      {
+        title: slugify(dishes[17].title),
+        type: 'image',
+        referenceId: dishes[17].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9585321/picture/medium/240603231529',
+      },
+      {
+        title: slugify(dishes[18].title),
+        type: 'image',
+        referenceId: dishes[18].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9585322/picture/medium/240604005000',
+      },
+      {
+        title: slugify(dishes[19].title),
+        type: 'image',
+        referenceId: dishes[19].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9585331/picture/medium/240911020312',
+      },
+      {
+        title: slugify(dishes[20].title),
+        type: 'image',
+        referenceId: dishes[20].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9585334/picture/medium/240911020323',
+      },
+      {
+        title: slugify(dishes[21].title),
+        type: 'image',
+        referenceId: dishes[21].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9585335/picture/medium/240911020731',
+      },
+      {
+        title: slugify(dishes[22].title),
+        type: 'image',
+        referenceId: dishes[22].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9585336/picture/medium/240911020355',
+      },
+      {
+        title: slugify(dishes[24].title),
+        type: 'image',
+        referenceId: dishes[24].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/10874848/picture/medium/240604004751',
+      },
+      {
+        title: slugify(dishes[25].title),
+        type: 'image',
+        referenceId: dishes[25].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/10872773/picture/medium/240603232223',
+      },
+      {
+        title: slugify(dishes[26].title),
+        type: 'image',
+        referenceId: dishes[26].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9661744/picture/medium/240711235018',
+      },
+      {
+        title: slugify(dishes[27].title),
+        type: 'image',
+        referenceId: dishes[27].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9661890/picture/medium/240603232045',
+      },
+      {
+        title: slugify(dishes[28].title),
+        type: 'image',
+        referenceId: dishes[28].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9661893/picture/medium/240603233428',
+      },
+      {
+        title: slugify(dishes[29].title),
+        type: 'image',
+        referenceId: dishes[29].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9585345/picture/medium/240603173712',
+      },
+      {
+        title: slugify(dishes[30].title),
+        type: 'image',
+        referenceId: dishes[30].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9585346/picture/medium/240603231559',
+      },
+      {
+        title: slugify(dishes[31].title),
+        type: 'image',
+        referenceId: dishes[31].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9944875/picture/medium/240603231738',
+      },
+      {
+        title: slugify(dishes[32].title),
+        type: 'image',
+        referenceId: dishes[32].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/10290315/picture/medium/240604010134',
+      },
+      {
+        title: slugify(dishes[33].title),
+        type: 'image',
+        referenceId: dishes[33].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9933444/picture/medium/240604014559',
+      },
+      {
+        title: slugify(dishes[34].title),
+        type: 'image',
+        referenceId: dishes[34].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9912746/picture/medium/240702162941',
+      },
+      {
+        title: slugify(dishes[35].title),
+        type: 'image',
+        referenceId: dishes[35].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9585350/picture/medium/240604005935',
+      },
+      {
+        title: slugify(dishes[36].title),
+        type: 'image',
+        referenceId: dishes[36].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9585352/picture/medium/240906001548',
+      },
+      {
+        title: slugify(dishes[37].title),
+        type: 'image',
+        referenceId: dishes[37].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9585385/picture/medium/240903163814',
+      },
+      {
+        title: slugify(dishes[38].title),
+        type: 'image',
+        referenceId: dishes[38].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9585383/picture/medium/240903163814',
+      },
+      {
+        title: slugify(dishes[39].title),
+        type: 'image',
+        referenceId: dishes[39].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9585386/picture/medium/240903163811',
+      },
+      {
+        title: slugify(dishes[40].title),
+        type: 'image',
+        referenceId: dishes[40].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9585387/picture/medium/240903163808',
+      },
+      {
+        title: slugify(dishes[41].title),
+        type: 'image',
+        referenceId: dishes[41].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/10007801/picture/medium/240903163808',
+      },
+      {
+        title: slugify(dishes[42].title),
+        type: 'image',
+        referenceId: dishes[42].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9585389/picture/medium/240903163627',
+      },
+      {
+        title: slugify(dishes[43].title),
+        type: 'image',
+        referenceId: dishes[43].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9585390/picture/medium/240903163627',
+      },
+      {
+        title: slugify(dishes[44].title),
+        type: 'image',
+        referenceId: dishes[44].id,
+        referenceName: 'dishes',
+        filename:
+          'https://www.goomer.app/webmenu/funkyfresh/product/9585392/picture/medium/240709163904',
+      },
     ],
   });
 }
