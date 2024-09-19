@@ -2,9 +2,6 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { MulterModule } from '@nestjs/platform-express';
-import { join } from 'node:path';
-
-import { UsersController } from '@resolvers/users.controller';
 
 import { DishesService } from '@services/dishes.service';
 import { MenusService } from '@services/menus.service';
@@ -16,11 +13,13 @@ import { DatabaseModule } from '../database/database.module';
 import { jwtConstants } from './auth/auth.constants';
 import { AuthModule } from './auth/auth.module';
 import { AuthService } from './auth/auth.service';
-import { MediasController } from './rest/medias/medias.controller';
 import { MediasService } from './rest/medias/medias.service';
-import { RestaurantsController } from '@resolvers/restaurants.controller';
-import { MenusController } from '@resolvers/menus.controller';
-import { SectionsController } from '@resolvers/sections.controller';
+import { UsersController } from '@controllers/users.controller';
+import { RestaurantsController } from '@controllers/restaurants.controller';
+import { MenusController } from '@controllers/menus.controller';
+import { SectionsController } from '@controllers/sections.controller';
+import { DishesController } from '@controllers/dishes.controller';
+import { MediasController } from './rest/medias/medias.controller';
 
 @Module({
   imports: [
@@ -53,6 +52,7 @@ import { SectionsController } from '@resolvers/sections.controller';
     RestaurantsController,
     MenusController,
     SectionsController,
+    DishesController,
   ],
 })
 export class HttpModule {}

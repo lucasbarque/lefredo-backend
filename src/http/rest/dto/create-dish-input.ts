@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsNumber, IsString, IsUUID } from 'class-validator';
 
-export class CreateDishInput {
+export class CreateDishDTO {
   @IsString()
   @IsNotEmpty()
   title: string;

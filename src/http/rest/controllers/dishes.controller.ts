@@ -1,37 +1,39 @@
-// import { CreateDishInput } from 'src/http/rest/dtol/create-dish-input';
-import { MediasService } from 'src/http/rest/medias/medias.service';
-
 import { DishesService } from '@services/dishes.service';
-import { SectionsService } from '@services/sections.service';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
+import { RestAuthGuard } from 'src/http/auth/guards/rest-jwt-auth.guard';
+import { CreateDishDTO } from '@inputs/create-dish-input';
 
-export class DishesResolver {
-  constructor(
-    private dishesService: DishesService,
-    private sectionsService: SectionsService,
-    private mediasService: MediasService,
-  ) {}
+@Controller('dishes')
+@UseGuards(RestAuthGuard)
+export class DishesController {
+  constructor(private dishesService: DishesService) {}
 
-  // getDishById(@Args('dishId') dishId: string) {
-  //   return this.dishesService.getDishById(dishId);
-  // }
+  @Get(':id')
+  getById(@Param('id') dishId: string) {
+    return this.dishesService.getById(dishId);
+  }
 
-  // getDishes(@Args('sectionId') sectionId: string) {
-  //   return this.dishesService.getDishesBySectionId(sectionId);
-  // }
+  @Get()
+  list(@Query('sectionId') sectionId: string) {
+    return this.dishesService.getDishesBySectionId(sectionId);
+  }
 
-  // createDish(@Args('data') data: CreateDishInput) {
-  //   return this.dishesService.createDish(data);
-  // }
+  @Post()
+  create(@Body() data: CreateDishDTO) {
+    return this.dishesService.create(data);
+  }
 
-  // deleteDishById(@Args('id') id: string) {
-  //   return this.dishesService.deleteDishById(id);
-  // }
-
-  // images(@Parent() dish: Dish) {
-  //   return this.mediasService.getMediasByReferenceName('dishes', dish.id);
-  // }
-
-  // section(@Parent() dish: Dish) {
-  //   return this.sectionsService.getSectionById(dish.sectionId);
-  // }
+  @Delete(':id')
+  delete(@Param('id') id: string) {
+    return this.dishesService.delete(id);
+  }
 }
