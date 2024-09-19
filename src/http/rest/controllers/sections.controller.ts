@@ -1,20 +1,33 @@
-import { DishesService } from '@services/dishes.service';
+import { CreateSectionDTO } from '@inputs/create-section-dto';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { SectionsService } from '@services/sections.service';
+import { RestAuthGuard } from 'src/http/auth/guards/rest-jwt-auth.guard';
 
+@Controller('sections')
+@UseGuards(RestAuthGuard)
 export class SectionsController {
-  constructor() // private sectionsService: SectionsService,
-  // private dishesService: DishesService,
-  {}
+  constructor(private sectionsService: SectionsService) {}
 
-  // getSections(@Args('menuId') menuId: string) {
-  //   return this.sectionsService.getSectionsByMenuId(menuId);
-  // }
+  @Get(':menuId')
+  getById(@Param('menuId') menuId: string) {
+    return this.sectionsService.getById(menuId);
+  }
 
-  // createSection(@Args('data') data: CreateSectionInput) {
-  //   return this.sectionsService.createSection(data);
-  // }
+  @Get()
+  getByMenuId(@Query('menuId') menuId: string) {
+    return this.sectionsService.getSectionsByMenuId(menuId);
+  }
 
-  // dishes(@Parent() section: Section) {
-  //   return this.dishesService.getDishesBySectionId(section.id);
-  // }
+  @Post()
+  create(@Body() data: CreateSectionDTO) {
+    return this.sectionsService.create(data);
+  }
 }

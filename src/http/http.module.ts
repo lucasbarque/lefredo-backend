@@ -20,6 +20,7 @@ import { MediasController } from './rest/medias/medias.controller';
 import { MediasService } from './rest/medias/medias.service';
 import { RestaurantsController } from '@resolvers/restaurants.controller';
 import { MenusController } from '@resolvers/menus.controller';
+import { SectionsController } from '@resolvers/sections.controller';
 
 @Module({
   imports: [
@@ -51,6 +52,7 @@ import { MenusController } from '@resolvers/menus.controller';
     UsersController,
     RestaurantsController,
     MenusController,
+    SectionsController,
   ],
 })
 export class HttpModule {}

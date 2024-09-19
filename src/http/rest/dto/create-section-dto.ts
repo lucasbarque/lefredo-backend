@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
 
-export class CreateSectionInput {
+export class CreateSectionDTO {
   @IsNotEmpty()
   @IsString()
   title: string;
