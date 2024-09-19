@@ -19,6 +19,7 @@ import { AuthService } from './auth/auth.service';
 import { MediasController } from './rest/medias/medias.controller';
 import { MediasService } from './rest/medias/medias.service';
 import { RestaurantsController } from '@resolvers/restaurants.controller';
+import { MenusController } from '@resolvers/menus.controller';
 
 @Module({
   imports: [
@@ -45,6 +46,11 @@ import { RestaurantsController } from '@resolvers/restaurants.controller';
     MediasService,
     AuthService,
   ],
-  controllers: [MediasController, UsersController, RestaurantsController],
+  controllers: [
+    MediasController,
+    UsersController,
+    RestaurantsController,
+    MenusController,
+  ],
 })
 export class HttpModule {}

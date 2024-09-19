@@ -1,27 +1,33 @@
-// import { CreateMenuInput } from 'src/http/rest/dto/create-menu-input';
-
+import { CreateMenuDTO } from '@inputs/create-menu-dto';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { MenusService } from '@services/menus.service';
-import { SectionsService } from '@services/sections.service';
+import { RestAuthGuard } from 'src/http/auth/guards/rest-jwt-auth.guard';
 
-export class MenusResolver {
-  constructor(
-    private menusService: MenusService,
-    private sectionsService: SectionsService,
-  ) {}
+@Controller('menus')
+@UseGuards(RestAuthGuard)
+export class MenusController {
+  constructor(private menusService: MenusService) {}
 
-  // getMenus(@Args('restaurantId') restaurantId: string) {
-  //   return this.menusService.getMenusByRestaurantId(restaurantId);
-  // }
+  @Get()
+  getByRestaurant(@Query('restaurantId') restaurantId: string) {
+    return this.menusService.getMenusByRestaurantId(restaurantId);
+  }
 
-  // getMenuById(@Args('menuId') menuId: string) {
-  //   return this.menusService.getMenuById(menuId);
-  // }
+  @Get(':id')
+  getById(@Param('id') menuId: string) {
+    return this.menusService.getById(menuId);
+  }
 
-  // createMenu(@Args('data') data: CreateMenuInput) {
-  //   return this.menusService.createMenu(data);
-  // }
-
-  // sections(@Parent() menu: Menu) {
-  //   return this.sectionsService.getSectionsByMenuId(menu.id);
-  // }
+  @Post()
+  create(@Body() data: CreateMenuDTO) {
+    return this.menusService.create(data);
+  }
 }

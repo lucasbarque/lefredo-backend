@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
 
-export class CreateMenuInput {
+export class CreateMenuDTO {
   @IsNotEmpty()
   @IsString()
   title: string;
