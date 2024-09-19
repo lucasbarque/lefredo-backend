@@ -1,37 +1,26 @@
-// import { UseGuards } from '@nestjs/common';
-
-// import { GqlAuthGuard } from 'src/http/auth/guards/gql-jwt-auth.guard';
-// import { CreateResturantInput } from 'src/http/rest/inputs/create-resturant-input';
-// import { Restaurant } from 'src/http/rest/models/restaurant';
-
 import { CreateResturantDTO } from '@inputs/create-resturant-dto';
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
-import { MenusService } from '@services/menus.service';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { RestaurantsService } from '@services/restaurants.service';
 import { RestAuthGuard } from 'src/http/auth/guards/rest-jwt-auth.guard';
 
 @Controller('restaurants')
+@UseGuards(RestAuthGuard)
 export class RestaurantsController {
-  constructor(
-    private restaurantsService: RestaurantsService,
-    private menusService: MenusService,
-  ) {}
+  constructor(private restaurantsService: RestaurantsService) {}
 
-  // getRestaurantById(@Args('restaurantId') restaurantId: string) {
-  //   return this.restaurantsService.getRestaurantById(restaurantId);
-  // }
-
-  // restaurants() {
-  //   return this.restaurantsService.listAllRestaurants();
-  // }
-
-  @Post()
-  @UseGuards(RestAuthGuard)
-  create(@Body() data: CreateResturantDTO) {
-    return this.restaurantsService.createRestaurant(data);
+  @Get()
+  //TODO: Retornar apenas restaurantes daquele usuário
+  list() {
+    return this.restaurantsService.list();
   }
 
-  // menus(@Parent() restaurant: Restaurant) {
-  //   return this.menusService.getMenusByRestaurantId(restaurant.id);
-  // }
+  @Get(':id')
+  getById(@Param('id') id: string) {
+    return this.restaurantsService.getById(id);
+  }
+
+  @Post()
+  create(@Body() data: CreateResturantDTO) {
+    return this.restaurantsService.create(data);
+  }
 }

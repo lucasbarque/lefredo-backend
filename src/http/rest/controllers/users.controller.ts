@@ -11,8 +11,8 @@ export class UsersController {
 
   @Get()
   @UseGuards(RestAuthGuard)
-  users() {
-    return this.usersService.findAll();
+  list() {
+    return this.usersService.list();
   }
 
   @Post()
