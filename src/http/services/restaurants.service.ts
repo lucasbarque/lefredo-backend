@@ -1,10 +1,6 @@
+import { CreateResturantDTO } from '@inputs/create-resturant-dto';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma/prisma.service';
-
-interface CreateRestaurantParams {
-  name: string;
-  userId: string;
-}
 
 @Injectable()
 export class RestaurantsService {
@@ -28,7 +24,7 @@ export class RestaurantsService {
     return this.prisma.restaurant.findMany();
   }
 
-  async createRestaurant({ name, userId }: CreateRestaurantParams) {
+  async createRestaurant({ name, userId }: CreateResturantDTO) {
     const user = await this.prisma.user.findUnique({
       where: {
         id: userId,

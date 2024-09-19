@@ -20,8 +20,8 @@
     "paths": {
       "@services/*": ["./src/http/services/*"],
       "@resolvers/*": ["src/http/rest/controllers/*"],
-      "@models/*": ["src/http/rest/models/*"],
-      "@inputs/*": ["src/http/rest/inputs/*"],
+      "@models/*": ["src/http/rest/entities/*"],
+      "@inputs/*": ["src/http/rest/dto/*"],
     }
   }
 }

@@ -1,44 +1,37 @@
-import { UseGuards } from '@nestjs/common';
-import {
-  Args,
-  Mutation,
-  Parent,
-  Query,
-  ResolveField,
-  Resolver,
-} from '@nestjs/graphql';
-import { GqlAuthGuard } from 'src/http/auth/guards/gql-jwt-auth.guard';
-import { CreateResturantInput } from 'src/http/rest/inputs/create-resturant-input';
-import { Restaurant } from 'src/http/rest/models/restaurant';
+// import { UseGuards } from '@nestjs/common';
 
+// import { GqlAuthGuard } from 'src/http/auth/guards/gql-jwt-auth.guard';
+// import { CreateResturantInput } from 'src/http/rest/inputs/create-resturant-input';
+// import { Restaurant } from 'src/http/rest/models/restaurant';
+
+import { CreateResturantDTO } from '@inputs/create-resturant-dto';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { MenusService } from '@services/menus.service';
 import { RestaurantsService } from '@services/restaurants.service';
+import { RestAuthGuard } from 'src/http/auth/guards/rest-jwt-auth.guard';
 
-@Resolver(() => Restaurant)
-export class RestaurantsResolver {
+@Controller('restaurants')
+export class RestaurantsController {
   constructor(
     private restaurantsService: RestaurantsService,
     private menusService: MenusService,
   ) {}
 
-  @Query(() => Restaurant)
-  getRestaurantById(@Args('restaurantId') restaurantId: string) {
-    return this.restaurantsService.getRestaurantById(restaurantId);
-  }
+  // getRestaurantById(@Args('restaurantId') restaurantId: string) {
+  //   return this.restaurantsService.getRestaurantById(restaurantId);
+  // }
 
-  @Query(() => [Restaurant])
-  restaurants() {
-    return this.restaurantsService.listAllRestaurants();
-  }
+  // restaurants() {
+  //   return this.restaurantsService.listAllRestaurants();
+  // }
 
-  @Mutation(() => Restaurant)
-  @UseGuards(GqlAuthGuard)
-  createRestaurant(@Args('data') data: CreateResturantInput) {
+  @Post()
+  @UseGuards(RestAuthGuard)
+  create(@Body() data: CreateResturantDTO) {
     return this.restaurantsService.createRestaurant(data);
   }
 
-  @ResolveField()
-  menus(@Parent() restaurant: Restaurant) {
-    return this.menusService.getMenusByRestaurantId(restaurant.id);
-  }
+  // menus(@Parent() restaurant: Restaurant) {
+  //   return this.menusService.getMenusByRestaurantId(restaurant.id);
+  // }
 }

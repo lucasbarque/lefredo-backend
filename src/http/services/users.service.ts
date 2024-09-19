@@ -1,22 +1,27 @@
-import { Injectable } from '@nestjs/common';
+import { CreateUserDTO } from '@inputs/create-user.dto';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from 'src/database/prisma/prisma.service';
-
-interface CreateUserParams {
-  name: string;
-  email: string;
-  password: string;
-}
 
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  async getAllUsers() {
-    return this.prisma.user.findMany();
+  async findAll() {
+    return this.prisma.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        password: false,
+        active: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
   }
 
-  async createUser({ name, email, password }: CreateUserParams) {
+  async create({ name, email, password }: CreateUserDTO) {
     const userWithSameEmail = await this.prisma.user.findUnique({
       where: {
         email,
@@ -24,14 +29,17 @@ export class UsersService {
     });
 
     if (userWithSameEmail) {
-      throw new Error('Another user with same email already exists.');
+      throw new HttpException(
+        'Another user with same email already exists.',
+        HttpStatus.CONFLICT,
+      );
     }
 
     const passwordSalt = await bcrypt.genSalt(8);
 
     const passwordHash = await bcrypt.hash(password, passwordSalt);
 
-    return await this.prisma.user.create({
+    await this.prisma.user.create({
       data: {
         name,
         email,
