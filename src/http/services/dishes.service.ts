@@ -1,20 +1,12 @@
-import { Injectable } from '@nestjs/common';
-import { promises } from 'fs';
-import { join } from 'path';
+import { CreateDishDTO } from '@inputs/create-dish-input';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma/prisma.service';
-
-interface CreateDishParams {
-  title: string;
-  description?: string;
-  price: number;
-  sectionId: string;
-}
 
 @Injectable()
 export class DishesService {
   constructor(private prisma: PrismaService) {}
 
-  async getDishById(dishId: string) {
+  async getById(dishId: string) {
     const dish = await this.prisma.dish.findUnique({
       where: {
         id: dishId,
@@ -22,8 +14,14 @@ export class DishesService {
     });
 
     if (!dish) {
-      throw new Error('Dish not found.');
+      throw new HttpException('Dish not found.', HttpStatus.NOT_FOUND);
     }
+
+    const medias = await this.prisma.media.findMany({
+      where: { referenceId: dishId, referenceName: 'dishes' }, // Ajuste aqui se o campo que relaciona a mídia for outro
+    });
+
+    Object.assign(dish, { medias });
 
     return dish;
   }
@@ -36,17 +34,31 @@ export class DishesService {
     });
 
     if (!sectionExists) {
-      throw new Error('Section does not exists.');
+      throw new HttpException('Section does not exists.', HttpStatus.NOT_FOUND);
     }
 
-    return await this.prisma.dish.findMany({
+    const dishes = await this.prisma.dish.findMany({
       where: {
         sectionId,
       },
     });
+
+    const dishesWithMedia = await Promise.all(
+      dishes.map(async (dish) => {
+        const media = await this.prisma.media.findMany({
+          where: { referenceId: dish.id, referenceName: 'dishes' },
+        });
+        return {
+          ...dish,
+          media,
+        };
+      }),
+    );
+
+    return dishesWithMedia;
   }
 
-  async createDish({ title, description, price, sectionId }: CreateDishParams) {
+  async create({ title, description, price, sectionId }: CreateDishDTO) {
     const sectionExists = await this.prisma.section.findFirst({
       where: {
         id: sectionId,
@@ -54,10 +66,10 @@ export class DishesService {
     });
 
     if (!sectionExists) {
-      throw new Error('Section does not exists.');
+      throw new HttpException('Section does not exists.', HttpStatus.NOT_FOUND);
     }
 
-    return await this.prisma.dish.create({
+    await this.prisma.dish.create({
       data: {
         title,
         description,
@@ -67,7 +79,7 @@ export class DishesService {
     });
   }
 
-  async deleteDishById(id: string) {
+  async delete(id: string) {
     const dishToDelete = await this.prisma.dish.findUnique({
       where: {
         id,
@@ -75,7 +87,7 @@ export class DishesService {
     });
 
     if (!dishToDelete) {
-      throw new Error('Dish not found!');
+      throw new HttpException('Dish not found.', HttpStatus.NOT_FOUND);
     }
 
     const imagesDish = await this.prisma.media.findMany({
@@ -90,9 +102,6 @@ export class DishesService {
     if (imagesDish.length > 0) {
       for (const image of imagesDish) {
         try {
-          promises.unlink(
-            join(__dirname, '..', '..', '..', 'files', image.filename),
-          );
           await this.prisma.media.delete({
             where: {
               id: image.id,
@@ -111,6 +120,8 @@ export class DishesService {
       },
     });
 
-    return `We removed the ${dishToDelete.title} | images deleted: ${imagesDeleted} | images with error: ${imagesErrored}`;
+    return {
+      message: `We removed the ${dishToDelete.title} | images deleted: ${imagesDeleted} | images with error: ${imagesErrored}`,
+    };
   }
 }
