@@ -21,11 +21,6 @@ export class SectionsController {
     return this.sectionsService.getById(menuId);
   }
 
-  @Get()
-  getByMenuId(@Query('menuId') menuId: string) {
-    return this.sectionsService.getSectionsByMenuId(menuId);
-  }
-
   @UseGuards(RestAuthGuard)
   @Post()
   create(@Body() data: CreateSectionDTO) {
