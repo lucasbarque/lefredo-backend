@@ -12,10 +12,10 @@ import { SectionsService } from '@services/sections.service';
 import { RestAuthGuard } from 'src/http/auth/guards/rest-jwt-auth.guard';
 
 @Controller('sections')
-@UseGuards(RestAuthGuard)
 export class SectionsController {
   constructor(private sectionsService: SectionsService) {}
 
+  @UseGuards(RestAuthGuard)
   @Get(':menuId')
   getById(@Param('menuId') menuId: string) {
     return this.sectionsService.getById(menuId);
@@ -26,6 +26,7 @@ export class SectionsController {
     return this.sectionsService.getSectionsByMenuId(menuId);
   }
 
+  @UseGuards(RestAuthGuard)
   @Post()
   create(@Body() data: CreateSectionDTO) {
     return this.sectionsService.create(data);

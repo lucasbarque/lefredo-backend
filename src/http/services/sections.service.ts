@@ -31,11 +31,40 @@ export class SectionsService {
       throw new HttpException('Menu does not exists.', HttpStatus.NOT_FOUND);
     }
 
-    return await this.prisma.section.findMany({
+    const sections = await this.prisma.section.findMany({
       where: {
         menuId,
       },
+      include: {
+        Dish: true,
+      },
     });
+
+    const sectionsWithDishesAndMedia = await Promise.all(
+      sections.map(async (section) => {
+        const dishesWithMedia = await Promise.all(
+          section.Dish.map(async (dish) => {
+            const medias = await this.prisma.media.findMany({
+              where: {
+                referenceId: dish.id,
+                referenceName: 'dishes',
+              },
+            });
+            return {
+              ...dish,
+              medias,
+            };
+          }),
+        );
+
+        return {
+          ...section,
+          Dish: dishesWithMedia,
+        };
+      }),
+    );
+
+    return sectionsWithDishesAndMedia;
   }
 
   async create({ title, menuId }: CreateSectionDTO) {
