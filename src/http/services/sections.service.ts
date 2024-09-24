@@ -20,53 +20,6 @@ export class SectionsService {
     return section;
   }
 
-  async getSectionsByMenuId(menuId: string) {
-    const menuExists = this.prisma.menu.findUnique({
-      where: {
-        id: menuId,
-      },
-    });
-
-    if (!menuExists) {
-      throw new HttpException('Menu does not exists.', HttpStatus.NOT_FOUND);
-    }
-
-    const sections = await this.prisma.section.findMany({
-      where: {
-        menuId,
-      },
-      include: {
-        Dish: true,
-      },
-    });
-
-    const sectionsWithDishesAndMedia = await Promise.all(
-      sections.map(async (section) => {
-        const dishesWithMedia = await Promise.all(
-          section.Dish.map(async (dish) => {
-            const medias = await this.prisma.media.findMany({
-              where: {
-                referenceId: dish.id,
-                referenceName: 'dishes',
-              },
-            });
-            return {
-              ...dish,
-              medias,
-            };
-          }),
-        );
-
-        return {
-          ...section,
-          Dish: dishesWithMedia,
-        };
-      }),
-    );
-
-    return sectionsWithDishesAndMedia;
-  }
-
   async create({ title, menuId }: CreateSectionDTO) {
     const menuExists = await this.prisma.menu.findUnique({
       where: {

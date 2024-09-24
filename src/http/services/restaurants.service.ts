@@ -20,6 +20,79 @@ export class RestaurantsService {
     return restaurant;
   }
 
+  async getAllData({
+    menuId,
+    restaurantId,
+  }: {
+    menuId: string;
+    restaurantId: string;
+  }) {
+    const restaurant = await this.prisma.restaurant.findUnique({
+      where: {
+        id: restaurantId,
+      },
+      include: {
+        Menu: {
+          where: {
+            id: menuId,
+          },
+        },
+      },
+    });
+
+    if (!restaurant) {
+      throw new HttpException(
+        'Restaurant does not exists.',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    const menuExists = await this.prisma.menu.findUnique({
+      where: {
+        id: menuId,
+      },
+    });
+
+    if (!menuExists) {
+      throw new HttpException('Menu does not exists.', HttpStatus.NOT_FOUND);
+    }
+
+    const sections = await this.prisma.section.findMany({
+      where: {
+        menuId,
+      },
+      include: {
+        Dish: true,
+      },
+    });
+
+    const sectionsWithDishesAndMedia = await Promise.all(
+      sections.map(async (section) => {
+        const dishesWithMedia = await Promise.all(
+          section.Dish.map(async (dish) => {
+            const medias = await this.prisma.media.findMany({
+              where: {
+                referenceId: dish.id,
+                referenceName: 'dishes',
+              },
+            });
+            return {
+              ...dish,
+              medias,
+            };
+          }),
+        );
+
+        return {
+          ...section,
+          Dish: dishesWithMedia,
+        };
+      }),
+    );
+
+    return { restaurant, sections: sectionsWithDishesAndMedia };
+  }
+
   async list() {
     return this.prisma.restaurant.findMany();
   }
