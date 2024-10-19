@@ -7,7 +7,7 @@ module.exports = {
     importOrderSeparation: true,
     importOrderSortSpecifiers: true,
     importOrder: [
-        '^@resolvers/(.*)$',
+        '^@controllers/(.*)$',
         '^@services/(.*)$',
         '^@models/(.*)$',
         '^@inputs/(.*)$',

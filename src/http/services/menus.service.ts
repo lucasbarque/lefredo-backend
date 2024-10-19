@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma/prisma.service';
 
 interface CreateMenuParams {
@@ -10,7 +10,7 @@ interface CreateMenuParams {
 export class MenusService {
   constructor(private prisma: PrismaService) {}
 
-  async getMenuById(id: string) {
+  async getById(id: string) {
     const menu = await this.prisma.menu.findUnique({
       where: {
         id,
@@ -18,7 +18,7 @@ export class MenusService {
     });
 
     if (!menu) {
-      throw new Error('Menu does not exists.');
+      throw new HttpException('Menu does not exists.', HttpStatus.NOT_FOUND);
     }
 
     return menu;
@@ -32,7 +32,10 @@ export class MenusService {
     });
 
     if (!restaurantExists) {
-      throw new Error('Restaurant does not exists.');
+      throw new HttpException(
+        'Restaurant does not exists.',
+        HttpStatus.NOT_FOUND,
+      );
     }
 
     return await this.prisma.menu.findMany({
@@ -42,7 +45,7 @@ export class MenusService {
     });
   }
 
-  async createMenu({ title, restaurantId }: CreateMenuParams) {
+  async create({ title, restaurantId }: CreateMenuParams) {
     const menuTitleExists = await this.prisma.menu.findFirst({
       where: {
         title,
@@ -51,7 +54,10 @@ export class MenusService {
     });
 
     if (menuTitleExists) {
-      throw new Error('Menu title already exists.');
+      throw new HttpException(
+        'Menu title already exists.',
+        HttpStatus.CONFLICT,
+      );
     }
 
     const restaurantExists = await this.prisma.restaurant.findFirst({
@@ -61,10 +67,13 @@ export class MenusService {
     });
 
     if (!restaurantExists) {
-      throw new Error('Restaurant does not exists.');
+      throw new HttpException(
+        'Restaurant does not exists.',
+        HttpStatus.NOT_FOUND,
+      );
     }
 
-    return await this.prisma.menu.create({
+    await this.prisma.menu.create({
       data: {
         title,
         restaurantId,
