@@ -1,4 +1,4 @@
-import { CreateResturantDTO } from '@inputs/create-resturant-dto';
+import { CreateResturantDTO } from './create-resturant-dto';
 import {
   Body,
   Controller,
@@ -8,12 +8,12 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { RestaurantsService } from '@services/restaurants.service';
+import { RestaurantsService } from './restaurants.service';
 import { RestAuthGuard } from 'src/http/auth/guards/rest-jwt-auth.guard';
 
 @Controller('restaurants')
 export class RestaurantsController {
-  constructor(private restaurantsService: RestaurantsService) {}
+  constructor(private restaurantsService: RestaurantsService) { }
 
   @Get()
   //TODO: Retornar apenas restaurantes daquele usuário

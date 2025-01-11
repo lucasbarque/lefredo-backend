@@ -11,7 +11,6 @@ import { LocalStrategy } from './strategies/local.strategy';
 
 @Module({
   imports: [
-    // MailModule,
     PassportModule,
     JwtModule.register({
       secret: jwtConstants.secret,
@@ -20,7 +19,12 @@ import { LocalStrategy } from './strategies/local.strategy';
       },
     }),
   ],
-  providers: [AuthService, PrismaService, LocalStrategy, JwtStrategy],
+  providers: [
+    AuthService,
+    PrismaService,
+    LocalStrategy,
+    JwtStrategy
+  ],
   controllers: [AuthController],
 })
-export class AuthModule {}
+export class AuthModule { }

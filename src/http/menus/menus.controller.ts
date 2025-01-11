@@ -1,4 +1,4 @@
-import { CreateMenuDTO } from '@inputs/create-menu-dto';
+import { CreateMenuDTO } from './create-menu-dto';
 import {
   Body,
   Controller,
@@ -8,13 +8,13 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { MenusService } from '@services/menus.service';
+import { MenusService } from './menus.service';
 import { RestAuthGuard } from 'src/http/auth/guards/rest-jwt-auth.guard';
 
 @Controller('menus')
 @UseGuards(RestAuthGuard)
 export class MenusController {
-  constructor(private menusService: MenusService) {}
+  constructor(private menusService: MenusService) { }
 
   @Get()
   getByRestaurant(@Query('restaurantId') restaurantId: string) {

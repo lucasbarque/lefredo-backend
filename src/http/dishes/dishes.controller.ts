@@ -1,4 +1,3 @@
-import { DishesService } from '@services/dishes.service';
 import {
   Body,
   Controller,
@@ -10,11 +9,12 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { RestAuthGuard } from 'src/http/auth/guards/rest-jwt-auth.guard';
-import { CreateDishDTO } from '@inputs/create-dish-input';
+import { CreateDishDTO } from './create-dish-input';
+import { DishesService } from './dishes.service';
 
 @Controller('dishes')
 export class DishesController {
-  constructor(private dishesService: DishesService) {}
+  constructor(private dishesService: DishesService) { }
 
   @Get(':id')
   getById(@Param('id') dishId: string) {

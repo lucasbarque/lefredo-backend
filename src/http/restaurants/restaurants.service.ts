@@ -1,10 +1,10 @@
-import { CreateResturantDTO } from '@inputs/create-resturant-dto';
+import { CreateResturantDTO } from './create-resturant-dto';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma/prisma.service';
 
 @Injectable()
 export class RestaurantsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async getById(id: string) {
     const restaurant = await this.prisma.restaurant.findUnique({
