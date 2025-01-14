@@ -16,12 +16,12 @@ async function main() {
 
   const passwordHash = await bcrypt.hash('123123', passwordSalt);
 
-  const user = await prisma.user.upsert({
-    where: { email: 'thaiana@gmail.com' },
+  const userDefault = await prisma.user.upsert({
+    where: { email: 'johndoe@example.com' },
     update: {},
     create: {
-      name: 'Thaiana',
-      email: 'thaiana@gmail.com',
+      name: 'John Doe',
+      email: 'johndoe@example.com',
       password: passwordHash,
     },
   });
@@ -29,7 +29,7 @@ async function main() {
   const restaurant = await prisma.restaurant.create({
     data: {
       name: 'Niura Doceria',
-      userId: user.id,
+      userId: userDefault.id,
     },
   });
 
