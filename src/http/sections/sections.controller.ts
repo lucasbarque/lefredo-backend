@@ -1,4 +1,4 @@
-import { CreateSectionDTO } from '@inputs/create-section-dto';
+import { CreateSectionDTO } from './create-section-dto';
 import {
   Body,
   Controller,
@@ -8,7 +8,7 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { SectionsService } from '@services/sections.service';
+import { SectionsService } from './sections.service';
 import { RestAuthGuard } from 'src/http/auth/guards/rest-jwt-auth.guard';
 
 @Controller('sections')
