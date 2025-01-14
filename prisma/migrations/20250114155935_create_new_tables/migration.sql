@@ -1,5 +1,5 @@
 -- AlterTable
-ALTER TABLE "dishes" ADD COLUMN     "baseDisheId" TEXT,
+ALTER TABLE "dishes" ADD COLUMN     "baseDishId" TEXT,
 ADD COLUMN     "portion" TEXT,
 ADD COLUMN     "prepTime" INTEGER;
 
@@ -46,7 +46,7 @@ CREATE TABLE "dishes_specs_dish" (
 );
 
 -- AddForeignKey
-ALTER TABLE "dishes" ADD CONSTRAINT "dishes_baseDisheId_fkey" FOREIGN KEY ("baseDisheId") REFERENCES "base_dishes"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "dishes" ADD CONSTRAINT "dishes_baseDishId_fkey" FOREIGN KEY ("baseDishId") REFERENCES "base_dishes"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "dish_extras" ADD CONSTRAINT "dish_extras_dishId_fkey" FOREIGN KEY ("dishId") REFERENCES "dishes"("id") ON DELETE SET NULL ON UPDATE CASCADE;

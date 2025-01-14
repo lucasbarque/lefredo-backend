@@ -41,6 +41,14 @@ export class DishesService {
       where: {
         sectionId,
       },
+      include: {
+        baseDish: true,
+        dishSpecs: {
+          include: {
+            DishSpecs: true,
+          },
+        },
+      },
     });
 
     const dishesWithMedia = await Promise.all(

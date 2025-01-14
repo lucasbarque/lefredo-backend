@@ -149,7 +149,7 @@ async function main() {
         price: 1400,
         portion: '01 unidade',
         sectionId: sections[0].id,
-        baseDisheId: baseDishes[0].id,
+        baseDishId: baseDishes[0].id,
       },
       {
         // 2
@@ -157,7 +157,7 @@ async function main() {
         price: 1400,
         portion: '01 unidade',
         sectionId: sections[0].id,
-        baseDisheId: baseDishes[0].id,
+        baseDishId: baseDishes[0].id,
       },
       {
         // 3
@@ -165,7 +165,7 @@ async function main() {
         price: 1400,
         portion: '01 unidade',
         sectionId: sections[0].id,
-        baseDisheId: baseDishes[0].id,
+        baseDishId: baseDishes[0].id,
       },
       {
         // 4
@@ -259,7 +259,7 @@ async function main() {
         price: 600,
         portion: 'pet 500ml',
         sectionId: sections[2].id,
-        baseDisheId: baseDishes[1].id,
+        baseDishId: baseDishes[1].id,
       },
       {
         // 15
@@ -267,7 +267,7 @@ async function main() {
         price: 600,
         portion: 'pet 500ml',
         sectionId: sections[2].id,
-        baseDisheId: baseDishes[1].id,
+        baseDishId: baseDishes[1].id,
       },
       {
         // 16
@@ -493,7 +493,7 @@ async function main() {
         price: 400,
         portion: '01 unidade',
         sectionId: sections[5].id,
-        baseDisheId: baseDishes[2].id,
+        baseDishId: baseDishes[2].id,
       },
       {
         // 45
@@ -501,7 +501,7 @@ async function main() {
         price: 400,
         portion: '01 unidade',
         sectionId: sections[5].id,
-        baseDisheId: baseDishes[2].id,
+        baseDishId: baseDishes[2].id,
       },
       {
         // 46
@@ -509,7 +509,7 @@ async function main() {
         price: 400,
         portion: '01 unidade',
         sectionId: sections[5].id,
-        baseDisheId: baseDishes[2].id,
+        baseDishId: baseDishes[2].id,
       },
       {
         // 47
@@ -517,7 +517,7 @@ async function main() {
         price: 400,
         portion: '01 unidade',
         sectionId: sections[5].id,
-        baseDisheId: baseDishes[2].id,
+        baseDishId: baseDishes[2].id,
       },
       {
         // 48
@@ -596,7 +596,7 @@ async function main() {
         price: 800,
         portion: '01 unidade',
         sectionId: sections[5].id,
-        baseDisheId: baseDishes[3].id,
+        baseDishId: baseDishes[3].id,
       },
       {
         // 57
@@ -606,7 +606,7 @@ async function main() {
         price: 800,
         portion: '01 unidade',
         sectionId: sections[5].id,
-        baseDisheId: baseDishes[3].id,
+        baseDishId: baseDishes[3].id,
       },
       {
         // 58
@@ -616,7 +616,7 @@ async function main() {
         price: 800,
         portion: '01 unidade',
         sectionId: sections[5].id,
-        baseDisheId: baseDishes[3].id,
+        baseDishId: baseDishes[3].id,
       },
       {
         // 59
@@ -632,7 +632,7 @@ async function main() {
         price: 1000,
         portion: 'cada 100g',
         sectionId: sections[5].id,
-        baseDisheId: baseDishes[4].id,
+        baseDishId: baseDishes[4].id,
       },
       {
         // 61
@@ -640,7 +640,7 @@ async function main() {
         price: 1000,
         portion: 'cada 100g',
         sectionId: sections[5].id,
-        baseDisheId: baseDishes[4].id,
+        baseDishId: baseDishes[4].id,
       },
       {
         // 62
@@ -648,7 +648,7 @@ async function main() {
         price: 1000,
         portion: 'cada 100g',
         sectionId: sections[5].id,
-        baseDisheId: baseDishes[4].id,
+        baseDishId: baseDishes[4].id,
       },
       {
         // 63
@@ -656,7 +656,7 @@ async function main() {
         price: 1000,
         portion: 'cada 100g',
         sectionId: sections[5].id,
-        baseDisheId: baseDishes[4].id,
+        baseDishId: baseDishes[4].id,
       },
       {
         // 64
@@ -664,7 +664,7 @@ async function main() {
         price: 1000,
         portion: 'cada 100g',
         sectionId: sections[5].id,
-        baseDisheId: baseDishes[4].id,
+        baseDishId: baseDishes[4].id,
       },
 
       {
@@ -673,7 +673,7 @@ async function main() {
         price: 1000,
         portion: 'cada 100g',
         sectionId: sections[5].id,
-        baseDisheId: baseDishes[4].id,
+        baseDishId: baseDishes[4].id,
       },
       {
         // 66
@@ -717,7 +717,7 @@ async function main() {
         price: 1500,
         portion: '01 unidade',
         sectionId: sections[5].id,
-        baseDisheId: baseDishes[4].id,
+        baseDishId: baseDishes[4].id,
       },
       {
         // 71
@@ -725,7 +725,7 @@ async function main() {
         price: 1500,
         portion: '01 unidade',
         sectionId: sections[5].id,
-        baseDisheId: baseDishes[4].id,
+        baseDishId: baseDishes[4].id,
       },
       {
         // 72
@@ -733,7 +733,7 @@ async function main() {
         price: 1500,
         portion: '01 unidade',
         sectionId: sections[5].id,
-        baseDisheId: baseDishes[4].id,
+        baseDishId: baseDishes[4].id,
       },
       {
         // 73

@@ -104,8 +104,8 @@ model Dish {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  baseDish    BaseDishes? @relation(fields: [baseDisheId], references: [id])
-  baseDisheId String?
+  baseDish   BaseDishes? @relation(fields: [baseDishId], references: [id])
+  baseDishId String?
 
   @@map("dishes")
 }
