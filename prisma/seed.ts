@@ -85,34 +85,34 @@ async function main() {
       },
       {
         title: 'Empada',
-        description: 'uni. Sabores: Frango | Palmito | Frango com Palmito',
+        description: 'Sabores: Frango | Palmito | Frango com Palmito',
         price: 1400,
         sectionId: sections[0].id,
       },
       {
         title: 'Coxinha de Frango',
         description:
-          'uni. Massa de mandioca com recheio de frango com catupiry, empanada na farinha panko.',
+          'Massa de mandioca com recheio de frango com catupiry, empanada na farinha panko.',
         price: 1500,
         sectionId: sections[0].id,
       },
       {
         title: 'Bauru',
         description:
-          'uni. Massa semifolhada recheada com presunto, queijo muçarela, tomate, orégano e requeijão cremoso.',
+          'Massa semifolhada recheada com presunto, queijo muçarela, tomate, orégano e requeijão cremoso.',
         price: 1500,
         sectionId: sections[0].id,
       },
       {
         title: 'Tortinha Pantaneira',
         description:
-          'uni. Massa folhada, recheada com carne seca, catupiry e banana da terra.',
+          'Massa folhada, recheada com carne seca, catupiry e banana da terra.',
         price: 1800,
         sectionId: sections[0].id,
       },
       {
         title: 'Empada Especial',
-        description: 'uni. Sabor: Camarão',
+        description: 'Sabor: Camarão',
         price: 1800,
         sectionId: sections[0].id,
       },
@@ -125,7 +125,7 @@ async function main() {
       {
         title: 'Folhado de Calabresa',
         description:
-          'uni. Massa semifolhada com recheio de calabresa, cebola caramelizada, muçarela e catupiry finalizado com queijo parmesão.',
+          'Massa semifolhada com recheio de calabresa, cebola caramelizada, muçarela e catupiry finalizado com queijo parmesão.',
         price: 1500,
         sectionId: sections[0].id,
       },
@@ -354,7 +354,7 @@ async function main() {
       {
         title: 'Docinho Tradicional',
         description:
-          'uni. Sabores: Brigadeiro | Brigadeiro de churros | Brigadeiro de leite ninho | Brigadeiro de leite ninho com Nutella.',
+          'Sabores: Brigadeiro | Brigadeiro de churros | Brigadeiro de leite ninho | Brigadeiro de leite ninho com Nutella.',
         price: 400,
         sectionId: sections[5].id,
       },
@@ -373,56 +373,55 @@ async function main() {
       {
         title: 'Caramelado',
         description:
-          'uni. Ouriço - beijinho de coco caramelado envolto por coco queimado.',
+          'Ouriço - beijinho de coco caramelado envolto por coco queimado.',
         price: 500,
         sectionId: sections[5].id,
       },
       {
         title: 'Bala Baiana',
-        description:
-          'uni. Beijinho de coco caramelado embalado no papel celofane.',
+        description: 'Beijinho de coco caramelado embalado no papel celofane.',
         price: 600,
         sectionId: sections[5].id,
       },
       {
         title: 'Cenourella',
         description:
-          'uni. Bolinho individual com massa fofinha de cenoura recheado e coberto com Nutella.',
+          'Bolinho individual com massa fofinha de cenoura recheado e coberto com Nutella.',
         price: 650,
         sectionId: sections[5].id,
       },
       {
         title: 'Bombom de Morango',
         description:
-          'uni. Brigadeiro branco recheado de morango e banhado no chocolate.',
+          'Brigadeiro branco recheado de morango e banhado no chocolate.',
         price: 750,
         sectionId: sections[5].id,
       },
       {
         title: 'Surpresa de Uva',
         description:
-          'uni. Brigadeiro branco recheado com uva Thompson sem sementes coberto com flakes de chocolate ao leite.',
+          'Brigadeiro branco recheado com uva Thompson sem sementes coberto com flakes de chocolate ao leite.',
         price: 750,
         sectionId: sections[5].id,
       },
       {
         title: 'Pão de Mel',
         description:
-          'uni. Massa fofinha de pão de mel banhado no chocolate, recheado de doce de leite, beijinho ou brigadeiro.',
+          'Massa fofinha de pão de mel banhado no chocolate, recheado de doce de leite, beijinho ou brigadeiro.',
         price: 800,
         sectionId: sections[5].id,
       },
       {
         title: 'Palha Italiana',
         description:
-          'uni. Brigadeiro cremoso com bolacha de maisena, envolto de leite ninho. Sabores: Brigadeiro tradicional |  Brigadeiro de leite ninho + Brigadeiro.',
+          'Brigadeiro cremoso com bolacha de maisena, envolto de leite ninho. Sabores: Brigadeiro tradicional |  Brigadeiro de leite ninho + Brigadeiro.',
         price: 800,
         sectionId: sections[5].id,
       },
       {
         title: 'Palha Italiana Oreo',
         description:
-          'uni. Brigadeiro belga recheado com bolacha oreo envolto com flakes de chocolate ao leite.',
+          'Brigadeiro belga recheado com bolacha oreo envolto com flakes de chocolate ao leite.',
         price: 800,
         sectionId: sections[5].id,
       },
@@ -442,77 +441,77 @@ async function main() {
       {
         title: 'Bolo no Pote Maria Valentina',
         description:
-          'uni. Pão de ló branco, recheio de creme de leite ninho, brigadeiro cremoso e chantilly',
+          'Pão de ló branco, recheio de creme de leite ninho, brigadeiro cremoso e chantilly',
         price: 1200,
         sectionId: sections[5].id,
       },
       {
         title: 'Chiffon no pote',
         description:
-          'uni. Pão de ló de chocolate com recheio e cobertura de mousse de chocolate chiffon.',
+          'Pão de ló de chocolate com recheio e cobertura de mousse de chocolate chiffon.',
         price: 1200,
         sectionId: sections[5].id,
       },
       {
         title: 'Cupcake Red Velvet',
         description:
-          'uni. Massa aveludada vermelha com recheio e cobertura de creme doce a base de cream cheese e baunilha.',
+          'Massa aveludada vermelha com recheio e cobertura de creme doce a base de cream cheese e baunilha.',
         price: 1400,
         sectionId: sections[5].id,
       },
       {
         title: 'Torta Holandesa no Porte',
         description:
-          'uni. Base de bolacha amanteigada com creme especial de chocolate branco, ganache de chocolate meio amargo e bolacha calipso.',
+          'Base de bolacha amanteigada com creme especial de chocolate branco, ganache de chocolate meio amargo e bolacha calipso.',
         price: 1400,
         sectionId: sections[5].id,
       },
       {
         title: 'Brownie Recheado',
         description:
-          'uni. Sabores: Ninho com Nutella | Brigadeiro Duo | Brigadeiro ao Leite. Servido Quentinho!',
+          'Sabores: Ninho com Nutella | Brigadeiro Duo | Brigadeiro ao Leite. Servido Quentinho!',
         price: 1500,
         sectionId: sections[5].id,
       },
       {
         title: 'Cheesecake de Frutas Vermelhas',
         description:
-          'uni. Base de bolacha amanteigada com creme de cream cheese doce e geleia de frutas vermelhas.',
+          'Base de bolacha amanteigada com creme de cream cheese doce e geleia de frutas vermelhas.',
         price: 1600,
         sectionId: sections[5].id,
       },
       {
         title: 'Casquinha de Limão',
         description:
-          'uni. Massa amanteigada tipo sablée, recheio de mousse de limão com cobertura de marshmallow.',
+          'Massa amanteigada tipo sablée, recheio de mousse de limão com cobertura de marshmallow.',
         price: 1600,
         sectionId: sections[5].id,
       },
       {
         title: 'Casquinha de Morango',
         description:
-          'uni. Massa amanteigada tipo sablée, recheio de creme pâtisserie, morangos e pistache decorando.',
+          'Massa amanteigada tipo sablée, recheio de creme pâtisserie, morangos e pistache decorando.',
         price: 1600,
         sectionId: sections[5].id,
       },
       {
         title: 'Casquinha de Sucrée',
         description:
-          'uni. Massa amanteigada de chocolate tipo sucrée, recheio de trufa de chocolate meio amargo e mousse de chocolate.',
+          'Massa amanteigada de chocolate tipo sucrée, recheio de trufa de chocolate meio amargo e mousse de chocolate.',
         price: 1600,
         sectionId: sections[5].id,
       },
       {
         title: 'Casquinha de Uva',
         description:
-          'uni. Massa amanteigada tipo sablée, recheio de brigadeiro branco e ganache de chocolate ao leite, decorada com uvas thompson sem semente e amêndoas laminadas.',
+          'Massa amanteigada tipo sablée, recheio de brigadeiro branco e ganache de chocolate ao leite, decorada com uvas thompson sem semente e amêndoas laminadas.',
         price: 1600,
         sectionId: sections[5].id,
       },
       {
         title: 'Casquinha de Brigadeiro Belga',
         description:
-          'uni. Massa amanteigada tipo sablée, recheio de brigadeiro belga, decorado com brigadeiro e flakes de chocolate ao leite.',
+          'Massa amanteigada tipo sablée, recheio de brigadeiro belga, decorado com brigadeiro e flakes de chocolate ao leite.',
         price: 1600,
         sectionId: sections[5].id,
       },
@@ -526,77 +525,76 @@ async function main() {
       {
         title: 'Mini Bolo Surpresa Ninho com Nutella',
         description:
-          'uni. Massa 50% cacau com recheio de Nutella e cobertura e brigadeiro de leite ninho. Servido Quentinho!',
+          'Massa 50% cacau com recheio de Nutella e cobertura e brigadeiro de leite ninho. Servido Quentinho!',
         price: 1800,
         sectionId: sections[5].id,
       },
       {
         title: 'Banoffee',
         description:
-          'uni. Base de bolacha amanteigada, ganache de doce de leite, banana prata in natura, creme de leite ninho e farofinha crocante de canela.',
+          'Base de bolacha amanteigada, ganache de doce de leite, banana prata in natura, creme de leite ninho e farofinha crocante de canela.',
         price: 1800,
         sectionId: sections[5].id,
       },
       {
         title: 'Red Velvet',
         description:
-          'uni. Camadas de massa aveludada vermelha com recheio de creme doce a base de cream cheese e baunilha.',
+          'Camadas de massa aveludada vermelha com recheio de creme doce a base de cream cheese e baunilha.',
         price: 1800,
         sectionId: sections[6].id,
       },
       {
         title: 'Morango',
-        description:
-          'uni. Brigadeiro de leite ninho, morangos fatiados e Nutella.',
+        description: 'Brigadeiro de leite ninho, morangos fatiados e Nutella.',
         price: 1800,
         sectionId: sections[6].id,
       },
       {
         title: 'Brownie Ninho com Nutella',
         description:
-          'uni. Camadas de brownie, recheio de brigadeiro de leite ninho e Nutella. Servido Quentinho!',
+          'Camadas de brownie, recheio de brigadeiro de leite ninho e Nutella. Servido Quentinho!',
         price: 1800,
         sectionId: sections[6].id,
       },
       {
         title: 'Kinder Duo',
         description:
-          'uni. Camadas de pão de ló de chocolate, recheio de mousse de chocolate e brigadeiro branco.',
+          'Camadas de pão de ló de chocolate, recheio de mousse de chocolate e brigadeiro branco.',
         price: 1800,
         sectionId: sections[6].id,
       },
       {
         title: 'Quatro Leites com Abacaxi e Ninho',
         description:
-          'uni. Camadas de pão de ló branco, recheio de quatro leites, creme de leite ninho e compota artesanal de abacaxi.',
+          'Camadas de pão de ló branco, recheio de quatro leites, creme de leite ninho e compota artesanal de abacaxi.',
         price: 1800,
         sectionId: sections[6].id,
       },
       {
         title: 'Frutas Vermelhas com Cream Cheese',
         description:
-          'uni. Camadas de pão de ló branco, recheio de geleia de frutas vermelhas e creme doce a base de cream cheese e baunilha.',
+          'Camadas de pão de ló branco, recheio de geleia de frutas vermelhas e creme doce a base de cream cheese e baunilha.',
         price: 1800,
         sectionId: sections[6].id,
       },
       {
         title: 'Surpresa Ninho com Nutella',
         description:
-          'uni. Camadas de bolo 50% cacau, recheio de brigadeiro de leite ninho e Nutella.',
+          'Camadas de bolo 50% cacau, recheio de brigadeiro de leite ninho e Nutella.',
         price: 1800,
         sectionId: sections[6].id,
       },
       {
         title: 'Ninho Trufado',
         description:
-          'uni. Camadas de pão de ló branco, mousse de leite ninho e ganache de chocolate.',
+          'Camadas de pão de ló branco, mousse de leite ninho e ganache de chocolate.',
         price: 1800,
         sectionId: sections[6].id,
       },
       {
         title: 'Pistache',
         description:
-          'uni. Camadas de pão de ló branco, brigadeiro branco, crumble de pistache e brigadeiro cremoso de pistache.',
+          'Camadas de pão de ló branco, brigadeiro branco, crumble de pistache e brigadeiro cremoso de pistache.',
         price: 2200,
         sectionId: sections[6].id,
       },
