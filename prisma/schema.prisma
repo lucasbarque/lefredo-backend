@@ -59,8 +59,9 @@ model Menu {
 }
 
 model Section {
-  id    String @id @default(uuid())
-  title String
+  id          String @id @default(uuid())
+  title       String
+  description String
 
   menu   Menu   @relation(fields: [menuId], references: [id])
   menuId String
@@ -73,6 +74,18 @@ model Section {
   @@map("sections")
 }
 
+model BaseDishes {
+  id    String @id @default(uuid())
+  title String
+
+  dishes Dish[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("base_dishes")
+}
+
 model Dish {
   id          String  @id @default(uuid())
   title       String
@@ -82,10 +95,52 @@ model Dish {
   section   Section @relation(fields: [sectionId], references: [id])
   sectionId String
 
+  dishSpecs  DishSpecsDishes[]
+  dishExtras DishExtras[]
+
+  portion  String
+  prepTime Int
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  baseDish     BaseDishes? @relation(fields: [baseDishesId], references: [id])
+  baseDishesId String?
+
   @@map("dishes")
+}
+
+model DishExtras {
+  id    String @id @default(uuid())
+  title String
+  price Int
+
+  Dish   Dish?   @relation(fields: [dishId], references: [id])
+  dishId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("dish_extras")
+}
+
+model DishSpecs {
+  id    String @id @default(uuid())
+  title String
+
+  dishSpecs DishSpecsDishes[]
+
+  @@map("dish_specs")
+}
+
+model DishSpecsDishes {
+  DishSpecs   DishSpecs? @relation(fields: [dishSpecsId], references: [id])
+  dishSpecsId String
+  Dish        Dish?      @relation(fields: [dishId], references: [id])
+  dishId      String
+
+  @@id([dishId, dishSpecsId])
+  @@map("dishes_specs_dish")
 }
 
 model Media {
