@@ -59,9 +59,9 @@ model Menu {
 }
 
 model Section {
-  id          String @id @default(uuid())
+  id          String  @id @default(uuid())
   title       String
-  description String
+  description String?
 
   menu   Menu   @relation(fields: [menuId], references: [id])
   menuId String
@@ -98,14 +98,14 @@ model Dish {
   dishSpecs  DishSpecsDishes[]
   dishExtras DishExtras[]
 
-  portion  String
-  prepTime Int
+  portion  String?
+  prepTime Int?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  baseDish     BaseDishes? @relation(fields: [baseDishesId], references: [id])
-  baseDishesId String?
+  baseDish    BaseDishes? @relation(fields: [baseDisheId], references: [id])
+  baseDisheId String?
 
   @@map("dishes")
 }
@@ -127,6 +127,7 @@ model DishExtras {
 model DishSpecs {
   id    String @id @default(uuid())
   title String
+  key   String
 
   dishSpecs DishSpecsDishes[]
 
