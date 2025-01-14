@@ -1,4 +1,4 @@
-import { CreateDishDTO } from '@inputs/create-dish-input';
+import { CreateDishDTO } from './create-dish-input';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma/prisma.service';
 

@@ -1,4 +1,4 @@
-import { CreateSectionDTO } from '@inputs/create-section-dto';
+import { CreateSectionDTO } from './create-section-dto';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma/prisma.service';
 
