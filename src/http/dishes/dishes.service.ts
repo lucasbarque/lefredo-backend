@@ -11,6 +11,9 @@ export class DishesService {
       where: {
         id: dishId,
       },
+      include: {
+        section: true,
+      },
     });
 
     if (!dish) {
