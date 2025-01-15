@@ -13,6 +13,13 @@ export class DishesService {
       },
       include: {
         section: true,
+        dishExtras: true,
+        baseDish: true,
+        dishSpecs: {
+          include: {
+            DishSpecs: true,
+          },
+        },
       },
     });
 
@@ -30,6 +37,8 @@ export class DishesService {
   }
 
   async getDishesBySectionId(sectionId: string) {
+    // await new Promise((resolve) => setTimeout(resolve, 2000));
+
     const sectionExists = await this.prisma.section.findUnique({
       where: {
         id: sectionId,
