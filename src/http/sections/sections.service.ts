@@ -1,10 +1,28 @@
-import { CreateSectionDTO } from '@inputs/create-section-dto';
+import { CreateSectionDTO } from './create-section-dto';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma/prisma.service';
 
 @Injectable()
 export class SectionsService {
   constructor(private prisma: PrismaService) {}
+
+  async getByMenuId(menuId: string) {
+    if (!menuId) {
+      throw new HttpException('Menu does not exists.', HttpStatus.NOT_FOUND);
+    }
+
+    const sections = await this.prisma.section.findMany({
+      where: {
+        menuId,
+      },
+    });
+
+    if (!sections) {
+      throw new HttpException('Section does not exists.', HttpStatus.NOT_FOUND);
+    }
+
+    return sections;
+  }
 
   async getById(id: string) {
     const section = await this.prisma.section.findUnique({

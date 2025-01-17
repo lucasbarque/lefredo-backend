@@ -1,11 +1,11 @@
-import { CreateUserDTO } from '@inputs/create-user.dto';
+import { CreateUserDTO } from './create-user.dto';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from 'src/database/prisma/prisma.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async list() {
     return this.prisma.user.findMany({

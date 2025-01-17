@@ -1,4 +1,4 @@
-import { CreateSectionDTO } from '@inputs/create-section-dto';
+import { CreateSectionDTO } from './create-section-dto';
 import {
   Body,
   Controller,
@@ -8,17 +8,22 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { SectionsService } from '@services/sections.service';
+import { SectionsService } from './sections.service';
 import { RestAuthGuard } from 'src/http/auth/guards/rest-jwt-auth.guard';
 
 @Controller('sections')
 export class SectionsController {
   constructor(private sectionsService: SectionsService) {}
 
+  @Get()
+  list(@Query('menuId') menuId: string) {
+    return this.sectionsService.getByMenuId(menuId);
+  }
+
   @UseGuards(RestAuthGuard)
-  @Get(':menuId')
-  getById(@Param('menuId') menuId: string) {
-    return this.sectionsService.getById(menuId);
+  @Get(':id')
+  getById(@Param('id') id: string) {
+    return this.sectionsService.getById(id);
   }
 
   @UseGuards(RestAuthGuard)

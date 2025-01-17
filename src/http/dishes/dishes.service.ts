@@ -1,4 +1,4 @@
-import { CreateDishDTO } from '@inputs/create-dish-input';
+import { CreateDishDTO } from './create-dish-input';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma/prisma.service';
 
@@ -11,15 +11,37 @@ export class DishesService {
       where: {
         id: dishId,
       },
+      include: {
+        section: true,
+        dishExtras: true,
+        dishFlavors: true,
+        dishSpecs: {
+          include: {
+            DishSpecs: true,
+          },
+        },
+      },
     });
 
     if (!dish) {
       throw new HttpException('Dish not found.', HttpStatus.NOT_FOUND);
     }
 
-    const medias = await this.prisma.media.findMany({
-      where: { referenceId: dishId, referenceName: 'dishes' }, // Ajuste aqui se o campo que relaciona a mídia for outro
-    });
+    let medias;
+    if (dish.dishFlavors.length > 0) {
+      medias = await this.prisma.media.findMany({
+        where: {
+          referenceId: {
+            in: dish.dishFlavors.map((flavor) => flavor.id),
+          },
+          referenceName: 'flavors',
+        },
+      });
+    } else {
+      medias = await this.prisma.media.findMany({
+        where: { referenceId: dishId, referenceName: 'dishes' },
+      });
+    }
 
     Object.assign(dish, { medias });
 
@@ -27,6 +49,8 @@ export class DishesService {
   }
 
   async getDishesBySectionId(sectionId: string) {
+    // await new Promise((resolve) => setTimeout(resolve, 2000));
+
     const sectionExists = await this.prisma.section.findUnique({
       where: {
         id: sectionId,
@@ -40,6 +64,13 @@ export class DishesService {
     const dishes = await this.prisma.dish.findMany({
       where: {
         sectionId,
+      },
+      include: {
+        dishSpecs: {
+          include: {
+            DishSpecs: true,
+          },
+        },
       },
     });
 
