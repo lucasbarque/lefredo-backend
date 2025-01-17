@@ -14,7 +14,7 @@ export class DishesService {
       include: {
         section: true,
         dishExtras: true,
-        baseDish: true,
+        dishFlavors: true,
         dishSpecs: {
           include: {
             DishSpecs: true,
@@ -27,9 +27,21 @@ export class DishesService {
       throw new HttpException('Dish not found.', HttpStatus.NOT_FOUND);
     }
 
-    const medias = await this.prisma.media.findMany({
-      where: { referenceId: dishId, referenceName: 'dishes' }, // Ajuste aqui se o campo que relaciona a mídia for outro
-    });
+    let medias;
+    if (dish.dishFlavors.length > 0) {
+      medias = await this.prisma.media.findMany({
+        where: {
+          referenceId: {
+            in: dish.dishFlavors.map((flavor) => flavor.id),
+          },
+          referenceName: 'flavors',
+        },
+      });
+    } else {
+      medias = await this.prisma.media.findMany({
+        where: { referenceId: dishId, referenceName: 'dishes' },
+      });
+    }
 
     Object.assign(dish, { medias });
 
@@ -54,7 +66,6 @@ export class DishesService {
         sectionId,
       },
       include: {
-        baseDish: true,
         dishSpecs: {
           include: {
             DishSpecs: true,
