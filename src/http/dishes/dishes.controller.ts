@@ -14,7 +14,7 @@ import { DishesService } from './dishes.service';
 
 @Controller('dishes')
 export class DishesController {
-  constructor(private dishesService: DishesService) { }
+  constructor(private dishesService: DishesService) {}
 
   @Get(':id')
   getById(@Param('id') dishId: string) {
@@ -22,7 +22,6 @@ export class DishesController {
   }
 
   @Get()
-  @UseGuards(RestAuthGuard)
   list(@Query('sectionId') sectionId: string) {
     return this.dishesService.getDishesBySectionId(sectionId);
   }
