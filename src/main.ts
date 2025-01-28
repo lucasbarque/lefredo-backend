@@ -1,13 +1,22 @@
 import { ValidationPipe } from '@nestjs/common';
-import { HttpAdapterHost, NestFactory } from '@nestjs/core';
+import { NestFactory } from '@nestjs/core';
 import * as express from 'express';
 import { join } from 'path';
 
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  if (process.env.NODE_ENV === 'development') {
+    const corsOptions: CorsOptions = {
+      credentials: true,
+      origin: ['http://localhost:5173'],
+    };
+    app.enableCors(corsOptions);
+  }
 
   app.useGlobalPipes(new ValidationPipe());
 

@@ -13,27 +13,29 @@ async function main() {
   await prisma.dish.deleteMany();
   await prisma.section.deleteMany();
   await prisma.menu.deleteMany();
-  await prisma.restaurant.deleteMany();
   await prisma.user.deleteMany();
+  await prisma.restaurant.deleteMany();
+
+  const restaurant = await prisma.restaurant.create({
+    data: {
+      name: 'Niura Doceria',
+    },
+  });
 
   const passwordSalt = await bcrypt.genSalt(8);
 
   const passwordHash = await bcrypt.hash('123123', passwordSalt);
 
-  const userDefault = await prisma.user.upsert({
+  console.log(restaurant);
+
+  await prisma.user.upsert({
     where: { email: 'johndoe@example.com' },
     update: {},
     create: {
       name: 'John Doe',
       email: 'johndoe@example.com',
       password: passwordHash,
-    },
-  });
-
-  const restaurant = await prisma.restaurant.create({
-    data: {
-      name: 'Niura Doceria',
-      userId: userDefault.id,
+      restaurantId: restaurant.id,
     },
   });
 

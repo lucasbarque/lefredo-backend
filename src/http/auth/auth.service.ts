@@ -18,6 +18,10 @@ export class AuthService {
     const user = await this.primaService.user.findFirst({
       where: {
         email,
+        active: true,
+      },
+      include: {
+        Restaurant: true,
       },
     });
 
@@ -33,10 +37,18 @@ export class AuthService {
     return null;
   }
 
-  async login(user: User) {
-    const payload = { email: user.email, sub: user.id };
+  async signIn({ email, password }: AuthDTO) {
+    const user = await this.validateUser({ email, password });
+
+    const payload = { sub: user.id, restaurantId: user.restaurantId };
     return {
-      access_token: this.jwtService.sign(payload),
+      token: await this.jwtService.sign(payload),
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
     };
   }
 
@@ -72,6 +84,32 @@ export class AuthService {
   //     );
   //   }
   // }
+
+  async me(token: string) {
+    try {
+      const decoded = this.jwtService.verify(token);
+      const user = await this.primaService.user.findUnique({
+        where: { id: decoded.sub },
+        include: { Restaurant: true },
+      });
+
+      if (!user) {
+        throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+      }
+
+      return {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      };
+    } catch (error) {
+      throw new HttpException(
+        'Invalid or expired token',
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+  }
 
   async changePassword({ token, password }: ChangePasswordDTO) {
     const user = await this.primaService.user.findFirst({
