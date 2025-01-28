@@ -4,7 +4,7 @@ import { PrismaService } from 'src/database/prisma/prisma.service';
 
 @Injectable()
 export class RestaurantsService {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
   async getById(id: string) {
     const restaurant = await this.prisma.restaurant.findUnique({
@@ -111,7 +111,6 @@ export class RestaurantsService {
     const restaurantExists = await this.prisma.restaurant.findFirst({
       where: {
         name,
-        userId,
       },
     });
 
@@ -125,7 +124,6 @@ export class RestaurantsService {
     await this.prisma.restaurant.create({
       data: {
         name,
-        userId,
       },
     });
   }
