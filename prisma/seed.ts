@@ -182,6 +182,7 @@ async function main() {
         title: 'Queijo Quente',
         description:
           'Pão italiano de fermentação natural, requeijão, muçarela e parmesão.',
+        portion: '01 unidade',
         price: 2200,
         prepTime: 20,
         sectionId: sections[1].id,
@@ -192,6 +193,7 @@ async function main() {
         description:
           'Pão de forma artesanal, manteiga, presunto, muçarela, molho bechamel e parmesão gratinado no forno.',
         price: 2400,
+        portion: '01 unidade',
         prepTime: 20,
         sectionId: sections[1].id,
       },
@@ -201,6 +203,7 @@ async function main() {
         description:
           'Pão brioche artesanal, presunto, muçarela, tomate e requeijão, servido quentinho.',
         price: 2400,
+        portion: '01 unidade',
         prepTime: 20,
         sectionId: sections[1].id,
       },
@@ -210,6 +213,7 @@ async function main() {
         description:
           'Pão italiano de fermentação natural, molho pesto, muçarela de búfala, presunto de parma, rúcula, tomate e requeijão, servido frio.',
         price: 3200,
+        portion: '01 unidade',
         prepTime: 20,
         sectionId: sections[1].id,
       },
@@ -384,7 +388,7 @@ async function main() {
         title: 'Mocha',
         description: 'Café espresso, leite cremoso e ganache de chocolate.',
         price: 1600,
-        portion: '',
+        portion: '180ml',
         sectionId: sections[4].id,
       },
       {
@@ -1117,6 +1121,20 @@ async function main() {
   await prisma.media.createMany({
     data: [
       {
+        title: slugify(dishes[0].title),
+        type: 'image',
+        referenceId: dishes[0].id,
+        referenceName: 'dishes',
+        filename: 'https://www.cdn-parachute.com.br/IMG-20250113-WA0200.jpg',
+      },
+      {
+        title: slugify(dishes[12].title),
+        type: 'image',
+        referenceId: dishes[12].id,
+        referenceName: 'dishes',
+        filename: 'https://www.cdn-parachute.com.br/IMG-20250113-WA0203.jpg',
+      },
+      {
         title: slugify(dishes[16].title),
         type: 'image',
         referenceId: dishes[16].id,
@@ -1492,14 +1510,14 @@ async function main() {
         type: 'image',
         referenceId: dishes[6].id,
         referenceName: 'dishes',
-        filename: 'https://www.cdn-parachute.com.br/IMG-20250113-WA0087.jpg',
+        filename: 'https://www.cdn-parachute.com.br/IMG-20250113-WA0088.jpg',
       },
       {
         title: slugify(dishes[6].title),
         type: 'image',
         referenceId: dishes[6].id,
         referenceName: 'dishes',
-        filename: 'https://www.cdn-parachute.com.br/IMG-20250113-WA0088.jpg',
+        filename: 'https://www.cdn-parachute.com.br/IMG-20250113-WA0087.jpg',
       },
       {
         title: slugify(dishes[5].title),
@@ -1521,6 +1539,13 @@ async function main() {
         referenceId: flavors[0].id,
         referenceName: 'flavors',
         filename: 'https://www.cdn-parachute.com.br/IMG-20250113-WA0091.jpg',
+      },
+      {
+        title: slugify(dishes[1].title),
+        type: 'image',
+        referenceId: dishes[1].id,
+        referenceName: 'dishes',
+        filename: 'https://www.cdn-parachute.com.br/IMG-20250113-WA0092.jpg',
       },
       {
         title: slugify(flavors[1].title),
@@ -1787,6 +1812,69 @@ async function main() {
         referenceId: dishes[43].id,
         referenceName: 'dishes',
         filename: 'https://www.cdn-parachute.com.br/IMG-20250113-WA0137.jpg',
+      },
+      {
+        title: slugify(flavors[3].title),
+        type: 'image',
+        referenceId: flavors[3].id,
+        referenceName: 'flavors',
+        filename: 'https://www.cdn-parachute.com.br/IMG-20250113-WA0201.jpg',
+      },
+      {
+        title: slugify(flavors[4].title),
+        type: 'image',
+        referenceId: flavors[4].id,
+        referenceName: 'flavors',
+        filename: 'https://www.cdn-parachute.com.br/IMG-20250113-WA0202.jpg',
+      },
+      {
+        title: slugify(dishes[13].title),
+        type: 'image',
+        referenceId: dishes[13].id,
+        referenceName: 'dishes',
+        filename: 'https://www.cdn-parachute.com.br/IMG-20250113-WA0204.jpg',
+      },
+      {
+        title: slugify(dishes[14].title),
+        type: 'image',
+        referenceId: dishes[14].id,
+        referenceName: 'dishes',
+        filename: 'https://www.cdn-parachute.com.br/IMG-20250113-WA0205.jpg',
+      },
+      {
+        title: slugify(dishes[15].title),
+        type: 'image',
+        referenceId: dishes[15].id,
+        referenceName: 'dishes',
+        filename: 'https://www.cdn-parachute.com.br/IMG-20250113-WA0206.jpg',
+      },
+      {
+        title: slugify(dishes[17].title),
+        type: 'image',
+        referenceId: dishes[17].id,
+        referenceName: 'dishes',
+        filename: 'https://www.cdn-parachute.com.br/IMG-20250113-WA0207.jpg',
+      },
+      {
+        title: slugify(dishes[18].title),
+        type: 'image',
+        referenceId: dishes[18].id,
+        referenceName: 'dishes',
+        filename: 'https://www.cdn-parachute.com.br/IMG-20250113-WA0208.jpg',
+      },
+      {
+        title: slugify(dishes[19].title),
+        type: 'image',
+        referenceId: dishes[19].id,
+        referenceName: 'dishes',
+        filename: 'https://www.cdn-parachute.com.br/IMG-20250113-WA0209.jpg',
+      },
+      {
+        title: slugify(dishes[27].title),
+        type: 'image',
+        referenceId: dishes[27].id,
+        referenceName: 'dishes',
+        filename: 'https://www.cdn-parachute.com.br/IMG-20250113-WA0210.jpg',
       },
     ],
   });
