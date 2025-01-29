@@ -7,25 +7,21 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
 import { RestAuthGuard } from 'src/http/auth/guards/rest-jwt-auth.guard';
-
 import { MediasService } from './medias.service';
-import { editFileName, imageFileFilter } from './medias.utils';
 import { UploadFilesInput } from './upload-files-input';
+import { imageFileFilter } from './medias.utils';
+import { memoryStorage } from 'multer';
 
 @Controller('medias')
 export class MediasController {
   constructor(private mediasService: MediasService) { }
 
-  @UseGuards(RestAuthGuard)
   @Post('upload-files')
+  @UseGuards(RestAuthGuard)
   @UseInterceptors(
     FilesInterceptor('files', 10, {
-      storage: diskStorage({
-        destination: './files',
-        filename: editFileName,
-      }),
+      storage: memoryStorage(),
       fileFilter: imageFileFilter,
     }),
   )
