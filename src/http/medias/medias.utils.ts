@@ -30,6 +30,3 @@ export const getTypeByMimeType = (mimeType) => {
       return 'undefined';
   }
 };
-
-
-
