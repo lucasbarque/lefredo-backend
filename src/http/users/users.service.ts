@@ -5,7 +5,7 @@ import { PrismaService } from 'src/database/prisma/prisma.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
   async list() {
     return this.prisma.user.findMany({
@@ -21,10 +21,11 @@ export class UsersService {
     });
   }
 
-  async create({ name, email, password }: CreateUserDTO) {
+  async create({ name, email, password, restaurantId }: CreateUserDTO) {
     const userWithSameEmail = await this.prisma.user.findUnique({
       where: {
         email,
+        restaurantId,
       },
     });
 
@@ -33,6 +34,15 @@ export class UsersService {
         'Another user with same email already exists.',
         HttpStatus.CONFLICT,
       );
+    }
+
+    const restaurant = await this.prisma.restaurant.findUnique({
+      where: {
+        id: restaurantId,
+      },
+    });
+    if (!restaurant) {
+      throw new HttpException('Restaurant not found.', HttpStatus.BAD_REQUEST);
     }
 
     const passwordSalt = await bcrypt.genSalt(8);
@@ -44,6 +54,7 @@ export class UsersService {
         name,
         email,
         password: passwordHash,
+        restaurantId,
       },
     });
   }

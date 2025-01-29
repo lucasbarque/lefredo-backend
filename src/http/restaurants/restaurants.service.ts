@@ -97,17 +97,7 @@ export class RestaurantsService {
     return this.prisma.restaurant.findMany();
   }
 
-  async create({ name, userId }: CreateResturantDTO) {
-    const user = await this.prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-    });
-
-    if (!user) {
-      throw new HttpException('User not found.', HttpStatus.NOT_FOUND);
-    }
-
+  async create({ name }: CreateResturantDTO) {
     const restaurantExists = await this.prisma.restaurant.findFirst({
       where: {
         name,

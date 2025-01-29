@@ -5,17 +5,18 @@ import {
   Get,
   Param,
   Post,
+  Put,
   Query,
   UseGuards,
 } from '@nestjs/common';
 import { MenusService } from './menus.service';
 import { RestAuthGuard } from 'src/http/auth/guards/rest-jwt-auth.guard';
+import { UpdateMenuDTO } from './update-menu-dto';
 
 @Controller('menus')
 @UseGuards(RestAuthGuard)
 export class MenusController {
-  constructor(private menusService: MenusService) { }
-
+  constructor(private menusService: MenusService) {}
   @Get()
   getByRestaurant(@Query('restaurantId') restaurantId: string) {
     return this.menusService.getMenusByRestaurantId(restaurantId);
@@ -29,5 +30,10 @@ export class MenusController {
   @Post()
   create(@Body() data: CreateMenuDTO) {
     return this.menusService.create(data);
+  }
+
+  @Put(':id')
+  update(@Param('id') id: string, @Body() data: UpdateMenuDTO) {
+    return this.menusService.update(id, data);
   }
 }

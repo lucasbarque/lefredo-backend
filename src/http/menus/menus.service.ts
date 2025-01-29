@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma/prisma.service';
+import { UpdateMenuDTO } from './update-menu-dto';
 
 interface CreateMenuParams {
   title: string;
@@ -78,6 +79,25 @@ export class MenusService {
         title,
         restaurantId,
       },
+    });
+  }
+
+  async update(id: string, data: UpdateMenuDTO) {
+    const menu = await this.prisma.menu.findFirst({
+      where: {
+        id,
+      },
+    });
+
+    if (!menu) {
+      throw new HttpException('Menu does not exists.', HttpStatus.NOT_FOUND);
+    }
+
+    return await this.prisma.menu.update({
+      where: {
+        id,
+      },
+      data,
     });
   }
 }
