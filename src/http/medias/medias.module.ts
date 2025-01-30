@@ -5,6 +5,7 @@ import { MediasService } from './medias.service';
 import { MediasController } from './medias.controller';
 import { AuthModule } from '../auth/auth.module';
 import { PrismaService } from 'src/database/prisma/prisma.service';
+import { R2Service } from './r2.service';
 
 @Module({
   imports: [
@@ -17,10 +18,11 @@ import { PrismaService } from 'src/database/prisma/prisma.service';
   providers: [
     // Services
     MediasService,
-    PrismaService
+    PrismaService,
+    R2Service
   ],
   controllers: [
     MediasController
   ]
 })
-export class HttpModule { }
+export class MediasModule { }

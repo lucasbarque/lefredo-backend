@@ -7,6 +7,7 @@ import { MenusModule } from './menus/menus.module';
 import { DishesModule } from './dishes/dishes.module';
 import { RestaurantsModule } from './restaurants/restaurants.module';
 import { SectionsModule } from './sections/sections.module';
+import { MediasModule } from './medias/medias.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { SectionsModule } from './sections/sections.module';
     DishesModule,
     RestaurantsModule,
     SectionsModule,
+    MediasModule
   ],
   providers: [],
   controllers: []
