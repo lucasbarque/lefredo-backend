@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
 
-export class CreateResturantDTO {
+export class UpdateMenuDTO {
   @IsNotEmpty()
   @IsString()
-  name: string;
+  title: string;
 }

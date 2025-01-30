@@ -6,8 +6,8 @@ import { PrismaService } from 'src/database/prisma/prisma.service';
 import { jwtConstants } from './auth.constants';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
+import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
   imports: [
@@ -19,12 +19,8 @@ import { LocalStrategy } from './strategies/local.strategy';
       },
     }),
   ],
-  providers: [
-    AuthService,
-    PrismaService,
-    LocalStrategy,
-    JwtStrategy
-  ],
+  providers: [AuthService, PrismaService, LocalStrategy, JwtStrategy],
   controllers: [AuthController],
+  exports: [JwtModule],
 })
-export class AuthModule { }
+export class AuthModule {}

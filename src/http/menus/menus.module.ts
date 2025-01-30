@@ -6,17 +6,12 @@ import { PrismaService } from 'src/database/prisma/prisma.service';
 import { AuthModule } from '../auth/auth.module';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot(),
-    AuthModule
-  ],
+  imports: [ConfigModule.forRoot(), AuthModule],
   providers: [
     // Services
     MenusService,
-    PrismaService
+    PrismaService,
   ],
-  controllers: [
-    MenusController
-  ],
+  controllers: [MenusController],
 })
-export class MenusModule { }
+export class MenusModule {}
