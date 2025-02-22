@@ -19,9 +19,9 @@ import { MediasModule } from './medias/medias.module';
     DishesModule,
     RestaurantsModule,
     SectionsModule,
-    MediasModule
+    MediasModule,
   ],
   providers: [],
-  controllers: []
+  controllers: [],
 })
-export class HttpModule { }
+export class HttpModule {}

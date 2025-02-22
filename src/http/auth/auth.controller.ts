@@ -4,7 +4,6 @@ import {
   Get,
   Headers,
   Post,
-  Request,
   UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
@@ -14,6 +13,7 @@ import { ChangePasswordDTO } from './dto/change-password.dto';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { AuthDTO } from './dto/auth.dto';
 import { RestAuthGuard } from './guards/rest-jwt-auth.guard';
+import { ApiOperation } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
@@ -21,12 +21,14 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
+  @ApiOperation({ summary: 'Login', operationId: 'loginUser' })
   async login(@Body() fields: AuthDTO) {
     return this.authService.signIn(fields);
   }
 
   @UseGuards(RestAuthGuard)
   @Get('me')
+  @ApiOperation({ summary: 'Get Profile', operationId: 'getProfile' })
   async me(@Headers('Authorization') authHeader: string) {
     if (!authHeader) {
       throw new UnauthorizedException('Authorization header is required');
@@ -46,6 +48,7 @@ export class AuthController {
   // }
 
   @Post('change-password')
+  @ApiOperation({ summary: 'Change password', operationId: 'changePassword' })
   async changePassword(@Body() fields: ChangePasswordDTO) {
     return this.authService.changePassword(fields);
   }
