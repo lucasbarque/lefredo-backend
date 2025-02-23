@@ -28,7 +28,7 @@ export class MediasController {
   constructor(private mediasService: MediasService) {}
 
   @Post('upload-single-file')
-  // @UseGuards(ClerkAuthGuard)
+  @UseGuards(ClerkAuthGuard)
   @ApiConsumes('multipart/form-data')
   @ApiOperation({
     summary: 'Upload single file ',

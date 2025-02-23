@@ -31,7 +31,6 @@ export class MediasService {
   ) {}
 
   async uploadFile({ body, file }: CreateSingleMediaParams) {
-    console.log({ body, file });
     try {
       const fileUrl = await this.r2Service.uploadFile(
         file.buffer,

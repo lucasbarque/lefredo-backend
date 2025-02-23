@@ -8,13 +8,20 @@ import {
   Post,
   Put,
   Query,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { RestaurantsService } from './restaurants.service';
 import { ClerkAuthGuard } from '../auth/guards/clerk-auth.guard';
-import { ApiOkResponse, ApiOperation } from '@nestjs/swagger';
+import { ApiConsumes, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { GetRestaurantByIdDTO } from './dto/get-restaurant-by-id.dto';
 import { UpdateResturantDTO } from './dto/update-restaurant-dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { memoryStorage } from 'multer';
+import { imageFileFilter } from '../medias/medias.utils';
+import { ChangeLogoResponseDTO } from './dto/change-logo-response.dto';
+import { ChangeLogoDTO } from './dto/change-logo.dto';
 
 @Controller('restaurants')
 export class RestaurantsController {
@@ -54,6 +61,30 @@ export class RestaurantsController {
   })
   update(@Param('id') id: string, @Body() data: UpdateResturantDTO) {
     return this.restaurantsService.update(id, data);
+  }
+
+  @UseGuards(ClerkAuthGuard)
+  @Patch('/:id/change-logo')
+  @ApiOperation({
+    summary: 'Change Logo',
+    operationId: 'changeLogoRestaurant',
+  })
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: memoryStorage(),
+      fileFilter: imageFileFilter,
+    }),
+  )
+  @ApiOkResponse({
+    type: ChangeLogoResponseDTO,
+  })
+  changeLogo(
+    @Param('id') id: string,
+    @Body() body: ChangeLogoDTO,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return this.restaurantsService.changeLogo(id, file);
   }
 
   @Post()

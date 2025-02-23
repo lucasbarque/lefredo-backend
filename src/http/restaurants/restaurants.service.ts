@@ -1,12 +1,17 @@
 import { CreateResturantDTO } from './dto/create-resturant-dto';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { Restaurant } from '@prisma/client';
 import { PrismaService } from 'src/database/prisma/prisma.service';
 import { UpdateResturantDTO } from './dto/update-restaurant-dto';
+import { R2Service } from '../medias/r2.service';
+import { randomUUID } from 'node:crypto';
+import { extname } from 'node:path';
 
 @Injectable()
 export class RestaurantsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private r2Service: R2Service,
+  ) {}
 
   async getById(id: string) {
     const restaurant = await this.prisma.restaurant.findUnique({
@@ -137,5 +142,36 @@ export class RestaurantsService {
         name,
       },
     });
+  }
+
+  async changeLogo(id: string, file: Express.Multer.File) {
+    const restaurant = await this.prisma.restaurant.findFirst({
+      where: {
+        id,
+      },
+    });
+
+    if (!restaurant) {
+      throw new HttpException('Restaurant not found.', HttpStatus.NOT_FOUND);
+    }
+
+    const filename = `restaurants-logo-${randomUUID() + extname(file.originalname)}`;
+
+    const fileUrl = await this.r2Service.uploadFile(
+      file.buffer,
+      filename,
+      file.mimetype,
+    );
+
+    const restaurantUpdated = await this.prisma.restaurant.update({
+      data: {
+        logo: fileUrl,
+      },
+      where: {
+        id,
+      },
+    });
+
+    return { logo: restaurantUpdated.logo };
   }
 }

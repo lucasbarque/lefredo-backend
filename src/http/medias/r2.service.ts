@@ -21,19 +21,23 @@ export class R2Service {
     this.bucketName = this.configService.get<string>('R2_BUCKET_NAME');
   }
 
-  async uploadFile(fileBuffer: Buffer, fileName: string, mimetype: string): Promise<string> {
-    const key = `${randomUUID()}-${fileName}`;
-
+  async uploadFile(
+    fileBuffer: Buffer,
+    fileName: string,
+    mimetype: string,
+  ): Promise<string> {
     try {
-      await this.s3.send(new PutObjectCommand({
-        Bucket: this.bucketName,
-        Key: key,
-        Body: fileBuffer,
-        ContentType: mimetype,
-        ACL: 'public-read',
-      }));
+      await this.s3.send(
+        new PutObjectCommand({
+          Bucket: this.bucketName,
+          Key: fileName,
+          Body: fileBuffer,
+          ContentType: mimetype,
+          ACL: 'public-read',
+        }),
+      );
 
-      return `${this.configService.get<string>('R2_PUBLIC_URL')}/${key}`;
+      return `${this.configService.get<string>('R2_PUBLIC_URL')}/${fileName}`;
     } catch (error) {
       console.error('R2 Upload Error:', error);
       throw new Error('Error uploading file to R2');

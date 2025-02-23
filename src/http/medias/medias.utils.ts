@@ -1,8 +1,12 @@
+import { HttpException, HttpStatus } from '@nestjs/common';
 import { extname } from 'node:path';
 
 export const imageFileFilter = (_, file, callback) => {
-  if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
-    return callback(new Error('Only image files are allowed!'), false);
+  if (!file.originalname.match(/\.(jpg|jpeg|png|gif|svg|webp)$/)) {
+    return callback(
+      new HttpException('Media not allowed.', HttpStatus.BAD_REQUEST),
+      false,
+    );
   }
   callback(null, true);
 };
