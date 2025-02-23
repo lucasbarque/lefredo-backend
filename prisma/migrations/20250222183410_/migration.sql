@@ -7,6 +7,7 @@ CREATE TABLE "users" (
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT,
+    "clerkId" TEXT NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "token" TEXT,
     "tokenExpiration" TIMESTAMP(3),
@@ -23,6 +24,8 @@ CREATE TABLE "users" (
 CREATE TABLE "restaurants" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "welcomeMessage" TEXT,
+    "logo" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -123,6 +126,9 @@ CREATE TABLE "medias" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "users_clerkId_key" ON "users"("clerkId");
 
 -- AddForeignKey
 ALTER TABLE "users" ADD CONSTRAINT "users_restaurantId_fkey" FOREIGN KEY ("restaurantId") REFERENCES "restaurants"("id") ON DELETE SET NULL ON UPDATE CASCADE;

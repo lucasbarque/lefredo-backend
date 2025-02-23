@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { PrismaService } from 'src/database/prisma/prisma.service';
 import { R2Service } from './r2.service'; // Import the R2Service
 import { getTypeByMimeType } from './medias.utils';
-import { UploadFilesInput } from './upload-files-input';
+import { UploadFilesInput } from './dto/upload-files-input';
 
 interface CreateMediaParams {
   body: {
@@ -14,20 +14,55 @@ interface CreateMediaParams {
   files: Array<Express.Multer.File>;
 }
 
+interface CreateSingleMediaParams {
+  body: {
+    type: string;
+    referenceId: string;
+    referenceName: string;
+  };
+  file: Express.Multer.File;
+}
+
 @Injectable()
 export class MediasService {
   constructor(
     private prisma: PrismaService,
-    private configService: ConfigService,
     private r2Service: R2Service,
-  ) { }
+  ) {}
 
+  async uploadFile({ body, file }: CreateSingleMediaParams) {
+    console.log({ body, file });
+    try {
+      const fileUrl = await this.r2Service.uploadFile(
+        file.buffer,
+        file.originalname,
+        file.mimetype,
+      );
+
+      await this.prisma.media.create({
+        data: {
+          title: file.originalname.replace(/\.(jpg|png|gif)\b/, ''),
+          type: getTypeByMimeType(file.mimetype),
+          referenceId: body.referenceId,
+          referenceName: body.referenceName,
+          filename: fileUrl,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+      throw new Error('Failed to upload file');
+    }
+  }
 
   async uploadFiles({ body, files }: CreateMediaParams) {
     try {
       const mediaData = await Promise.all(
         files.map(async (file) => {
-          const fileUrl = await this.r2Service.uploadFile(file.buffer, file.originalname, file.mimetype);
+          const fileUrl = await this.r2Service.uploadFile(
+            file.buffer,
+            file.originalname,
+            file.mimetype,
+          );
 
           return {
             title: file.originalname.replace(/\.(jpg|png|gif)\b/, ''),

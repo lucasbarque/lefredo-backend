@@ -8,7 +8,6 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { RestAuthGuard } from 'src/http/auth/guards/rest-jwt-auth.guard';
 import { CreateDishDTO } from './create-dish-input';
 import { DishesService } from './dishes.service';
 
@@ -27,13 +26,11 @@ export class DishesController {
   }
 
   @Post()
-  @UseGuards(RestAuthGuard)
   create(@Body() data: CreateDishDTO) {
     return this.dishesService.create(data);
   }
 
   @Delete(':id')
-  @UseGuards(RestAuthGuard)
   delete(@Param('id') id: string) {
     return this.dishesService.delete(id);
   }

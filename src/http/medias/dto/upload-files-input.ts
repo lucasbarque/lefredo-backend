@@ -1,5 +1,5 @@
 export class UploadFilesInput {
-  title?: string
+  title?: string;
   type: string;
   referenceId: string;
   referenceName: string;

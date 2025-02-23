@@ -25,4 +25,8 @@ export class CreateUserDTO {
   @IsNotEmpty()
   @IsUUID()
   restaurantId: string;
+
+  @IsNotEmpty()
+  @IsString()
+  clerkId: string;
 }

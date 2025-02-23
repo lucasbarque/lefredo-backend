@@ -42,6 +42,9 @@ model Restaurant {
   User User[]
   Menu Menu[]
 
+  welcomeMessage String?
+  logo           String?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

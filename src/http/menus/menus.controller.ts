@@ -10,11 +10,9 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { MenusService } from './menus.service';
-import { RestAuthGuard } from 'src/http/auth/guards/rest-jwt-auth.guard';
 import { UpdateMenuDTO } from './update-menu-dto';
 
 @Controller('menus')
-@UseGuards(RestAuthGuard)
 export class MenusController {
   constructor(private menusService: MenusService) {}
   @Get()

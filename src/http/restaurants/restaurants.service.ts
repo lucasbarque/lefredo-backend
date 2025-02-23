@@ -1,6 +1,8 @@
-import { CreateResturantDTO } from './create-resturant-dto';
+import { CreateResturantDTO } from './dto/create-resturant-dto';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Restaurant } from '@prisma/client';
 import { PrismaService } from 'src/database/prisma/prisma.service';
+import { UpdateResturantDTO } from './dto/update-restaurant-dto';
 
 @Injectable()
 export class RestaurantsService {
@@ -18,6 +20,25 @@ export class RestaurantsService {
     }
 
     return restaurant;
+  }
+
+  async update(id: string, data: UpdateResturantDTO) {
+    const restaurant = await this.prisma.restaurant.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!restaurant) {
+      throw new HttpException('Restaurant not found.', HttpStatus.NOT_FOUND);
+    }
+
+    await this.prisma.restaurant.update({
+      where: {
+        id,
+      },
+      data,
+    });
   }
 
   async getAllData({

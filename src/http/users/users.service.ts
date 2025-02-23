@@ -21,7 +21,13 @@ export class UsersService {
     });
   }
 
-  async create({ name, email, password, restaurantId }: CreateUserDTO) {
+  async create({
+    name,
+    email,
+    password,
+    restaurantId,
+    clerkId,
+  }: CreateUserDTO) {
     const userWithSameEmail = await this.prisma.user.findUnique({
       where: {
         email,
@@ -55,6 +61,7 @@ export class UsersService {
         email,
         password: passwordHash,
         restaurantId,
+        clerkId,
       },
     });
   }

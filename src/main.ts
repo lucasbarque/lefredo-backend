@@ -1,72 +1,52 @@
-// main.ts
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import * as express from 'express';
-import * as bodyParser from 'body-parser';
+import * as cookieParser from 'cookie-parser';
+
+import { join } from 'path';
+
+import { AppModule } from './app.module';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { createWebooks } from './webhooks';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const whiteList = [''];
+
+  const options = {
+    origin: process.env.NODE_ENV == 'prod' ? whiteList : true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    preflightContinue: false,
+    optionsSuccessStatus: 200,
+    allowedHeaders:
+      'Content-Type,Accept,Authorization,email,x-request-id,request-type,X-Service-Identifier',
+    exposedHeaders: 'X-Service-Identifier',
+  };
+
+  const app = await NestFactory.create(AppModule, { cors: options });
+
   const expressApp = app.getHttpAdapter().getInstance();
+  app.use(cookieParser());
 
-  // Registra a rota de webhook utilizando o Express e o bodyParser.raw
-  expressApp.post(
-    '/webhooks',
-    bodyParser.raw({ type: 'application/json' }),
-    async (req, res) => {
-      // Secret original (não em Base64)
-      const rawSecret = 'sk_test_JoSuxfYEVblsvpaNlAFsnQQ9OLnMAs5lw03wz4lkOg';
-      // Converte o secret para Base64 (se o serviço esperar esse formato)
-      const signingSecret = Buffer.from(rawSecret).toString('base64');
+  app.enableCors();
 
-      // Importa o Webhook do svix e instancia com o secret convertido
-      const { Webhook } = require('svix');
-      const wh = new Webhook(signingSecret);
+  createWebooks(expressApp);
 
-      const headers = req.headers;
-      const payload = req.body;
+  app.useGlobalPipes(new ValidationPipe());
 
-      // Extrai os headers do Svix
-      const svix_id = headers['svix-id'];
-      const svix_timestamp = headers['svix-timestamp'];
-      const svix_signature = headers['svix-signature'];
+  const config = new DocumentBuilder()
+    .setTitle('Alimentados API')
+    .setDescription('Confira todas as rotas disponíveis')
+    .setVersion('1.0')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('docs', app, document, {
+    jsonDocumentUrl: 'docs/json',
+  });
 
-      if (!svix_id || !svix_timestamp || !svix_signature) {
-        return res.status(400).json({
-          success: false,
-          message: 'Error: Missing svix headers',
-        });
-      }
+  app.use('/files', express.static(join(__dirname, '..', 'files')));
 
-      let evt;
-      try {
-        evt = wh.verify(payload, {
-          'svix-id': svix_id as string,
-          'svix-timestamp': svix_timestamp as string,
-          'svix-signature': svix_signature as string,
-        });
-      } catch (err: any) {
-        console.error('Error: Could not verify webhook:', err.message);
-        return res.status(400).json({
-          success: false,
-          message: err.message,
-        });
-      }
-
-      console.log(evt);
-      const { id } = evt.data;
-      const eventType = evt.type;
-      console.log(
-        `Received webhook with ID ${id} and event type of ${eventType}`,
-      );
-      console.log('Webhook payload:', evt.data);
-
-      return res.status(200).json({
-        success: true,
-        message: 'Webhook received',
-      });
-    },
-  );
-
-  await app.listen(3333);
+  await app.listen(process.env.PORT);
 }
+
 bootstrap();

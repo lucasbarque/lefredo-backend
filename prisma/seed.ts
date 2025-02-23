@@ -18,15 +18,17 @@ async function main() {
 
   const restaurant = await prisma.restaurant.create({
     data: {
+      id: 'eb191864-0395-4253-895c-91fa6d78b3cf',
       name: 'Niura Doceria',
+      welcomeMessage:
+        '<p>Olá, nosso cardápio foi elaborado com muito carinho pra você.</p>',
+      logo: 'https://www.cdn-parachute.com.br/store-eb191864-0395-4253-895c-91fa6d78b3cf-logo-niura.svg',
     },
   });
 
   const passwordSalt = await bcrypt.genSalt(8);
 
   const passwordHash = await bcrypt.hash('123123', passwordSalt);
-
-  console.log(restaurant);
 
   await prisma.user.upsert({
     where: { email: 'johndoe@example.com' },
@@ -36,11 +38,13 @@ async function main() {
       email: 'johndoe@example.com',
       password: passwordHash,
       restaurantId: restaurant.id,
+      clerkId: 'user_2tN0ZUF4Z9Q1tYdXpJoaWiOXI7u',
     },
   });
 
   const menu = await prisma.menu.create({
     data: {
+      id: 'ee749e3b-e35a-4ddf-8123-0a1976da8148',
       title: 'Geral',
       restaurantId: restaurant.id,
     },
@@ -49,6 +53,7 @@ async function main() {
   await prisma.section.createMany({
     data: [
       {
+        id: '73607a24-9af4-4cd5-ada7-6fd4b7d7450d',
         title: 'Salgados',
         description:
           'Nosso estoque é renovado diariamente, portanto algumas opções podem se esgotar ao longo do dia. Favor verificar a disponibilidade do produto com nossos atendentes no momento do pedido!',
