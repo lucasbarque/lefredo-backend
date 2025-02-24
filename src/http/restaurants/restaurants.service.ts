@@ -5,12 +5,13 @@ import { UpdateResturantDTO } from './dto/update-restaurant-dto';
 import { R2Service } from '../medias/r2.service';
 import { randomUUID } from 'node:crypto';
 import { extname } from 'node:path';
+import { S3Service } from '../medias/s3.service';
 
 @Injectable()
 export class RestaurantsService {
   constructor(
     private prisma: PrismaService,
-    private r2Service: R2Service,
+    private s3Service: S3Service,
   ) {}
 
   async getById(id: string) {
@@ -155,9 +156,13 @@ export class RestaurantsService {
       throw new HttpException('Restaurant not found.', HttpStatus.NOT_FOUND);
     }
 
-    const filename = `restaurants-logo-${randomUUID() + extname(file.originalname)}`;
+    if (restaurant.logo) {
+      const fileName = restaurant.logo.split('logo-store/')[1];
+      await this.s3Service.deleteFile(`logo-store/${fileName}`);
+    }
 
-    const fileUrl = await this.r2Service.uploadFile(
+    const filename = `logo-store/${restaurant.id + extname(file.originalname)}`;
+    const fileUrl = await this.s3Service.uploadFile(
       file.buffer,
       filename,
       file.mimetype,
@@ -173,5 +178,31 @@ export class RestaurantsService {
     });
 
     return { logo: restaurantUpdated.logo };
+  }
+
+  async deleteLogo(restaurantId: string) {
+    const restaurant = await this.prisma.restaurant.findFirst({
+      where: {
+        id: restaurantId,
+      },
+    });
+
+    if (!restaurant) {
+      throw new HttpException('Restaurant not found.', HttpStatus.NOT_FOUND);
+    }
+
+    if (restaurant.logo) {
+      const fileName = restaurant.logo.split('logo-store/')[1];
+      await this.s3Service.deleteFile(`logo-store/${fileName}`);
+    }
+
+    await this.prisma.restaurant.update({
+      where: {
+        id: restaurantId,
+      },
+      data: {
+        logo: '',
+      },
+    });
   }
 }

@@ -87,6 +87,17 @@ export class RestaurantsController {
     return this.restaurantsService.changeLogo(id, file);
   }
 
+  @UseGuards(ClerkAuthGuard)
+  @Patch('/:id/delete-logo')
+  @ApiOperation({
+    summary: 'Delete Logo',
+    operationId: 'deleteLogoRestaurant',
+  })
+  @ApiOkResponse()
+  deleteLogo(@Param('id') id: string) {
+    return this.restaurantsService.deleteLogo(id);
+  }
+
   @Post()
   create(@Body() data: CreateResturantDTO) {
     return this.restaurantsService.create(data);
