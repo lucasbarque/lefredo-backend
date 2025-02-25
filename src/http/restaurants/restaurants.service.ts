@@ -2,8 +2,6 @@ import { CreateResturantDTO } from './dto/create-resturant-dto';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma/prisma.service';
 import { UpdateResturantDTO } from './dto/update-restaurant-dto';
-import { R2Service } from '../medias/r2.service';
-import { randomUUID } from 'node:crypto';
 import { extname } from 'node:path';
 import { S3Service } from '../medias/s3.service';
 

@@ -1,26 +1,25 @@
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import {
   S3Client,
   PutObjectCommand,
   DeleteObjectCommand,
 } from '@aws-sdk/client-s3';
+import { env } from 'src/env';
 
 @Injectable()
 export class S3Service {
   private s3: S3Client;
   private bucketName: string;
 
-  constructor(private configService: ConfigService) {
+  constructor() {
     this.s3 = new S3Client({
-      region: 'us-east-1',
+      region: env.AWS_BUCKET_REGION,
       credentials: {
-        accessKeyId: this.configService.get<string>('AWS_ACCESS_KEY'),
-        secretAccessKey: this.configService.get<string>('AWS_SECRET_KEY'),
+        accessKeyId: env.AWS_ACCESS_KEY,
+        secretAccessKey: env.AWS_SECRET_KEY,
       },
     });
-
-    this.bucketName = this.configService.get<string>('AWS_BUCKET_NAME');
+    this.bucketName = env.AWS_BUCKET_NAME;
   }
 
   async uploadFile(
@@ -39,7 +38,7 @@ export class S3Service {
         }),
       );
 
-      return `${this.configService.get<string>('AWS_PUBLIC_URL')}/${fileName}`;
+      return `${env.AWS_PUBLIC_URL}/${fileName}`;
     } catch (error) {
       console.error('Upload Error:', error);
       throw new Error('Error uploading file to S3');
