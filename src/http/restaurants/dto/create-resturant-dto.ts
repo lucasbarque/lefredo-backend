@@ -4,4 +4,8 @@ export class CreateResturantDTO {
   @IsNotEmpty()
   @IsString()
   name: string;
+
+  @IsNotEmpty()
+  @IsString()
+  slug: string;
 }

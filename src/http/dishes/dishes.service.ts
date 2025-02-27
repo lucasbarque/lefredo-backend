@@ -14,7 +14,12 @@ export class DishesService {
       include: {
         section: true,
         dishExtras: true,
-        dishFlavors: true,
+        dishFlavors: {
+          include: {
+            dishFlavorsMedias: true,
+          },
+        },
+        dishMedias: true,
         dishSpecs: {
           include: {
             DishSpecs: true,
@@ -29,18 +34,7 @@ export class DishesService {
 
     let medias;
     if (dish.dishFlavors.length > 0) {
-      medias = await this.prisma.media.findMany({
-        where: {
-          referenceId: {
-            in: dish.dishFlavors.map((flavor) => flavor.id),
-          },
-          referenceName: 'flavors',
-        },
-      });
     } else {
-      medias = await this.prisma.media.findMany({
-        where: { referenceId: dishId, referenceName: 'dishes' },
-      });
     }
 
     Object.assign(dish, { medias });
@@ -74,19 +68,35 @@ export class DishesService {
       },
     });
 
-    const dishesWithMedia = await Promise.all(
-      dishes.map(async (dish) => {
-        const media = await this.prisma.media.findMany({
-          where: { referenceId: dish.id, referenceName: 'dishes' },
-        });
-        return {
-          ...dish,
-          media,
-        };
-      }),
-    );
+    return dishes;
+  }
 
-    return dishesWithMedia;
+  async getDishesBySlug(slug: string) {
+    const sectionExists = await this.prisma.section.findUnique({
+      where: {
+        slug,
+      },
+    });
+
+    if (!sectionExists) {
+      throw new HttpException('Section does not exists.', HttpStatus.NOT_FOUND);
+    }
+
+    const dishes = await this.prisma.dish.findMany({
+      where: {
+        sectionId: sectionExists.id,
+      },
+      include: {
+        dishSpecs: {
+          include: {
+            DishSpecs: true,
+          },
+        },
+        dishMedias: true,
+      },
+    });
+
+    return dishes;
   }
 
   async create({ title, description, price, sectionId }: CreateDishDTO) {
@@ -121,30 +131,30 @@ export class DishesService {
       throw new HttpException('Dish not found.', HttpStatus.NOT_FOUND);
     }
 
-    const imagesDish = await this.prisma.media.findMany({
-      where: {
-        referenceName: 'dishes',
-        referenceId: id,
-      },
-    });
+    // const imagesDish = await this.prisma.media.findMany({
+    //   where: {
+    //     referenceName: 'dishes',
+    //     referenceId: id,
+    //   },
+    // });
     let imagesDeleted = 0;
     let imagesErrored = 0;
 
-    if (imagesDish.length > 0) {
-      for (const image of imagesDish) {
-        try {
-          await this.prisma.media.delete({
-            where: {
-              id: image.id,
-            },
-          });
-          imagesDeleted++;
-        } catch (err) {
-          imagesErrored++;
-          console.log(err);
-        }
-      }
-    }
+    // if (imagesDish.length > 0) {
+    //   for (const image of imagesDish) {
+    //     try {
+    //       await this.prisma.media.delete({
+    //         where: {
+    //           id: image.id,
+    //         },
+    //       });
+    //       imagesDeleted++;
+    //     } catch (err) {
+    //       imagesErrored++;
+    //       console.log(err);
+    //     }
+    //   }
+    // }
     await this.prisma.dish.delete({
       where: {
         id,

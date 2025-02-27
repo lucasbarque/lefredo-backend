@@ -6,12 +6,8 @@ CREATE TABLE "users" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "password" TEXT,
     "clerkId" TEXT NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT true,
-    "token" TEXT,
-    "tokenExpiration" TIMESTAMP(3),
-    "expoToken" TEXT,
     "role" "Role" NOT NULL DEFAULT 'ADMIN',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -24,6 +20,7 @@ CREATE TABLE "users" (
 CREATE TABLE "restaurants" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
     "welcomeMessage" TEXT,
     "logo" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -48,6 +45,7 @@ CREATE TABLE "sections" (
     "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "description" TEXT,
+    "slug" TEXT NOT NULL,
     "menuId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -82,6 +80,26 @@ CREATE TABLE "dish_flavors" (
 );
 
 -- CreateTable
+CREATE TABLE "dish_medias" (
+    "id" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "url" TEXT NOT NULL,
+    "dishId" TEXT NOT NULL,
+
+    CONSTRAINT "dish_medias_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "dish_flavors_medias" (
+    "id" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "url" TEXT NOT NULL,
+    "dishFlavorId" TEXT,
+
+    CONSTRAINT "dish_flavors_medias_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "dish_extras" (
     "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
@@ -110,25 +128,17 @@ CREATE TABLE "dishes_specs_dish" (
     CONSTRAINT "dishes_specs_dish_pkey" PRIMARY KEY ("dishId","dishSpecsId")
 );
 
--- CreateTable
-CREATE TABLE "medias" (
-    "id" TEXT NOT NULL,
-    "title" TEXT NOT NULL,
-    "type" TEXT NOT NULL,
-    "referenceId" TEXT NOT NULL,
-    "referenceName" TEXT NOT NULL,
-    "filename" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "medias_pkey" PRIMARY KEY ("id")
-);
-
 -- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "users_clerkId_key" ON "users"("clerkId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "restaurants_slug_key" ON "restaurants"("slug");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "sections_slug_key" ON "sections"("slug");
 
 -- AddForeignKey
 ALTER TABLE "users" ADD CONSTRAINT "users_restaurantId_fkey" FOREIGN KEY ("restaurantId") REFERENCES "restaurants"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -144,6 +154,12 @@ ALTER TABLE "dishes" ADD CONSTRAINT "dishes_sectionId_fkey" FOREIGN KEY ("sectio
 
 -- AddForeignKey
 ALTER TABLE "dish_flavors" ADD CONSTRAINT "dish_flavors_dishId_fkey" FOREIGN KEY ("dishId") REFERENCES "dishes"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "dish_medias" ADD CONSTRAINT "dish_medias_dishId_fkey" FOREIGN KEY ("dishId") REFERENCES "dishes"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "dish_flavors_medias" ADD CONSTRAINT "dish_flavors_medias_dishFlavorId_fkey" FOREIGN KEY ("dishFlavorId") REFERENCES "dish_flavors"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "dish_extras" ADD CONSTRAINT "dish_extras_dishId_fkey" FOREIGN KEY ("dishId") REFERENCES "dishes"("id") ON DELETE SET NULL ON UPDATE CASCADE;

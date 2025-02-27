@@ -22,13 +22,13 @@ import { memoryStorage } from 'multer';
 import { imageFileFilter } from '../medias/medias.utils';
 import { ChangeLogoResponseDTO } from './dto/change-logo-response.dto';
 import { ChangeLogoDTO } from './dto/change-logo.dto';
+import { GetRestaurantBySlugDTO } from './dto/get-restaurant-slug.dto';
 
 @Controller('restaurants')
 export class RestaurantsController {
   constructor(private restaurantsService: RestaurantsService) {}
 
   @Get()
-  //TODO: Retornar apenas restaurantes daquele usuário
   list(
     @Query('menuId') menuId: string,
     @Query('restaurantId') restaurantId: string,
@@ -40,8 +40,20 @@ export class RestaurantsController {
     }
   }
 
-  @UseGuards(ClerkAuthGuard)
+  @Get('slug/:slug')
+  @ApiOperation({
+    summary: 'Get Restaurant By Slug',
+    operationId: 'getRestaurantBySlug',
+  })
+  @ApiOkResponse({
+    type: GetRestaurantBySlugDTO,
+  })
+  getBySlug(@Param('slug') slug: string) {
+    return this.restaurantsService.getBySlug(slug);
+  }
+
   @Get(':id')
+  @UseGuards(ClerkAuthGuard)
   @ApiOperation({
     summary: 'Get Restaurant By Id',
     operationId: 'getRestaurantById',

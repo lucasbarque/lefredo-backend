@@ -15,16 +15,12 @@ enum Role {
 }
 
 model User {
-  id              String    @id @default(uuid())
-  name            String
-  email           String    @unique
-  password        String?
-  clerkId         String    @unique
-  active          Boolean   @default(true)
-  token           String?
-  tokenExpiration DateTime?
-  expoToken       String?
-  role            Role      @default(ADMIN)
+  id      String  @id @default(uuid())
+  name    String
+  email   String  @unique
+  clerkId String  @unique
+  active  Boolean @default(true)
+  role    Role    @default(ADMIN)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -38,6 +34,7 @@ model User {
 model Restaurant {
   id   String @id @default(uuid())
   name String
+  slug String @unique
 
   User User[]
   Menu Menu[]
@@ -70,6 +67,7 @@ model Section {
   id          String  @id @default(uuid())
   title       String
   description String?
+  slug        String  @unique
 
   menu   Menu   @relation(fields: [menuId], references: [id])
   menuId String
@@ -94,6 +92,7 @@ model Dish {
   dishSpecs   DishSpecsDishes[]
   dishExtras  DishExtras[]
   dishFlavors DishFlavors[]
+  dishMedias  DishMedias[]
 
   portion  String?
   prepTime Int?
@@ -113,7 +112,31 @@ model DishFlavors {
   Dish   Dish?   @relation(fields: [dishId], references: [id])
   dishId String?
 
+  dishFlavorsMedias DishFlavorsMedias[]
+
   @@map("dish_flavors")
+}
+
+model DishMedias {
+  id    String @id @default(uuid())
+  title String
+  url   String
+
+  Dish   Dish   @relation(fields: [dishId], references: [id])
+  dishId String
+
+  @@map("dish_medias")
+}
+
+model DishFlavorsMedias {
+  id    String @id @default(uuid())
+  title String
+  url   String
+
+  DishFlavors  DishFlavors? @relation(fields: [dishFlavorId], references: [id])
+  dishFlavorId String?
+
+  @@map("dish_flavors_medias")
 }
 
 model DishExtras {
@@ -148,19 +171,4 @@ model DishSpecsDishes {
 
   @@id([dishId, dishSpecsId])
   @@map("dishes_specs_dish")
-}
-
-model Media {
-  id    String @id @default(uuid())
-  title String
-  type  String
-
-  referenceId   String
-  referenceName String
-  filename      String
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("medias")
 }

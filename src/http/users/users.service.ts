@@ -13,7 +13,6 @@ export class UsersService {
         id: true,
         name: true,
         email: true,
-        password: false,
         active: true,
         createdAt: true,
         updatedAt: true,
@@ -21,13 +20,7 @@ export class UsersService {
     });
   }
 
-  async create({
-    name,
-    email,
-    password,
-    restaurantId,
-    clerkId,
-  }: CreateUserDTO) {
+  async create({ name, email, restaurantId, clerkId }: CreateUserDTO) {
     const userWithSameEmail = await this.prisma.user.findUnique({
       where: {
         email,
@@ -51,15 +44,10 @@ export class UsersService {
       throw new HttpException('Restaurant not found.', HttpStatus.BAD_REQUEST);
     }
 
-    const passwordSalt = await bcrypt.genSalt(8);
-
-    const passwordHash = await bcrypt.hash(password, passwordSalt);
-
     await this.prisma.user.create({
       data: {
         name,
         email,
-        password: passwordHash,
         restaurantId,
         clerkId,
       },

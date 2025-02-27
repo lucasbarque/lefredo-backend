@@ -26,6 +26,23 @@ export class RestaurantsService {
     return restaurant;
   }
 
+  async getBySlug(slug: string) {
+    const restaurant = await this.prisma.restaurant.findUnique({
+      where: {
+        slug,
+      },
+      include: {
+        Menu: true,
+      },
+    });
+
+    if (!restaurant) {
+      throw new HttpException('Restaurant not found.', HttpStatus.NOT_FOUND);
+    }
+
+    return restaurant;
+  }
+
   async update(id: string, data: UpdateResturantDTO) {
     const restaurant = await this.prisma.restaurant.findUnique({
       where: {
@@ -95,15 +112,8 @@ export class RestaurantsService {
       sections.map(async (section) => {
         const dishesWithMedia = await Promise.all(
           section.Dish.map(async (dish) => {
-            const medias = await this.prisma.media.findMany({
-              where: {
-                referenceId: dish.id,
-                referenceName: 'dishes',
-              },
-            });
             return {
               ...dish,
-              medias,
             };
           }),
         );
@@ -122,7 +132,7 @@ export class RestaurantsService {
     return this.prisma.restaurant.findMany();
   }
 
-  async create({ name }: CreateResturantDTO) {
+  async create({ name, slug }: CreateResturantDTO) {
     const restaurantExists = await this.prisma.restaurant.findFirst({
       where: {
         name,
@@ -138,6 +148,7 @@ export class RestaurantsService {
 
     await this.prisma.restaurant.create({
       data: {
+        slug,
         name,
       },
     });
@@ -160,15 +171,11 @@ export class RestaurantsService {
     }
 
     const filename = `logo-store/${restaurant.id + extname(file.originalname)}`;
-    const fileUrl = await this.s3Service.uploadFile(
-      file.buffer,
-      filename,
-      file.mimetype,
-    );
+    await this.s3Service.uploadFile(file.buffer, filename, file.mimetype);
 
     const restaurantUpdated = await this.prisma.restaurant.update({
       data: {
-        logo: fileUrl,
+        logo: filename,
       },
       where: {
         id,

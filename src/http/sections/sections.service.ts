@@ -1,6 +1,7 @@
 import { CreateSectionDTO } from './create-section-dto';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma/prisma.service';
+import { slugify } from 'src/lib/utils';
 
 @Injectable()
 export class SectionsService {
@@ -66,6 +67,7 @@ export class SectionsService {
     await this.prisma.section.create({
       data: {
         title,
+        slug: slugify(title),
         menuId,
       },
     });
