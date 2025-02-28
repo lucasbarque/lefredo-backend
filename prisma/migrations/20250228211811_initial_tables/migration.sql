@@ -9,6 +9,7 @@ CREATE TABLE "users" (
     "clerkId" TEXT NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "role" "Role" NOT NULL DEFAULT 'ADMIN',
+    "onboardingFinished" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "restaurantId" TEXT,
