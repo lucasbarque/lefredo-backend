@@ -23,6 +23,7 @@ import { imageFileFilter } from '../medias/medias.utils';
 import { ChangeLogoResponseDTO } from './dto/change-logo-response.dto';
 import { ChangeLogoDTO } from './dto/change-logo.dto';
 import { GetRestaurantBySlugDTO } from './dto/get-restaurant-slug.dto';
+import { GetRestaurantIsFirstCategoryDTO } from './dto/get-restaurant-is-first-category.dto';
 
 @Controller('restaurants')
 export class RestaurantsController {
@@ -108,6 +109,19 @@ export class RestaurantsController {
   @ApiOkResponse()
   deleteLogo(@Param('id') id: string) {
     return this.restaurantsService.deleteLogo(id);
+  }
+
+  @Get('/is-first-category/:id')
+  // @UseGuards(ClerkAuthGuard)
+  @ApiOperation({
+    summary: 'Get restaurant is first category information',
+    operationId: 'getRestaurantIsFirstCategory',
+  })
+  @ApiOkResponse({
+    type: GetRestaurantIsFirstCategoryDTO,
+  })
+  isFirstCategory(@Param('id') id: string) {
+    return this.restaurantsService.isFirstCategory(id);
   }
 
   @Post()

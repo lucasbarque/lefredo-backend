@@ -210,4 +210,34 @@ export class RestaurantsService {
       },
     });
   }
+
+  async isFirstCategory(restaurantId: string) {
+    const restaurant = await this.prisma.restaurant.findFirst({
+      where: {
+        id: restaurantId,
+      },
+      include: {
+        Menu: true,
+      },
+    });
+
+    if (!restaurant) {
+      throw new HttpException('Restaurant not found.', HttpStatus.NOT_FOUND);
+    }
+
+    if (!restaurant.Menu[0].id) {
+      return { isFirstCategory: true };
+    }
+
+    const section = await this.prisma.section.findFirst({
+      where: {
+        menuId: restaurant.Menu[0].id,
+      },
+    });
+
+    if (!section) {
+      return { isFirstCategory: true };
+    }
+    return { isFirstCategory: false };
+  }
 }
