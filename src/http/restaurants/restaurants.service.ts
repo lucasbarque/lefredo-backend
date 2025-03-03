@@ -225,7 +225,7 @@ export class RestaurantsService {
       throw new HttpException('Restaurant not found.', HttpStatus.NOT_FOUND);
     }
 
-    if (!restaurant.Menu[0].id) {
+    if (restaurant.Menu.length === 0) {
       return { isFirstCategory: true };
     }
 

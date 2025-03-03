@@ -47,6 +47,7 @@ CREATE TABLE "sections" (
     "title" TEXT NOT NULL,
     "description" TEXT,
     "slug" TEXT NOT NULL,
+    "isActive" BOOLEAN NOT NULL DEFAULT false,
     "menuId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -60,9 +61,10 @@ CREATE TABLE "dishes" (
     "title" TEXT NOT NULL,
     "description" TEXT,
     "price" INTEGER NOT NULL,
+    "isActive" BOOLEAN NOT NULL DEFAULT false,
     "sectionId" TEXT NOT NULL,
     "portion" TEXT,
-    "prepTime" INTEGER,
+    "prepTime" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -139,16 +141,19 @@ CREATE UNIQUE INDEX "users_clerkId_key" ON "users"("clerkId");
 CREATE UNIQUE INDEX "restaurants_slug_key" ON "restaurants"("slug");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "restaurants_slug_id_key" ON "restaurants"("slug", "id");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "sections_slug_key" ON "sections"("slug");
 
 -- AddForeignKey
 ALTER TABLE "users" ADD CONSTRAINT "users_restaurantId_fkey" FOREIGN KEY ("restaurantId") REFERENCES "restaurants"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "menus" ADD CONSTRAINT "menus_restaurantId_fkey" FOREIGN KEY ("restaurantId") REFERENCES "restaurants"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "menus" ADD CONSTRAINT "menus_restaurantId_fkey" FOREIGN KEY ("restaurantId") REFERENCES "restaurants"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "sections" ADD CONSTRAINT "sections_menuId_fkey" FOREIGN KEY ("menuId") REFERENCES "menus"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "sections" ADD CONSTRAINT "sections_menuId_fkey" FOREIGN KEY ("menuId") REFERENCES "menus"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "dishes" ADD CONSTRAINT "dishes_sectionId_fkey" FOREIGN KEY ("sectionId") REFERENCES "sections"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -163,10 +168,10 @@ ALTER TABLE "dish_medias" ADD CONSTRAINT "dish_medias_dishId_fkey" FOREIGN KEY (
 ALTER TABLE "dish_flavors_medias" ADD CONSTRAINT "dish_flavors_medias_dishFlavorId_fkey" FOREIGN KEY ("dishFlavorId") REFERENCES "dish_flavors"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "dish_extras" ADD CONSTRAINT "dish_extras_dishId_fkey" FOREIGN KEY ("dishId") REFERENCES "dishes"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "dish_extras" ADD CONSTRAINT "dish_extras_dishId_fkey" FOREIGN KEY ("dishId") REFERENCES "dishes"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "dishes_specs_dish" ADD CONSTRAINT "dishes_specs_dish_dishSpecsId_fkey" FOREIGN KEY ("dishSpecsId") REFERENCES "dish_specs"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "dishes_specs_dish" ADD CONSTRAINT "dishes_specs_dish_dishSpecsId_fkey" FOREIGN KEY ("dishSpecsId") REFERENCES "dish_specs"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "dishes_specs_dish" ADD CONSTRAINT "dishes_specs_dish_dishId_fkey" FOREIGN KEY ("dishId") REFERENCES "dishes"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "dishes_specs_dish" ADD CONSTRAINT "dishes_specs_dish_dishId_fkey" FOREIGN KEY ("dishId") REFERENCES "dishes"("id") ON DELETE CASCADE ON UPDATE CASCADE;

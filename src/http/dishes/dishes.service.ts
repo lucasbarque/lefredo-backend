@@ -1,6 +1,8 @@
-import { CreateDishDTO } from './create-dish-input';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma/prisma.service';
+import { RequestChangePriceDTO } from './dto/request-change-price.dto';
+import { RequestCreateDishDTO } from './dto/request-create-dish.dto';
+import { formatCurrency } from 'src/lib/utils';
 
 @Injectable()
 export class DishesService {
@@ -99,7 +101,57 @@ export class DishesService {
     return dishes;
   }
 
-  async create({ title, description, price, sectionId }: CreateDishDTO) {
+  async toggle(id: string) {
+    const dish = await this.prisma.dish.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!dish) {
+      throw new HttpException('Dish does not exists.', HttpStatus.NOT_FOUND);
+    }
+
+    await this.prisma.dish.update({
+      data: {
+        isActive: !dish.isActive,
+      },
+      where: {
+        id,
+      },
+    });
+  }
+
+  async changePrice(id: string, { price }: RequestChangePriceDTO) {
+    const dish = await this.prisma.dish.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!dish) {
+      throw new HttpException('Dish does not exists.', HttpStatus.NOT_FOUND);
+    }
+
+    await this.prisma.dish.update({
+      data: {
+        price,
+      },
+      where: {
+        id,
+      },
+    });
+  }
+
+  async create({
+    title,
+    description,
+    price,
+    flagged,
+    portion,
+    prepTime,
+    sectionId,
+  }: RequestCreateDishDTO) {
     const sectionExists = await this.prisma.section.findFirst({
       where: {
         id: sectionId,
@@ -110,14 +162,32 @@ export class DishesService {
       throw new HttpException('Section does not exists.', HttpStatus.NOT_FOUND);
     }
 
-    await this.prisma.dish.create({
+    const dish = await this.prisma.dish.create({
       data: {
         title,
         description,
-        price,
+        prepTime,
+        portion,
+        price: Number(formatCurrency(price, 'to-decimal')),
         sectionId,
       },
     });
+
+    if (flagged) {
+      const dishSpec = await this.prisma.dishSpecs.findFirst({
+        where: {
+          key: 'highlighted',
+        },
+      });
+      await this.prisma.dishSpecsDishes.create({
+        data: {
+          dishId: dish.id,
+          dishSpecsId: dishSpec.id,
+        },
+      });
+    }
+
+    return dish;
   }
 
   async delete(id: string) {

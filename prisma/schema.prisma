@@ -46,6 +46,7 @@ model Restaurant {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  @@unique([slug, id])
   @@map("restaurants")
 }
 
@@ -53,7 +54,7 @@ model Menu {
   id    String @id @default(uuid())
   title String
 
-  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
   restaurantId String
 
   Sections Section[]
@@ -69,8 +70,9 @@ model Section {
   title       String
   description String?
   slug        String  @unique
+  isActive    Boolean @default(false)
 
-  menu   Menu   @relation(fields: [menuId], references: [id])
+  menu   Menu   @relation(fields: [menuId], references: [id], onDelete: Cascade)
   menuId String
 
   Dish Dish[]
@@ -86,6 +88,7 @@ model Dish {
   title       String
   description String?
   price       Int
+  isActive    Boolean @default(false)
 
   section   Section @relation(fields: [sectionId], references: [id])
   sectionId String
@@ -96,7 +99,7 @@ model Dish {
   dishMedias  DishMedias[]
 
   portion  String?
-  prepTime Int?
+  prepTime String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -145,7 +148,7 @@ model DishExtras {
   title String
   price Int
 
-  Dish   Dish?   @relation(fields: [dishId], references: [id])
+  Dish   Dish?   @relation(fields: [dishId], references: [id], onDelete: Cascade)
   dishId String?
 
   createdAt DateTime @default(now())
@@ -165,9 +168,9 @@ model DishSpecs {
 }
 
 model DishSpecsDishes {
-  DishSpecs   DishSpecs? @relation(fields: [dishSpecsId], references: [id])
+  DishSpecs   DishSpecs? @relation(fields: [dishSpecsId], references: [id], onDelete: Cascade)
   dishSpecsId String
-  Dish        Dish?      @relation(fields: [dishId], references: [id])
+  Dish        Dish?      @relation(fields: [dishId], references: [id], onDelete: Cascade)
   dishId      String
 
   @@id([dishId, dishSpecsId])

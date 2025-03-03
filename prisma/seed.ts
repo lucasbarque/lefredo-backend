@@ -35,6 +35,7 @@ async function main() {
       email: 'lucasbarque@gmail.com',
       restaurantId: 'eb191864-0395-4253-895c-91fa6d78b3cf',
       clerkId: 'user_2tN0ZUF4Z9Q1tYdXpJoaWiOXI7u',
+      onboardingFinished: true,
     },
   });
 
@@ -55,6 +56,7 @@ async function main() {
         description:
           'Nosso estoque é renovado diariamente, portanto algumas opções podem se esgotar ao longo do dia. Favor verificar a disponibilidade do produto com nossos atendentes no momento do pedido!',
         menuId: 'ee749e3b-e35a-4ddf-8123-0a1976da8148',
+        isActive: true,
       },
       {
         id: '8b7ff268-9f18-4784-8ea9-030aa5ed7be8',
@@ -63,12 +65,14 @@ async function main() {
         description:
           'Nosso estoque é renovado diariamente, portanto algumas opções podem se esgotar ao longo do dia. Favor verificar a disponibilidade do produto com nossos atendentes no momento do pedido!',
         menuId: 'ee749e3b-e35a-4ddf-8123-0a1976da8148',
+        isActive: true,
       },
       {
         id: 'cb7d968a-3885-445b-897a-71bf5fc8d6d4',
         title: 'Bebidas Geladas',
         slug: 'bebidas-geladas',
         menuId: 'ee749e3b-e35a-4ddf-8123-0a1976da8148',
+        isActive: true,
       },
       {
         id: 'e7109d68-cd71-40f6-989e-6acc06a7be39',
@@ -77,6 +81,7 @@ async function main() {
         description:
           'Nosso estoque é renovado diariamente, portanto algumas opções podem se esgotar ao longo do dia. Favor verificar a disponibilidade do produto com nossos atendentes no momento do pedido!',
         menuId: 'ee749e3b-e35a-4ddf-8123-0a1976da8148',
+        isActive: true,
       },
       {
         id: 'b4c05be0-13d5-42b9-b8b1-48f0331459e0',
@@ -85,6 +90,7 @@ async function main() {
         description:
           'Café  moído na hora direto da região do Alto Mogiana na variedade Catuaí Amarelo',
         menuId: 'ee749e3b-e35a-4ddf-8123-0a1976da8148',
+        isActive: true,
       },
       {
         id: '28adc859-8197-4a6c-8322-028d376dfe9b',
@@ -93,12 +99,14 @@ async function main() {
         description:
           'Nosso estoque é renovado diariamente, portanto algumas opções podem se esgotar ao longo do dia. Favor verificar a disponibilidade do produto com nossos atendentes no momento do pedido!',
         menuId: 'ee749e3b-e35a-4ddf-8123-0a1976da8148',
+        isActive: true,
       },
       {
         id: 'c3be3ba8-7a32-406e-8c67-8581a8df2b23',
         title: 'Cassatas',
         slug: 'cassatas',
         menuId: 'ee749e3b-e35a-4ddf-8123-0a1976da8148',
+        isActive: true,
       },
     ],
   });
@@ -137,6 +145,7 @@ async function main() {
         price: 1000,
         portion: '04 unidades',
         sectionId: '73607a24-9af4-4cd5-ada7-6fd4b7d7450d',
+        isActive: true,
       },
       {
         id: '861c3103-2945-4c2c-a52b-eb7d52d40ba9',
@@ -144,6 +153,7 @@ async function main() {
         price: 1400,
         portion: '01 unidade',
         sectionId: '73607a24-9af4-4cd5-ada7-6fd4b7d7450d',
+        isActive: true,
       },
       {
         id: '94f506f7-5c6f-44d7-8d88-a28494fb158b',
@@ -153,6 +163,7 @@ async function main() {
         price: 1500,
         portion: '01 unidade',
         sectionId: '73607a24-9af4-4cd5-ada7-6fd4b7d7450d',
+        isActive: true,
       },
       {
         id: '09cab1b3-49e5-455f-9ce4-36568e2aa894',
@@ -162,6 +173,7 @@ async function main() {
         price: 1500,
         portion: '01 unidade',
         sectionId: '73607a24-9af4-4cd5-ada7-6fd4b7d7450d',
+        isActive: true,
       },
       {
         id: '8f500d73-ae4b-4842-9709-ffbe75fedfce',
@@ -171,6 +183,7 @@ async function main() {
         price: 1800,
         portion: '01 unidade',
         sectionId: '73607a24-9af4-4cd5-ada7-6fd4b7d7450d',
+        isActive: true,
       },
       {
         id: 'f087b95e-7807-485b-943d-a7512fd757e5',
@@ -178,6 +191,7 @@ async function main() {
         price: 1800,
         portion: '01 unidade',
         sectionId: '73607a24-9af4-4cd5-ada7-6fd4b7d7450d',
+        isActive: true,
       },
       {
         id: 'e4d190ef-3496-4a0a-92b7-92ab654bf59f',
@@ -185,6 +199,7 @@ async function main() {
         price: 1800,
         portion: 'a fatia',
         sectionId: '73607a24-9af4-4cd5-ada7-6fd4b7d7450d',
+        isActive: true,
       },
       {
         id: '78b2ee0a-6c0e-4ad4-931d-8271d2695041',
@@ -194,6 +209,7 @@ async function main() {
         price: 1500,
         portion: '01 unidade',
         sectionId: '73607a24-9af4-4cd5-ada7-6fd4b7d7450d',
+        isActive: true,
       },
       {
         id: 'c2f4a5c8-36f6-4793-bff3-4f485db09b39',
@@ -202,8 +218,9 @@ async function main() {
           'Pão italiano de fermentação natural, requeijão, muçarela e parmesão.',
         portion: '01 unidade',
         price: 2200,
-        prepTime: 20,
+        prepTime: '20 Minutos',
         sectionId: '8b7ff268-9f18-4784-8ea9-030aa5ed7be8',
+        isActive: true,
       },
       {
         id: '728b0aa4-4c86-4b47-af68-446c684727a4',
@@ -212,8 +229,9 @@ async function main() {
           'Pão de forma artesanal, manteiga, presunto, muçarela, molho bechamel e parmesão gratinado no forno.',
         price: 2400,
         portion: '01 unidade',
-        prepTime: 20,
+        prepTime: '20 Minutos',
         sectionId: '8b7ff268-9f18-4784-8ea9-030aa5ed7be8',
+        isActive: true,
       },
       {
         id: '593df557-94d6-45de-be44-575d37f9552b',
@@ -222,8 +240,9 @@ async function main() {
           'Pão brioche artesanal, presunto, muçarela, tomate e requeijão, servido quentinho.',
         price: 2400,
         portion: '01 unidade',
-        prepTime: 20,
+        prepTime: '20 Minutos',
         sectionId: '8b7ff268-9f18-4784-8ea9-030aa5ed7be8',
+        isActive: true,
       },
       {
         id: '799be580-038f-46ce-9f8e-286e43348a5c',
@@ -232,8 +251,9 @@ async function main() {
           'Pão italiano de fermentação natural, molho pesto, muçarela de búfala, presunto de parma, rúcula, tomate e requeijão, servido frio.',
         price: 3200,
         portion: '01 unidade',
-        prepTime: 20,
+        prepTime: '20 Minutos',
         sectionId: '8b7ff268-9f18-4784-8ea9-030aa5ed7be8',
+        isActive: true,
       },
       {
         id: '55302d68-2678-45c7-a1d7-18ec19d21108',
@@ -241,6 +261,7 @@ async function main() {
         price: 600,
         portion: 'pet 500ml',
         sectionId: 'cb7d968a-3885-445b-897a-71bf5fc8d6d4',
+        isActive: true,
       },
       {
         id: '79a73421-67b6-409c-839a-f3e1231fb26e',
@@ -248,6 +269,7 @@ async function main() {
         price: 700,
         portion: 'lata 350ml',
         sectionId: 'cb7d968a-3885-445b-897a-71bf5fc8d6d4',
+        isActive: true,
       },
       {
         id: '842601ab-7d09-4254-bd31-7acad2a44dd8',
@@ -255,6 +277,7 @@ async function main() {
         price: 400,
         portion: 'lata 220ml',
         sectionId: 'cb7d968a-3885-445b-897a-71bf5fc8d6d4',
+        isActive: true,
       },
       {
         id: '5ccb39b3-888a-4cf7-b06c-95efb9240166',
@@ -262,6 +285,7 @@ async function main() {
         price: 700,
         portion: 'lata 290ml',
         sectionId: 'cb7d968a-3885-445b-897a-71bf5fc8d6d4',
+        isActive: true,
       },
       {
         id: 'cb9214be-a5af-41dd-bd50-c38bad382c59',
@@ -269,6 +293,7 @@ async function main() {
         price: 1000,
         portion: 'copo 400ml',
         sectionId: 'cb7d968a-3885-445b-897a-71bf5fc8d6d4',
+        isActive: true,
       },
       {
         id: '676d239b-9246-4467-b7ff-8d1319a946aa',
@@ -276,6 +301,7 @@ async function main() {
         price: 1000,
         portion: 'garrafa 255ml',
         sectionId: 'cb7d968a-3885-445b-897a-71bf5fc8d6d4',
+        isActive: true,
       },
       {
         id: 'c6332067-3629-4b75-988b-cee1a4637117',
@@ -283,6 +309,7 @@ async function main() {
         price: 1000,
         portion: 'garrafa 255ml',
         sectionId: 'cb7d968a-3885-445b-897a-71bf5fc8d6d4',
+        isActive: true,
       },
       {
         id: '7ad65e5d-00f6-4211-8aae-2869d9d597b9',
@@ -290,6 +317,7 @@ async function main() {
         price: 1000,
         portion: 'garrafa 255ml',
         sectionId: 'cb7d968a-3885-445b-897a-71bf5fc8d6d4',
+        isActive: true,
       },
       {
         id: 'b002856a-e9fd-4a0b-acfa-6a26f249ebad',
@@ -297,6 +325,7 @@ async function main() {
         price: 1000,
         portion: 'copo 400ml',
         sectionId: 'cb7d968a-3885-445b-897a-71bf5fc8d6d4',
+        isActive: true,
       },
       {
         id: 'b4b15256-9c63-44a3-ac0d-99241b775147',
@@ -304,6 +333,7 @@ async function main() {
         price: 1400,
         portion: 'copo 400ml',
         sectionId: 'cb7d968a-3885-445b-897a-71bf5fc8d6d4',
+        isActive: true,
       },
       {
         id: '0937f023-2a44-4aab-8a54-c9859a5d9bf9',
@@ -312,6 +342,7 @@ async function main() {
         price: 1400,
         portion: 'copo 365ml',
         sectionId: 'cb7d968a-3885-445b-897a-71bf5fc8d6d4',
+        isActive: true,
       },
       {
         id: '2eb2d8e3-b680-4e7d-b7e5-8441ffeed7a4',
@@ -321,6 +352,7 @@ async function main() {
         price: 2000,
         portion: '300ml',
         sectionId: 'e7109d68-cd71-40f6-989e-6acc06a7be39',
+        isActive: true,
       },
       {
         id: 'ff6a941a-7b1f-465f-b678-6e36165f4cd3',
@@ -330,6 +362,7 @@ async function main() {
         price: 2000,
         portion: '300ml',
         sectionId: 'e7109d68-cd71-40f6-989e-6acc06a7be39',
+        isActive: true,
       },
       {
         id: '7ea2f375-e0a1-4035-81c3-eac2449a4f33',
@@ -338,6 +371,7 @@ async function main() {
         price: 2200,
         portion: '300ml',
         sectionId: 'e7109d68-cd71-40f6-989e-6acc06a7be39',
+        isActive: true,
       },
       {
         id: '6d89a8b8-9734-410f-9c23-71b87e0c492b',
@@ -346,6 +380,7 @@ async function main() {
         price: 2200,
         portion: '300ml',
         sectionId: 'e7109d68-cd71-40f6-989e-6acc06a7be39',
+        isActive: true,
       },
       {
         id: '4ec7929f-7a4a-4502-9d6a-78a46c9bd1ac',
@@ -354,6 +389,7 @@ async function main() {
         price: 2200,
         portion: '300ml',
         sectionId: 'e7109d68-cd71-40f6-989e-6acc06a7be39',
+        isActive: true,
       },
       {
         id: 'a7221f1d-fe94-43aa-b8f0-ba67cd20661f',
@@ -363,6 +399,7 @@ async function main() {
         price: 2600,
         portion: '300ml',
         sectionId: 'e7109d68-cd71-40f6-989e-6acc06a7be39',
+        isActive: true,
       },
       {
         id: 'd7d496b0-f105-4be7-a3f0-a95da0f97aad',
@@ -370,6 +407,7 @@ async function main() {
         price: 800,
         portion: '30ml',
         sectionId: 'b4c05be0-13d5-42b9-b8b1-48f0331459e0',
+        isActive: true,
       },
       {
         id: '742a27a6-6a2d-4f88-ac43-ed7c2dba10ac',
@@ -377,6 +415,7 @@ async function main() {
         price: 800,
         portion: '50ml',
         sectionId: 'b4c05be0-13d5-42b9-b8b1-48f0331459e0',
+        isActive: true,
       },
       {
         id: 'ab70ead6-13b7-490b-a931-7bf6efbc76df',
@@ -384,6 +423,7 @@ async function main() {
         price: 1200,
         portion: '100ml',
         sectionId: 'b4c05be0-13d5-42b9-b8b1-48f0331459e0',
+        isActive: true,
       },
       {
         id: '27cf589a-faf0-4795-80a8-87721f144918',
@@ -392,6 +432,7 @@ async function main() {
         price: 1000,
         portion: '50ml',
         sectionId: 'b4c05be0-13d5-42b9-b8b1-48f0331459e0',
+        isActive: true,
       },
       {
         id: 'c1ef176d-505d-4c28-9f34-7000900cdcce',
@@ -400,6 +441,7 @@ async function main() {
         price: 1400,
         portion: '100ml',
         sectionId: 'b4c05be0-13d5-42b9-b8b1-48f0331459e0',
+        isActive: true,
       },
       {
         id: 'e8eb127b-ad07-4258-a3b2-e8240f285d8d',
@@ -408,6 +450,7 @@ async function main() {
         price: 1600,
         portion: '180ml',
         sectionId: 'b4c05be0-13d5-42b9-b8b1-48f0331459e0',
+        isActive: true,
       },
       {
         id: '6f2108f8-5197-4c1c-89b3-9f26ae71ea4e',
@@ -416,6 +459,7 @@ async function main() {
         price: 1400,
         portion: '180ml',
         sectionId: 'b4c05be0-13d5-42b9-b8b1-48f0331459e0',
+        isActive: true,
       },
       {
         id: '1c095072-47ad-413e-9530-2ac82bd6a962',
@@ -424,6 +468,7 @@ async function main() {
         price: 1400,
         portion: '180ml',
         sectionId: 'b4c05be0-13d5-42b9-b8b1-48f0331459e0',
+        isActive: true,
       },
       {
         id: '2ee3a02a-a0e6-4e8f-b395-27261e333c1a',
@@ -433,6 +478,7 @@ async function main() {
         price: 1600,
         portion: '180ml',
         sectionId: 'b4c05be0-13d5-42b9-b8b1-48f0331459e0',
+        isActive: true,
       },
       {
         id: '5fc838ca-afd7-4f4e-acfa-8298bc4dd9ea',
@@ -442,6 +488,7 @@ async function main() {
         price: 1600,
         portion: '180ml',
         sectionId: 'b4c05be0-13d5-42b9-b8b1-48f0331459e0',
+        isActive: true,
       },
       {
         id: 'e10245da-5699-4355-b783-9455728227a0',
@@ -451,6 +498,7 @@ async function main() {
         price: 1800,
         portion: '180ml',
         sectionId: 'b4c05be0-13d5-42b9-b8b1-48f0331459e0',
+        isActive: true,
       },
       {
         id: '711d1c6c-35c3-4a7e-b418-2e31503a9de9',
@@ -459,6 +507,7 @@ async function main() {
         price: 1800,
         portion: '180ml',
         sectionId: 'b4c05be0-13d5-42b9-b8b1-48f0331459e0',
+        isActive: true,
       },
       {
         id: '68c85fb2-7a3a-4842-b671-7fcb264da31a',
@@ -466,6 +515,7 @@ async function main() {
         price: 400,
         portion: '01 unidade',
         sectionId: '28adc859-8197-4a6c-8322-028d376dfe9b',
+        isActive: true,
       },
       {
         id: '92752ed2-d9d8-448a-ab31-13d90a6dee09',
@@ -473,6 +523,7 @@ async function main() {
         price: 500,
         portion: '01 unidade',
         sectionId: '28adc859-8197-4a6c-8322-028d376dfe9b',
+        isActive: true,
       },
       {
         id: 'b63e5862-8a82-437d-b8e2-da0f14950f2a',
@@ -480,6 +531,7 @@ async function main() {
         price: 500,
         portion: '01 unidade',
         sectionId: '28adc859-8197-4a6c-8322-028d376dfe9b',
+        isActive: true,
       },
       {
         id: 'f10153d0-6c43-4795-9ca9-6b80db6177d8',
@@ -489,6 +541,7 @@ async function main() {
         price: 500,
         portion: '01 unidade',
         sectionId: '28adc859-8197-4a6c-8322-028d376dfe9b',
+        isActive: true,
       },
       {
         id: '1d1e4911-b150-4cde-aeb6-80a2b4cf9286',
@@ -497,6 +550,7 @@ async function main() {
         price: 600,
         portion: '01 unidade',
         sectionId: '28adc859-8197-4a6c-8322-028d376dfe9b',
+        isActive: true,
       },
       {
         id: '002a5fe0-e0fb-41a0-843c-80ea54cfa101',
@@ -506,6 +560,7 @@ async function main() {
         price: 650,
         portion: '01 unidade',
         sectionId: '28adc859-8197-4a6c-8322-028d376dfe9b',
+        isActive: true,
       },
       {
         id: 'f2e331e0-8433-446f-afd9-7855aa7e555d',
@@ -515,6 +570,7 @@ async function main() {
         price: 750,
         portion: '01 unidade',
         sectionId: '28adc859-8197-4a6c-8322-028d376dfe9b',
+        isActive: true,
       },
       {
         id: 'e72386be-5ff9-45bf-b341-2bc18772f065',
@@ -524,6 +580,7 @@ async function main() {
         price: 750,
         portion: '01 unidade',
         sectionId: '28adc859-8197-4a6c-8322-028d376dfe9b',
+        isActive: true,
       },
       {
         id: '5694f569-91c1-408c-bb75-13eb792002ff',
@@ -533,6 +590,7 @@ async function main() {
         price: 800,
         portion: '01 unidade',
         sectionId: '28adc859-8197-4a6c-8322-028d376dfe9b',
+        isActive: true,
       },
       {
         id: 'f86f3324-6e4c-40f8-9b78-a26f30af7845',
@@ -542,6 +600,7 @@ async function main() {
         price: 800,
         portion: '01 unidade',
         sectionId: '28adc859-8197-4a6c-8322-028d376dfe9b',
+        isActive: true,
       },
       {
         id: 'b6a678cf-121a-4536-a154-1f94da3be777',
@@ -550,6 +609,7 @@ async function main() {
         price: 1000,
         portion: 'cada 100g',
         sectionId: '28adc859-8197-4a6c-8322-028d376dfe9b',
+        isActive: true,
       },
       {
         id: '05b02003-265b-4b84-9791-09754279d203',
@@ -557,6 +617,7 @@ async function main() {
         price: 1000,
         portion: 'cada 100g',
         sectionId: '28adc859-8197-4a6c-8322-028d376dfe9b',
+        isActive: true,
       },
       {
         id: 'b05f2bb2-970b-482f-be2c-e96c791fedde',
@@ -566,6 +627,7 @@ async function main() {
         price: 1200,
         portion: '01 unidade',
         sectionId: '28adc859-8197-4a6c-8322-028d376dfe9b',
+        isActive: true,
       },
       {
         id: '1e6a2223-d9fe-4867-93cf-ee5b37c5f115',
@@ -575,6 +637,7 @@ async function main() {
         price: 1200,
         portion: '01 unidade',
         sectionId: '28adc859-8197-4a6c-8322-028d376dfe9b',
+        isActive: true,
       },
       {
         id: '505ac03c-7390-47d5-8eb9-088e3edf7ea0',
@@ -584,6 +647,7 @@ async function main() {
         price: 1400,
         portion: '01 unidade',
         sectionId: '28adc859-8197-4a6c-8322-028d376dfe9b',
+        isActive: true,
       },
       {
         id: 'c2c6bac1-e5b5-4c66-aad1-a5ece96e6da9',
@@ -593,6 +657,7 @@ async function main() {
         price: 1400,
         portion: '01 unidade',
         sectionId: '28adc859-8197-4a6c-8322-028d376dfe9b',
+        isActive: true,
       },
       {
         id: '3124de16-8cff-4e74-9164-ceb131fbeda2',
@@ -600,6 +665,7 @@ async function main() {
         price: 1500,
         portion: '01 unidade',
         sectionId: '28adc859-8197-4a6c-8322-028d376dfe9b',
+        isActive: true,
       },
       {
         id: '79163115-b14e-4d57-92a1-87e5d8091554',
@@ -609,6 +675,7 @@ async function main() {
         price: 1600,
         portion: '01 unidade',
         sectionId: '28adc859-8197-4a6c-8322-028d376dfe9b',
+        isActive: true,
       },
       {
         id: '2dc394d5-94a1-4b34-89e5-ef3802458e28',
@@ -618,6 +685,7 @@ async function main() {
         price: 1600,
         portion: '01 unidade',
         sectionId: '28adc859-8197-4a6c-8322-028d376dfe9b',
+        isActive: true,
       },
       {
         id: 'd5308376-8331-4b0c-bd96-820e25f03403',
@@ -627,6 +695,7 @@ async function main() {
         price: 1600,
         portion: '01 unidade',
         sectionId: '28adc859-8197-4a6c-8322-028d376dfe9b',
+        isActive: true,
       },
       {
         id: '0a83c9c8-52b4-4e3b-b5e6-5438e73529b8',
@@ -636,6 +705,7 @@ async function main() {
         price: 1600,
         portion: '01 unidade',
         sectionId: '28adc859-8197-4a6c-8322-028d376dfe9b',
+        isActive: true,
       },
       {
         id: 'e02ae1fd-e185-4bd2-aff2-11212c649427',
@@ -645,6 +715,7 @@ async function main() {
         price: 1600,
         portion: '01 unidade',
         sectionId: '28adc859-8197-4a6c-8322-028d376dfe9b',
+        isActive: true,
       },
       {
         id: 'ae88911b-e8d0-41ba-82a1-d1610f766ac4',
@@ -654,6 +725,7 @@ async function main() {
         price: 1600,
         portion: '01 unidade',
         sectionId: '28adc859-8197-4a6c-8322-028d376dfe9b',
+        isActive: true,
       },
       {
         id: 'e66c2c56-0b64-44e1-b86e-79d5d207de2e',
@@ -663,6 +735,7 @@ async function main() {
         price: 1600,
         portion: 'a fatia',
         sectionId: '28adc859-8197-4a6c-8322-028d376dfe9b',
+        isActive: true,
       },
       {
         id: 'b4ce8815-d4d9-4cdb-ac62-67e9e2e16875',
@@ -672,6 +745,7 @@ async function main() {
         price: 1800,
         portion: '01 unidade',
         sectionId: '28adc859-8197-4a6c-8322-028d376dfe9b',
+        isActive: true,
       },
       {
         id: 'a57b3466-a356-4bee-b269-0da4a617f2b5',
@@ -681,6 +755,7 @@ async function main() {
         price: 1800,
         portion: '01 unidade',
         sectionId: '28adc859-8197-4a6c-8322-028d376dfe9b',
+        isActive: true,
       },
       {
         id: 'a0782704-b36e-4bd4-9895-bff57172fe7b',
@@ -690,6 +765,7 @@ async function main() {
         price: 1800,
         portion: '01 unidade',
         sectionId: 'c3be3ba8-7a32-406e-8c67-8581a8df2b23',
+        isActive: true,
       },
       {
         id: '76f6319b-eaaa-40e2-a76a-2985c1c5744e',
@@ -698,6 +774,7 @@ async function main() {
         price: 1800,
         portion: '01 unidade',
         sectionId: 'c3be3ba8-7a32-406e-8c67-8581a8df2b23',
+        isActive: true,
       },
       {
         id: '6087b1bf-d87a-4824-b58f-2450e6a6c217',
@@ -707,6 +784,7 @@ async function main() {
         price: 1800,
         portion: '01 unidade',
         sectionId: 'c3be3ba8-7a32-406e-8c67-8581a8df2b23',
+        isActive: true,
       },
       {
         id: 'f06e401b-5533-4116-914d-867d5a26c16c',
@@ -716,6 +794,7 @@ async function main() {
         price: 1800,
         portion: '01 unidade',
         sectionId: 'c3be3ba8-7a32-406e-8c67-8581a8df2b23',
+        isActive: true,
       },
       {
         id: 'b8f58d39-5a40-47e1-a270-5b384ff2d2b7',
@@ -725,6 +804,7 @@ async function main() {
         price: 1800,
         portion: '01 unidade',
         sectionId: 'c3be3ba8-7a32-406e-8c67-8581a8df2b23',
+        isActive: true,
       },
       {
         id: 'bd60ccfd-5aad-4892-9620-2c740e330f05',
@@ -734,6 +814,7 @@ async function main() {
         price: 1800,
         portion: '01 unidade',
         sectionId: 'c3be3ba8-7a32-406e-8c67-8581a8df2b23',
+        isActive: true,
       },
       {
         id: '7e56ccbc-96ed-49e4-99b3-ee6d139cc130',
@@ -743,6 +824,7 @@ async function main() {
         price: 1800,
         portion: '01 unidade',
         sectionId: 'c3be3ba8-7a32-406e-8c67-8581a8df2b23',
+        isActive: true,
       },
       {
         id: '33ccd1a3-a830-40ff-8976-f7f959c03758',
@@ -752,6 +834,7 @@ async function main() {
         price: 1800,
         portion: '01 unidade',
         sectionId: 'c3be3ba8-7a32-406e-8c67-8581a8df2b23',
+        isActive: true,
       },
       {
         id: '45beb02c-3660-4ea5-9a83-c6d6ef71374f',
@@ -761,6 +844,7 @@ async function main() {
         price: 2200,
         portion: '01 unidade',
         sectionId: 'c3be3ba8-7a32-406e-8c67-8581a8df2b23',
+        isActive: true,
       },
     ],
   });

@@ -112,7 +112,7 @@ export class RestaurantsController {
   }
 
   @Get('/is-first-category/:id')
-  // @UseGuards(ClerkAuthGuard)
+  @UseGuards(ClerkAuthGuard)
   @ApiOperation({
     summary: 'Get restaurant is first category information',
     operationId: 'getRestaurantIsFirstCategory',
