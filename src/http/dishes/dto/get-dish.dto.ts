@@ -6,6 +6,12 @@ import { DishFlavorsDTO } from './dish-flavors.dto';
 
 class Section {
   @ApiProperty()
+  id: string;
+
+  @ApiProperty()
+  title: string;
+
+  @ApiProperty()
   description: string | null;
 }
 

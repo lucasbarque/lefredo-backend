@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Put,
   Query,
   UseGuards,
 } from '@nestjs/common';
@@ -21,6 +22,8 @@ import { GetDishDTO } from './dto/get-dish.dto';
 import { ClerkAuthGuard } from '../auth/guards/clerk-auth.guard';
 import { RequestChangePriceDTO } from './dto/request-change-price.dto';
 import { ResponseCreateDishDTO } from './dto/response-create-dish.dto';
+import { RequestUpdateDishDTO } from './dto/request-update-dish.dto';
+import { ResponseGetDishesExtraDTO } from './dto/response-get-dish-extras.dto';
 
 @Controller('dishes')
 export class DishesController {
@@ -75,7 +78,23 @@ export class DishesController {
     return this.dishesService.create(data);
   }
 
+  @Put(':id')
+  @UseGuards(ClerkAuthGuard)
+  @ApiOperation({
+    summary: 'Update Dish',
+    operationId: 'updateDish',
+  })
+  @ApiCreatedResponse({ type: ResponseCreateDishDTO })
+  update(@Param('id') id: string, @Body() data: RequestUpdateDishDTO) {
+    return this.dishesService.update(id, data);
+  }
+
   @Delete(':id')
+  @ApiOperation({
+    summary: 'Delete dish',
+    operationId: 'deleteDish',
+  })
+  @ApiOkResponse()
   delete(@Param('id') id: string) {
     return this.dishesService.delete(id);
   }
@@ -100,5 +119,18 @@ export class DishesController {
   @ApiOkResponse()
   changePrice(@Param('id') id: string, @Body() data: RequestChangePriceDTO) {
     return this.dishesService.changePrice(id, data);
+  }
+
+  @Get('/dish-extras/:id')
+  @ApiOperation({
+    summary: 'Get Dishes Extras',
+    operationId: 'getDishExtras',
+  })
+  @ApiOkResponse({
+    type: ResponseGetDishesExtraDTO,
+    isArray: true,
+  })
+  getDishExtras(@Param('id') id: string) {
+    return this.dishesService.getDishesExtras(id);
   }
 }

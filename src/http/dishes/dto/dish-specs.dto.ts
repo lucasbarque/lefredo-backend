@@ -7,7 +7,7 @@ class DishSpec {
   @ApiProperty()
   title: string;
 
-  @ApiProperty({ enum: ['cold', 'hot', 'vegan', 'highlited'] })
+  @ApiProperty({ enum: ['cold', 'hot', 'vegan', 'highlighted'] })
   key: 'cold' | 'hot' | 'vegan' | 'highlighted';
 }
 

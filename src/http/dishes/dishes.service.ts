@@ -3,6 +3,7 @@ import { PrismaService } from 'src/database/prisma/prisma.service';
 import { RequestChangePriceDTO } from './dto/request-change-price.dto';
 import { RequestCreateDishDTO } from './dto/request-create-dish.dto';
 import { formatCurrency } from 'src/lib/utils';
+import { RequestUpdateDishDTO } from './dto/request-update-dish.dto';
 
 @Injectable()
 export class DishesService {
@@ -173,7 +174,7 @@ export class DishesService {
       },
     });
 
-    if (flagged) {
+    if (flagged === 'true') {
       const dishSpec = await this.prisma.dishSpecs.findFirst({
         where: {
           key: 'highlighted',
@@ -190,6 +191,62 @@ export class DishesService {
     return dish;
   }
 
+  async update(id: string, data: RequestUpdateDishDTO) {
+    const dish = await this.prisma.dish.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!dish) {
+      throw new HttpException('Dish not found.', HttpStatus.NOT_FOUND);
+    }
+
+    const dishSpec = await this.prisma.dishSpecs.findFirst({
+      where: {
+        key: 'highlighted',
+      },
+    });
+
+    const isFlagged = await this.prisma.dishSpecsDishes.findFirst({
+      where: {
+        dishSpecsId: dishSpec.id,
+        dishId: dish.id,
+      },
+    });
+
+    if (data.flagged === 'true' && !isFlagged) {
+      await this.prisma.dishSpecsDishes.create({
+        data: {
+          dishId: dish.id,
+          dishSpecsId: dishSpec.id,
+        },
+      });
+    } else if (data.flagged === 'false' && isFlagged) {
+      await this.prisma.dishSpecsDishes.delete({
+        where: {
+          dishId_dishSpecsId: {
+            dishId: dish.id,
+            dishSpecsId: dishSpec.id,
+          },
+        },
+      });
+    }
+
+    await this.prisma.dish.update({
+      where: {
+        id,
+      },
+      data: {
+        title: data.title,
+        description: data.description,
+        prepTime: data.prepTime,
+        portion: data.portion,
+        price: Number(formatCurrency(data.price, 'to-decimal')),
+      },
+    });
+  }
+
   async delete(id: string) {
     const dishToDelete = await this.prisma.dish.findUnique({
       where: {
@@ -201,7 +258,6 @@ export class DishesService {
       throw new HttpException('Dish not found.', HttpStatus.NOT_FOUND);
     }
 
-    // const imagesDish = await this.prisma.media.findMany({
     //   where: {
     //     referenceName: 'dishes',
     //     referenceId: id,
@@ -234,5 +290,25 @@ export class DishesService {
     return {
       message: `We removed the ${dishToDelete.title} | images deleted: ${imagesDeleted} | images with error: ${imagesErrored}`,
     };
+  }
+
+  async getDishesExtras(dishId: string) {
+    const dish = await this.prisma.dish.findUnique({
+      where: {
+        id: dishId,
+      },
+    });
+
+    if (!dish) {
+      throw new HttpException('Dish not found.', HttpStatus.NOT_FOUND);
+    }
+
+    const dishExtras = await this.prisma.dishExtras.findMany({
+      where: {
+        dishId: dish.id,
+      },
+    });
+
+    return dishExtras;
   }
 }
