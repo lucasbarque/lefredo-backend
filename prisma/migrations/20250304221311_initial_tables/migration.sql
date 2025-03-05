@@ -1,6 +1,9 @@
 -- CreateEnum
 CREATE TYPE "Role" AS ENUM ('ADMIN');
 
+-- CreateEnum
+CREATE TYPE "SpecsKey" AS ENUM ('vegetarian', 'lactfree', 'vegan', 'cold', 'hot', 'organic', 'suggarfree', 'natural', 'highlighted');
+
 -- CreateTable
 CREATE TABLE "users" (
     "id" TEXT NOT NULL,
@@ -118,7 +121,8 @@ CREATE TABLE "dish_extras" (
 CREATE TABLE "dish_specs" (
     "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
-    "key" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "key" "SpecsKey" NOT NULL,
 
     CONSTRAINT "dish_specs_pkey" PRIMARY KEY ("id")
 );

@@ -7,6 +7,8 @@ import { MenusModule } from './menus/menus.module';
 import { DishesModule } from './dishes/dishes.module';
 import { RestaurantsModule } from './restaurants/restaurants.module';
 import { SectionsModule } from './sections/sections.module';
+import { DishesExtrasModule } from './dishes-extras/dishes-extras.module';
+import { DishesSpecsModule } from './dishes-specs/dishes-specs.module';
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import { SectionsModule } from './sections/sections.module';
     UsersModule,
     MenusModule,
     DishesModule,
+    DishesExtrasModule,
+    DishesSpecsModule,
     RestaurantsModule,
     SectionsModule,
   ],

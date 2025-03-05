@@ -157,10 +157,23 @@ model DishExtras {
   @@map("dish_extras")
 }
 
+enum SpecsKey {
+  vegetarian
+  lactfree
+  vegan
+  cold
+  hot
+  organic
+  suggarfree
+  natural
+  highlighted
+}
+
 model DishSpecs {
-  id    String @id @default(uuid())
-  title String
-  key   String
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  key         SpecsKey
 
   dishSpecs DishSpecsDishes[]
 

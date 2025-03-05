@@ -291,24 +291,4 @@ export class DishesService {
       message: `We removed the ${dishToDelete.title} | images deleted: ${imagesDeleted} | images with error: ${imagesErrored}`,
     };
   }
-
-  async getDishesExtras(dishId: string) {
-    const dish = await this.prisma.dish.findUnique({
-      where: {
-        id: dishId,
-      },
-    });
-
-    if (!dish) {
-      throw new HttpException('Dish not found.', HttpStatus.NOT_FOUND);
-    }
-
-    const dishExtras = await this.prisma.dishExtras.findMany({
-      where: {
-        dishId: dish.id,
-      },
-    });
-
-    return dishExtras;
-  }
 }

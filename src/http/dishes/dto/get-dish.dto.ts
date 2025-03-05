@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { DishSpecsDTO } from './dish-specs.dto';
 import { DishMediasDTO } from './dish-medias.dto';
-import { DishExtrasDTO } from './dish-extras.dto';
 import { DishFlavorsDTO } from './dish-flavors.dto';
+import { DishExtrasDTO } from 'src/http/dishes-extras/dto/dish-extras.dto';
+import { DishSpecsDTO } from 'src/http/dishes-specs/dto/dish-specs.dto';
 
 class Section {
   @ApiProperty()
