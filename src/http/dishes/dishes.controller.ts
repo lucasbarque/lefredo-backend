@@ -23,6 +23,7 @@ import { ClerkAuthGuard } from '../auth/guards/clerk-auth.guard';
 import { RequestChangePriceDTO } from './dto/request-change-price.dto';
 import { ResponseCreateDishDTO } from './dto/response-create-dish.dto';
 import { RequestUpdateDishDTO } from './dto/request-update-dish.dto';
+import { RequestUpdateDishExtrasOrderDTO } from './dto/request-update-dish-extras-order.dto';
 
 @Controller('dishes')
 export class DishesController {
@@ -118,5 +119,19 @@ export class DishesController {
   @ApiOkResponse()
   changePrice(@Param('id') id: string, @Body() data: RequestChangePriceDTO) {
     return this.dishesService.changePrice(id, data);
+  }
+
+  @Patch('update-dish-extras-order/:id')
+  @UseGuards(ClerkAuthGuard)
+  @ApiOperation({
+    summary: 'Update Dish Extras Order',
+    operationId: 'updateDishExtrasOrder',
+  })
+  @ApiOkResponse()
+  updateDishExtrasOrder(
+    @Param('id') id: string,
+    @Body() data: RequestUpdateDishExtrasOrderDTO,
+  ) {
+    return this.dishesService.updateDishExtrasOrder(id, data);
   }
 }

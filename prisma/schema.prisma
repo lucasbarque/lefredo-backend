@@ -98,8 +98,9 @@ model Dish {
   dishFlavors DishFlavors[]
   dishMedias  DishMedias[]
 
-  portion  String?
-  prepTime String?
+  portion         String?
+  prepTime        String?
+  dishExtrasOrder Json?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

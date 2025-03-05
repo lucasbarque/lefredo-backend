@@ -48,4 +48,7 @@ export class GetDishDTO {
 
   @ApiProperty({ type: [DishSpecsDTO] })
   dishSpecs: DishSpecsDTO[] | [];
+
+  @ApiProperty()
+  dishExtrasOrder?: string[] | null;
 }

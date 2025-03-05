@@ -10,20 +10,23 @@ export class DishesExtrasService {
 
   async getDishesExtras(dishId: string) {
     const dish = await this.prisma.dish.findUnique({
-      where: {
-        id: dishId,
-      },
+      where: { id: dishId },
     });
 
     if (!dish) {
       throw new HttpException('Dish not found.', HttpStatus.NOT_FOUND);
     }
 
-    return await this.prisma.dishExtras.findMany({
-      where: {
-        dishId,
-      },
+    const dishExtras = await this.prisma.dishExtras.findMany({
+      where: { dishId },
     });
+
+    const order = dish.dishExtrasOrder as string[];
+    const sortedDishExtras = order
+      .map((extraId) => dishExtras.find((extra) => extra.id === extraId))
+      .filter((extra): extra is (typeof dishExtras)[number] => Boolean(extra));
+
+    return sortedDishExtras;
   }
 
   async create(dishId: string, { title, price }: RequestCreateDishesExtraDTO) {
@@ -37,13 +40,27 @@ export class DishesExtrasService {
       throw new HttpException('Dish does not exists.', HttpStatus.NOT_FOUND);
     }
 
-    return await this.prisma.dishExtras.create({
+    const dishExtra = await this.prisma.dishExtras.create({
       data: {
         title,
         price: Number(formatCurrency(price, 'to-decimal')),
         dishId,
       },
     });
+
+    const orderUpdated = dish.dishExtrasOrder as string[];
+    orderUpdated.push(dishExtra.id);
+
+    await this.prisma.dish.update({
+      data: {
+        dishExtrasOrder: orderUpdated,
+      },
+      where: {
+        id: dishId,
+      },
+    });
+
+    return dishExtra;
   }
 
   async update(id: string, { title, price }: RequestUpdateDishesExtraDTO) {
@@ -76,6 +93,9 @@ export class DishesExtrasService {
       where: {
         id,
       },
+      include: {
+        Dish: true,
+      },
     });
 
     if (!dishesExtra) {
@@ -84,6 +104,17 @@ export class DishesExtrasService {
         HttpStatus.NOT_FOUND,
       );
     }
+    const orderItems = dishesExtra.Dish.dishExtrasOrder as string[];
+    const orderUpdated = orderItems.filter((item) => item !== dishesExtra.id);
+
+    await this.prisma.dish.update({
+      data: {
+        dishExtrasOrder: orderUpdated,
+      },
+      where: {
+        id: dishesExtra.Dish.id,
+      },
+    });
 
     return await this.prisma.dishExtras.delete({
       where: {

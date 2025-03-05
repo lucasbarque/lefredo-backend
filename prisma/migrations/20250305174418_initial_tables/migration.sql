@@ -68,6 +68,7 @@ CREATE TABLE "dishes" (
     "sectionId" TEXT NOT NULL,
     "portion" TEXT,
     "prepTime" TEXT,
+    "dishExtrasOrder" JSONB,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 

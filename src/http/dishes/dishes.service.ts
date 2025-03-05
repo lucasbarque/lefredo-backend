@@ -4,6 +4,7 @@ import { RequestChangePriceDTO } from './dto/request-change-price.dto';
 import { RequestCreateDishDTO } from './dto/request-create-dish.dto';
 import { formatCurrency } from 'src/lib/utils';
 import { RequestUpdateDishDTO } from './dto/request-update-dish.dto';
+import { RequestUpdateDishExtrasOrderDTO } from './dto/request-update-dish-extras-order.dto';
 
 @Injectable()
 export class DishesService {
@@ -290,5 +291,29 @@ export class DishesService {
     return {
       message: `We removed the ${dishToDelete.title} | images deleted: ${imagesDeleted} | images with error: ${imagesErrored}`,
     };
+  }
+
+  async updateDishExtrasOrder(
+    id: string,
+    { orderUpdated }: RequestUpdateDishExtrasOrderDTO,
+  ) {
+    const dish = await this.prisma.dish.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!dish) {
+      throw new HttpException('Dish not found.', HttpStatus.NOT_FOUND);
+    }
+
+    await this.prisma.dish.update({
+      where: {
+        id,
+      },
+      data: {
+        dishExtrasOrder: orderUpdated,
+      },
+    });
   }
 }

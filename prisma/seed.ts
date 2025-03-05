@@ -444,6 +444,10 @@ async function main() {
         portion: '30ml',
         sectionId: 'b4c05be0-13d5-42b9-b8b1-48f0331459e0',
         isActive: true,
+        dishExtrasOrder: [
+          'fede4576-bca8-4522-b300-3ad305c22730',
+          '497cb5d5-0b50-47d4-b55c-b444d486e962',
+        ],
       },
       {
         id: '742a27a6-6a2d-4f88-ac43-ed7c2dba10ac',
@@ -452,6 +456,10 @@ async function main() {
         portion: '50ml',
         sectionId: 'b4c05be0-13d5-42b9-b8b1-48f0331459e0',
         isActive: true,
+        dishExtrasOrder: [
+          'ad64474d-0d14-4ebe-8b70-12951f048914',
+          'fb5df48c-a218-40e4-8a60-cc1b0fd5323e',
+        ],
       },
       {
         id: 'ab70ead6-13b7-490b-a931-7bf6efbc76df',
@@ -460,6 +468,10 @@ async function main() {
         portion: '100ml',
         sectionId: 'b4c05be0-13d5-42b9-b8b1-48f0331459e0',
         isActive: true,
+        dishExtrasOrder: [
+          'acb1c0c1-2a80-46ee-a543-9cef27f7fbe6',
+          '8fc86d54-6021-4e63-b479-e62eb5dfdf4b',
+        ],
       },
       {
         id: '27cf589a-faf0-4795-80a8-87721f144918',
@@ -469,6 +481,10 @@ async function main() {
         portion: '50ml',
         sectionId: 'b4c05be0-13d5-42b9-b8b1-48f0331459e0',
         isActive: true,
+        dishExtrasOrder: [
+          'e8e244b8-35a4-4f8e-a87a-ed7f69d026b9',
+          'c1c6e688-844d-49ba-b2bd-34baf0f80de1',
+        ],
       },
       {
         id: 'c1ef176d-505d-4c28-9f34-7000900cdcce',
@@ -478,6 +494,10 @@ async function main() {
         portion: '100ml',
         sectionId: 'b4c05be0-13d5-42b9-b8b1-48f0331459e0',
         isActive: true,
+        dishExtrasOrder: [
+          '45deacf9-a215-49f6-9f4d-dc171cdd2d6f',
+          '75412f05-8be6-4b74-8bb8-c1f5202e7955',
+        ],
       },
       {
         id: 'e8eb127b-ad07-4258-a3b2-e8240f285d8d',
@@ -487,6 +507,10 @@ async function main() {
         portion: '180ml',
         sectionId: 'b4c05be0-13d5-42b9-b8b1-48f0331459e0',
         isActive: true,
+        dishExtrasOrder: [
+          '41808849-9369-4d84-a320-42af1df188c4',
+          '1a25429b-51f1-4f76-b6ef-bf9ea05796b2',
+        ],
       },
       {
         id: '6f2108f8-5197-4c1c-89b3-9f26ae71ea4e',
@@ -496,6 +520,10 @@ async function main() {
         portion: '180ml',
         sectionId: 'b4c05be0-13d5-42b9-b8b1-48f0331459e0',
         isActive: true,
+        dishExtrasOrder: [
+          '64e63bb6-a4f7-4864-9b01-06da2d905f41',
+          '52d5e3fd-4a77-4dda-a077-ff96747f4e42',
+        ],
       },
       {
         id: '1c095072-47ad-413e-9530-2ac82bd6a962',
@@ -505,6 +533,10 @@ async function main() {
         portion: '180ml',
         sectionId: 'b4c05be0-13d5-42b9-b8b1-48f0331459e0',
         isActive: true,
+        dishExtrasOrder: [
+          '3c6870ac-ff8a-4fb1-aa9e-ec2f0e0f9a5a',
+          'fbde8133-4331-4549-86a6-ace37b502f3c',
+        ],
       },
       {
         id: '2ee3a02a-a0e6-4e8f-b395-27261e333c1a',
@@ -515,6 +547,10 @@ async function main() {
         portion: '180ml',
         sectionId: 'b4c05be0-13d5-42b9-b8b1-48f0331459e0',
         isActive: true,
+        dishExtrasOrder: [
+          '56b08a2b-a3ee-4a3c-8ba2-46137b6b56e5',
+          'c55c2c16-6986-4aad-a04e-c17ac4948195',
+        ],
       },
       {
         id: '5fc838ca-afd7-4f4e-acfa-8298bc4dd9ea',
@@ -525,6 +561,10 @@ async function main() {
         portion: '180ml',
         sectionId: 'b4c05be0-13d5-42b9-b8b1-48f0331459e0',
         isActive: true,
+        dishExtrasOrder: [
+          '32b5a3bc-8c18-4779-b069-3765c12925b2',
+          '85d85f38-2327-4216-a807-55584fa67fda',
+        ],
       },
       {
         id: 'e10245da-5699-4355-b783-9455728227a0',
@@ -535,6 +575,10 @@ async function main() {
         portion: '180ml',
         sectionId: 'b4c05be0-13d5-42b9-b8b1-48f0331459e0',
         isActive: true,
+        dishExtrasOrder: [
+          'db62fb2a-f761-4050-b2c2-b2f1638a77fa',
+          '6e96956a-d213-430d-a4f6-fd07c517c6c3',
+        ],
       },
       {
         id: '711d1c6c-35c3-4a7e-b418-2e31503a9de9',
@@ -544,6 +588,10 @@ async function main() {
         portion: '180ml',
         sectionId: 'b4c05be0-13d5-42b9-b8b1-48f0331459e0',
         isActive: true,
+        dishExtrasOrder: [
+          '2c7435e1-74cb-45c3-8ec6-cf76f658e98e',
+          '640da291-ab7a-45a1-b93b-06324ca6bef6',
+        ],
       },
       {
         id: '68c85fb2-7a3a-4842-b671-7fcb264da31a',
