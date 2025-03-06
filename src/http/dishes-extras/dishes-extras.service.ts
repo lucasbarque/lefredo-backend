@@ -48,6 +48,9 @@ export class DishesExtrasService {
       throw new HttpException('Dish does not exists.', HttpStatus.NOT_FOUND);
     }
 
+    console.log(price);
+    console.log(formatCurrency(price, 'to-decimal'));
+
     const dishExtra = await this.prisma.dishExtras.create({
       data: {
         title,

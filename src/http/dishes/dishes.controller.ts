@@ -24,6 +24,7 @@ import { RequestChangePriceDTO } from './dto/request-change-price.dto';
 import { ResponseCreateDishDTO } from './dto/response-create-dish.dto';
 import { RequestUpdateDishDTO } from './dto/request-update-dish.dto';
 import { RequestUpdateDishExtrasOrderDTO } from './dto/request-update-dish-extras-order.dto';
+import { RequestUpdateDishFlavorsOrderDTO } from './dto/request-update-dish-flavors-order.dto';
 
 @Controller('dishes')
 export class DishesController {
@@ -133,5 +134,19 @@ export class DishesController {
     @Body() data: RequestUpdateDishExtrasOrderDTO,
   ) {
     return this.dishesService.updateDishExtrasOrder(id, data);
+  }
+
+  @Patch('update-dish-flavors-order/:id')
+  @UseGuards(ClerkAuthGuard)
+  @ApiOperation({
+    summary: 'Update Dish Flavors Order',
+    operationId: 'updateDishFlavorsOrder',
+  })
+  @ApiOkResponse()
+  updateDishFlavorsOrder(
+    @Param('id') id: string,
+    @Body() data: RequestUpdateDishFlavorsOrderDTO,
+  ) {
+    return this.dishesService.updateDishFlavorsOrder(id, data);
   }
 }

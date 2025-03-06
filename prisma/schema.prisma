@@ -114,7 +114,7 @@ model DishFlavors {
   title       String
   label       String
   description String?
-  price       BigInt?
+  price       Int?
 
   Dish   Dish?   @relation(fields: [dishId], references: [id])
   dishId String?

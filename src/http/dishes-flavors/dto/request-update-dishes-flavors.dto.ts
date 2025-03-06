@@ -10,5 +10,13 @@ export class RequestUpdateDishesFlavorsDTO {
   @IsString()
   @IsNotEmpty()
   @ApiProperty()
-  price: string;
+  label: string;
+
+  @IsString()
+  @ApiProperty({ nullable: true })
+  price: string | null;
+
+  @IsString()
+  @ApiProperty()
+  description: string | null;
 }

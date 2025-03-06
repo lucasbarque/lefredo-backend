@@ -5,6 +5,7 @@ import { RequestCreateDishDTO } from './dto/request-create-dish.dto';
 import { formatCurrency } from 'src/lib/utils';
 import { RequestUpdateDishDTO } from './dto/request-update-dish.dto';
 import { RequestUpdateDishExtrasOrderDTO } from './dto/request-update-dish-extras-order.dto';
+import { RequestUpdateDishFlavorsOrderDTO } from './dto/request-update-dish-flavors-order.dto';
 
 @Injectable()
 export class DishesService {
@@ -313,6 +314,30 @@ export class DishesService {
       },
       data: {
         dishExtrasOrder: orderUpdated,
+      },
+    });
+  }
+
+  async updateDishFlavorsOrder(
+    id: string,
+    { orderUpdated }: RequestUpdateDishFlavorsOrderDTO,
+  ) {
+    const dish = await this.prisma.dish.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!dish) {
+      throw new HttpException('Dish not found.', HttpStatus.NOT_FOUND);
+    }
+
+    await this.prisma.dish.update({
+      where: {
+        id,
+      },
+      data: {
+        dishFlavorsOrder: orderUpdated,
       },
     });
   }

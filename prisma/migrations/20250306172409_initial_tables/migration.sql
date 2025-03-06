@@ -82,7 +82,7 @@ CREATE TABLE "dish_flavors" (
     "title" TEXT NOT NULL,
     "label" TEXT NOT NULL,
     "description" TEXT,
-    "price" BIGINT,
+    "price" INTEGER,
     "dishId" TEXT,
 
     CONSTRAINT "dish_flavors_pkey" PRIMARY KEY ("id")

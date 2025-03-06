@@ -1,8 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma/prisma.service';
-// import { formatCurrency } from 'src/lib/utils';
-// import { RequestCreateDishesFlavorsDTO } from './dto/request-create-dishes-flavors.dto';
-// import { RequestUpdateDishesFlavorsDTO } from './dto/request-update-dishes-flavors.dto';
+import { formatCurrency } from 'src/lib/utils';
+import { RequestCreateDishesFlavorsDTO } from './dto/request-create-dishes-flavors.dto';
+import { RequestUpdateDishesFlavorsDTO } from './dto/request-update-dishes-flavors.dto';
 
 @Injectable()
 export class DishesFlavorsService {
@@ -19,6 +19,9 @@ export class DishesFlavorsService {
 
     const dishFlavors = await this.prisma.dishFlavors.findMany({
       where: { dishId },
+      include: {
+        dishFlavorsMedias: true,
+      },
     });
 
     const order = dish.dishFlavorsOrder as string[] | null;
@@ -37,101 +40,108 @@ export class DishesFlavorsService {
     return sortedDishFlavors;
   }
 
-  // async create(dishId: string, { title, price }: RequestCreateDishesFlavorsDTO) {
-  //   const dish = await this.prisma.dish.findFirst({
-  //     where: {
-  //       id: dishId,
-  //     },
-  //   });
+  async create(
+    dishId: string,
+    { title, price, label, description }: RequestCreateDishesFlavorsDTO,
+  ) {
+    const dish = await this.prisma.dish.findFirst({
+      where: {
+        id: dishId,
+      },
+    });
 
-  //   if (!dish) {
-  //     throw new HttpException('Dish does not exists.', HttpStatus.NOT_FOUND);
-  //   }
+    if (!dish) {
+      throw new HttpException('Dish does not exists.', HttpStatus.NOT_FOUND);
+    }
 
-  //   const dishFlavors = await this.prisma.dishFlavors.create({
-  //     data: {
-  //       title,
-  //       price: Number(formatCurrency(price, 'to-decimal')),
-  //       dishId,
-  //     },
-  //   });
+    console.log(formatCurrency(price, 'to-decimal'));
 
-  //   let orderUpdated = dish.dishFlavorsOrder as string[] | null;
-  //   if (orderUpdated === null) {
-  //     orderUpdated = [dishFlavors.id];
-  //   } else {
-  //     orderUpdated.push(dishFlavors.id);
-  //   }
+    const dishFlavors = await this.prisma.dishFlavors.create({
+      data: {
+        title,
+        label,
+        price: Number(formatCurrency(price, 'to-decimal')) || null,
+        description,
+        dishId,
+      },
+    });
 
-  //   await this.prisma.dish.update({
-  //     data: {
-  //       dishFlavorsOrder: orderUpdated,
-  //     },
-  //     where: {
-  //       id: dishId,
-  //     },
-  //   });
+    let orderUpdated = dish.dishFlavorsOrder as string[] | null;
+    if (orderUpdated === null) {
+      orderUpdated = [dishFlavors.id];
+    } else {
+      orderUpdated.push(dishFlavors.id);
+    }
 
-  //   return dishFlavors;
-  // }
+    await this.prisma.dish.update({
+      data: {
+        dishFlavorsOrder: orderUpdated,
+      },
+      where: {
+        id: dishId,
+      },
+    });
 
-  // async update(id: string, { title, price }: RequestUpdateDishesFlavorsDTO) {
-  //   const dishFlavors = await this.prisma.dishFlavors.findFirst({
-  //     where: {
-  //       id,
-  //     },
-  //   });
+    return dishFlavors;
+  }
 
-  //   if (!dishFlavors) {
-  //     throw new HttpException(
-  //       'Dish Flavors does not exists.',
-  //       HttpStatus.NOT_FOUND,
-  //     );
-  //   }
+  async update(id: string, { title, price }: RequestUpdateDishesFlavorsDTO) {
+    const dishFlavors = await this.prisma.dishFlavors.findFirst({
+      where: {
+        id,
+      },
+    });
 
-  //   return await this.prisma.dishFlavors.update({
-  //     data: {
-  //       title,
-  //       price: Number(formatCurrency(price, 'to-decimal')),
-  //     },
-  //     where: {
-  //       id: dishFlavors.id,
-  //     },
-  //   });
-  // }
+    if (!dishFlavors) {
+      throw new HttpException(
+        'Dish Flavors does not exists.',
+        HttpStatus.NOT_FOUND,
+      );
+    }
 
-  // async delete(id: string) {
-  //   const dishesFlavors = await this.prisma.dishFlavors.findFirst({
-  //     where: {
-  //       id,
-  //     },
-  //     include: {
-  //       Dish: true,
-  //     },
-  //   });
+    return await this.prisma.dishFlavors.update({
+      data: {
+        title,
+        price: Number(formatCurrency(price, 'to-decimal')) || null,
+      },
+      where: {
+        id: dishFlavors.id,
+      },
+    });
+  }
 
-  //   if (!dishesFlavors) {
-  //     throw new HttpException(
-  //       'DishesFlavors does not exists.',
-  //       HttpStatus.NOT_FOUND,
-  //     );
-  //   }
-  //   const orderItems = dishesFlavors.Dish.dishFlavorsOrder as string[];
-  //   const orderUpdated = orderItems.filter((item) => item !== dishesFlavors.id);
+  async delete(id: string) {
+    const dishesFlavors = await this.prisma.dishFlavors.findFirst({
+      where: {
+        id,
+      },
+      include: {
+        Dish: true,
+      },
+    });
 
-  //   await this.prisma.dish.update({
-  //     data: {
-  //       dishFlavorsOrder: orderUpdated,
-  //     },
-  //     where: {
-  //       id: dishesFlavors.Dish.id,
-  //     },
-  //   });
+    if (!dishesFlavors) {
+      throw new HttpException(
+        'DishesFlavors does not exists.',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    const orderItems = dishesFlavors.Dish.dishFlavorsOrder as string[];
+    const orderUpdated = orderItems.filter((item) => item !== dishesFlavors.id);
 
-  //   return await this.prisma.dishFlavors.delete({
-  //     where: {
-  //       id,
-  //     },
-  //   });
-  // }
+    await this.prisma.dish.update({
+      data: {
+        dishFlavorsOrder: orderUpdated,
+      },
+      where: {
+        id: dishesFlavors.Dish.id,
+      },
+    });
+
+    return await this.prisma.dishFlavors.delete({
+      where: {
+        id,
+      },
+    });
+  }
 }
