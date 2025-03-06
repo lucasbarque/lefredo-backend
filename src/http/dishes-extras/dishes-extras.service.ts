@@ -21,10 +21,18 @@ export class DishesExtrasService {
       where: { dishId },
     });
 
-    const order = dish.dishExtrasOrder as string[];
-    const sortedDishExtras = order
-      .map((extraId) => dishExtras.find((extra) => extra.id === extraId))
-      .filter((extra): extra is (typeof dishExtras)[number] => Boolean(extra));
+    const order = dish.dishExtrasOrder as string[] | null;
+
+    let sortedDishExtras;
+    if (order !== null) {
+      sortedDishExtras = order
+        .map((extraId) => dishExtras.find((extra) => extra.id === extraId))
+        .filter((extra): extra is (typeof dishExtras)[number] =>
+          Boolean(extra),
+        );
+    } else {
+      sortedDishExtras = order;
+    }
 
     return sortedDishExtras;
   }
@@ -48,8 +56,12 @@ export class DishesExtrasService {
       },
     });
 
-    const orderUpdated = dish.dishExtrasOrder as string[];
-    orderUpdated.push(dishExtra.id);
+    let orderUpdated = dish.dishExtrasOrder as string[] | null;
+    if (orderUpdated === null) {
+      orderUpdated = [dishExtra.id];
+    } else {
+      orderUpdated.push(dishExtra.id);
+    }
 
     await this.prisma.dish.update({
       data: {

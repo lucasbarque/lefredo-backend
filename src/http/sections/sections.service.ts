@@ -160,7 +160,11 @@ export class SectionsService {
         id,
       },
       include: {
-        Dish: true,
+        Dish: {
+          where: {
+            isActive: true,
+          },
+        },
       },
     });
 
@@ -170,7 +174,7 @@ export class SectionsService {
 
     if (section.isActive === false && section.Dish.length === 0)
       throw new HttpException(
-        'Failed to activate section without dishes.',
+        'Failed to activate section without activated dishes.',
         HttpStatus.PRECONDITION_REQUIRED,
       );
 

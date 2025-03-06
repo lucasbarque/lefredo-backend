@@ -190,6 +190,11 @@ async function main() {
         portion: '01 unidade',
         sectionId: '73607a24-9af4-4cd5-ada7-6fd4b7d7450d',
         isActive: true,
+        dishFlavorsOrder: [
+          '17cbf6d7-e729-4dfb-9c14-f9a4b26f8818',
+          'eb5f7b6b-6ebf-44e4-9ace-f2e8ffa815fb',
+          '849229e1-5c3c-48ae-bf80-b59b1b94a230',
+        ],
       },
       {
         id: '94f506f7-5c6f-44d7-8d88-a28494fb158b',
@@ -298,6 +303,10 @@ async function main() {
         portion: 'pet 500ml',
         sectionId: 'cb7d968a-3885-445b-897a-71bf5fc8d6d4',
         isActive: true,
+        dishFlavorsOrder: [
+          'fb73e873-1e26-401c-99d8-c002b6b478ba',
+          'bddaa644-b572-403f-ad4a-986b1aaefbf6',
+        ],
       },
       {
         id: '79a73421-67b6-409c-839a-f3e1231fb26e',
@@ -600,6 +609,12 @@ async function main() {
         portion: '01 unidade',
         sectionId: '28adc859-8197-4a6c-8322-028d376dfe9b',
         isActive: true,
+        dishFlavorsOrder: [
+          '46936738-c739-4cf6-8e43-8b54c8086ef3',
+          '489c3e33-59d1-43ea-9b99-960f6cf87ede',
+          'd72b172d-7a2d-4b0f-bf1e-688e822adfb5',
+          '3304d3bd-88d6-41d4-bc7c-3b6178116e90',
+        ],
       },
       {
         id: '92752ed2-d9d8-448a-ab31-13d90a6dee09',
@@ -685,6 +700,11 @@ async function main() {
         portion: '01 unidade',
         sectionId: '28adc859-8197-4a6c-8322-028d376dfe9b',
         isActive: true,
+        dishFlavorsOrder: [
+          '3d528ee0-b898-4309-9b02-6554a0679765',
+          'd5587961-0085-428c-8167-7b7573ac60b2',
+          'f4364d80-4b65-4f33-a30b-2b6255d493de',
+        ],
       },
       {
         id: 'b6a678cf-121a-4536-a154-1f94da3be777',
@@ -702,6 +722,14 @@ async function main() {
         portion: 'cada 100g',
         sectionId: '28adc859-8197-4a6c-8322-028d376dfe9b',
         isActive: true,
+        dishFlavorsOrder: [
+          '4dd827dc-37b5-4f62-922d-113315bf4079',
+          '0e42a5f4-77ef-4033-8336-448af024eb23',
+          '9f0f8e39-0d8a-42ad-950b-83cf5d7409df',
+          'bcd254ea-cc71-410f-9aee-22d97ef0eb3e',
+          'b64e8fba-4199-439d-9d06-c9e1293d56b0',
+          'a7a1facd-7fc7-4cf8-bf0a-1ced878cf806',
+        ],
       },
       {
         id: 'b05f2bb2-970b-482f-be2c-e96c791fedde',
@@ -750,6 +778,10 @@ async function main() {
         portion: '01 unidade',
         sectionId: '28adc859-8197-4a6c-8322-028d376dfe9b',
         isActive: true,
+        dishFlavorsOrder: [
+          'b035d177-8e14-4446-be62-7ef191d5a641',
+          'ee5f268f-2a3b-44d6-b19e-fc57b27adbeb',
+        ],
       },
       {
         id: '79163115-b14e-4d57-92a1-87e5d8091554',

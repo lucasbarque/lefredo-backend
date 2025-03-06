@@ -69,6 +69,7 @@ CREATE TABLE "dishes" (
     "portion" TEXT,
     "prepTime" TEXT,
     "dishExtrasOrder" JSONB,
+    "dishFlavorsOrder" JSONB,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -81,6 +82,7 @@ CREATE TABLE "dish_flavors" (
     "title" TEXT NOT NULL,
     "label" TEXT NOT NULL,
     "description" TEXT,
+    "price" BIGINT,
     "dishId" TEXT,
 
     CONSTRAINT "dish_flavors_pkey" PRIMARY KEY ("id")

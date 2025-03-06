@@ -98,9 +98,10 @@ model Dish {
   dishFlavors DishFlavors[]
   dishMedias  DishMedias[]
 
-  portion         String?
-  prepTime        String?
-  dishExtrasOrder Json?
+  portion          String?
+  prepTime         String?
+  dishExtrasOrder  Json?
+  dishFlavorsOrder Json?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -113,6 +114,7 @@ model DishFlavors {
   title       String
   label       String
   description String?
+  price       BigInt?
 
   Dish   Dish?   @relation(fields: [dishId], references: [id])
   dishId String?
