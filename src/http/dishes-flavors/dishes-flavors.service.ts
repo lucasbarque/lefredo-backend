@@ -3,6 +3,7 @@ import { PrismaService } from 'src/database/prisma/prisma.service';
 import { formatCurrency } from 'src/lib/utils';
 import { RequestCreateDishesFlavorsDTO } from './dto/request-create-dishes-flavors.dto';
 import { RequestUpdateDishesFlavorsDTO } from './dto/request-update-dishes-flavors.dto';
+import { extname } from 'path';
 
 @Injectable()
 export class DishesFlavorsService {
@@ -145,5 +146,39 @@ export class DishesFlavorsService {
         id,
       },
     });
+  }
+
+  async uploadImage(id: string, file: Express.Multer.File) {
+    const dishFlavor = await this.prisma.dishFlavors.findFirst({
+      where: {
+        id,
+      },
+    });
+
+    if (!dishFlavor) {
+      throw new HttpException('DishFlavor not found.', HttpStatus.NOT_FOUND);
+    }
+
+    // const dishFlavorMedia = await this.prisma.dishFlavorsMedias.create({
+    //   data: {
+    //     dishFlavorId: dishFlavor.id,
+    //     url: filename,
+    //     title: 'titel',
+    //   }
+    // })
+
+    // const filename = `dish-flavors/${restaurant.id + extname(file.originalname)}`;
+    // await this.s3Service.uploadFile(file.buffer, filename, file.mimetype);
+
+    // const restaurantUpdated = await this.prisma.restaurant.update({
+    //   data: {
+    //     logo: filename,
+    //   },
+    //   where: {
+    //     id,
+    //   },
+    // });
+
+    // return { logo: restaurantUpdated.logo };
   }
 }

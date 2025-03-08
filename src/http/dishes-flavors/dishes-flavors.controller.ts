@@ -4,12 +4,17 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Put,
+  UploadedFile,
+  UploadedFiles,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { DishesFlavorsService } from './dishes-flavors.service';
 import {
+  ApiConsumes,
   ApiCreatedResponse,
   ApiOkResponse,
   ApiOperation,
@@ -19,6 +24,9 @@ import { ResponseCreateDishesFlavorsDTO } from './dto/response-create-dishes-fla
 import { RequestCreateDishesFlavorsDTO } from './dto/request-create-dishes-flavors.dto';
 import { RequestUpdateDishesFlavorsDTO } from './dto/request-update-dishes-flavors.dto';
 import { DishFlavorsDTO } from './dto/dish-flavors.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { memoryStorage } from 'multer';
+import { imageFileFilter } from '../medias/medias.utils';
 
 @Controller('dishes-flavors')
 export class DishesFlavorsController {
@@ -71,5 +79,29 @@ export class DishesFlavorsController {
   @ApiOkResponse()
   delete(@Param('id') id: string) {
     return this.dishesFlavorsService.delete(id);
+  }
+
+  @UseGuards(ClerkAuthGuard)
+  @Patch('/:id/upload-image')
+  @ApiOperation({
+    summary: 'Upload dish flavor image',
+    operationId: 'uploadDishFlavorImage',
+  })
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: memoryStorage(),
+      fileFilter: imageFileFilter,
+    }),
+  )
+  // @ApiOkResponse({
+  //   type: ChangeLogoResponseDTO,
+  // })
+  uploadImage(
+    @Param('id') id: string,
+    // @Body() body: ChangeLogoDTO,
+    @UploadedFile() files: Express.Multer.File,
+  ) {
+    return this.dishesFlavorsService.uploadImage(id, files);
   }
 }
