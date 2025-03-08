@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class RequestCreateDishesFlavorsDTO {
   @IsString()
@@ -13,10 +13,12 @@ export class RequestCreateDishesFlavorsDTO {
   label: string;
 
   @IsString()
+  @IsOptional()
   @ApiProperty({ nullable: true })
   price: string | null;
 
   @IsString()
-  @ApiProperty()
+  @IsOptional()
+  @ApiProperty({ nullable: true })
   description: string | null;
 }

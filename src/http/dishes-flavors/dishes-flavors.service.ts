@@ -54,8 +54,6 @@ export class DishesFlavorsService {
       throw new HttpException('Dish does not exists.', HttpStatus.NOT_FOUND);
     }
 
-    console.log(formatCurrency(price, 'to-decimal'));
-
     const dishFlavors = await this.prisma.dishFlavors.create({
       data: {
         title,
@@ -85,7 +83,10 @@ export class DishesFlavorsService {
     return dishFlavors;
   }
 
-  async update(id: string, { title, price }: RequestUpdateDishesFlavorsDTO) {
+  async update(
+    id: string,
+    { title, price, description }: RequestUpdateDishesFlavorsDTO,
+  ) {
     const dishFlavors = await this.prisma.dishFlavors.findFirst({
       where: {
         id,
@@ -103,6 +104,7 @@ export class DishesFlavorsService {
       data: {
         title,
         price: Number(formatCurrency(price, 'to-decimal')) || null,
+        description,
       },
       where: {
         id: dishFlavors.id,
