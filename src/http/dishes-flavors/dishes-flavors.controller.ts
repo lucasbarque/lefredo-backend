@@ -27,6 +27,8 @@ import { DishFlavorsDTO } from './dto/dish-flavors.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
 import { imageFileFilter } from '../medias/medias.utils';
+import { RequestUploadDishFlavorImageDTO } from './dto/request-upload-dish-flavor-image';
+import { ResponseUploadDishFlavorImageDTO } from './dto/response-upload-dish-flavor-image.dto';
 
 @Controller('dishes-flavors')
 export class DishesFlavorsController {
@@ -94,14 +96,23 @@ export class DishesFlavorsController {
       fileFilter: imageFileFilter,
     }),
   )
-  // @ApiOkResponse({
-  //   type: ChangeLogoResponseDTO,
-  // })
+  @ApiOkResponse({
+    type: ResponseUploadDishFlavorImageDTO,
+  })
   uploadImage(
     @Param('id') id: string,
-    // @Body() body: ChangeLogoDTO,
+    @Body() _: RequestUploadDishFlavorImageDTO,
     @UploadedFile() files: Express.Multer.File,
   ) {
     return this.dishesFlavorsService.uploadImage(id, files);
+  }
+
+  @Delete('/delete-image/:id')
+  @ApiOperation({
+    summary: 'Delete Dish Flavor Media image',
+    operationId: 'deleteDishFlavorMediaImage',
+  })
+  deleteImage(@Param('id') id: string) {
+    return this.dishesFlavorsService.deleteImage(id);
   }
 }

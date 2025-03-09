@@ -102,7 +102,7 @@ CREATE TABLE "dish_medias" (
 CREATE TABLE "dish_flavors_medias" (
     "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
-    "url" TEXT NOT NULL,
+    "url" TEXT,
     "dishFlavorId" TEXT,
 
     CONSTRAINT "dish_flavors_medias_pkey" PRIMARY KEY ("id")

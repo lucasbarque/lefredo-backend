@@ -136,9 +136,9 @@ model DishMedias {
 }
 
 model DishFlavorsMedias {
-  id    String @id @default(uuid())
+  id    String  @id @default(uuid())
   title String
-  url   String
+  url   String?
 
   DishFlavors  DishFlavors? @relation(fields: [dishFlavorId], references: [id])
   dishFlavorId String?

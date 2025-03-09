@@ -1,13 +1,17 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma/prisma.service';
-import { formatCurrency } from 'src/lib/utils';
+import { formatCurrency, slugify } from 'src/lib/utils';
 import { RequestCreateDishesFlavorsDTO } from './dto/request-create-dishes-flavors.dto';
 import { RequestUpdateDishesFlavorsDTO } from './dto/request-update-dishes-flavors.dto';
 import { extname } from 'path';
+import { S3Service } from '../medias/s3.service';
 
 @Injectable()
 export class DishesFlavorsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private s3Service: S3Service,
+  ) {}
 
   async getDishesFlavors(dishId: string) {
     const dish = await this.prisma.dish.findUnique({
@@ -159,26 +163,82 @@ export class DishesFlavorsService {
       throw new HttpException('DishFlavor not found.', HttpStatus.NOT_FOUND);
     }
 
-    // const dishFlavorMedia = await this.prisma.dishFlavorsMedias.create({
-    //   data: {
-    //     dishFlavorId: dishFlavor.id,
-    //     url: filename,
-    //     title: 'titel',
-    //   }
-    // })
+    const mediasCount = await this.prisma.dishFlavorsMedias.count({
+      where: {
+        dishFlavorId: dishFlavor.id,
+        url: {
+          not: null,
+        },
+      },
+    });
 
-    // const filename = `dish-flavors/${restaurant.id + extname(file.originalname)}`;
-    // await this.s3Service.uploadFile(file.buffer, filename, file.mimetype);
+    if (mediasCount === 3)
+      throw new HttpException(
+        'It is only permitted to upload some 3 images',
+        HttpStatus.CONFLICT,
+      );
 
-    // const restaurantUpdated = await this.prisma.restaurant.update({
-    //   data: {
-    //     logo: filename,
-    //   },
-    //   where: {
-    //     id,
-    //   },
-    // });
+    const dishFlavorMedia = await this.prisma.dishFlavorsMedias.create({
+      data: {
+        dishFlavorId: dishFlavor.id,
+        title: slugify(dishFlavor.title) + '-' + (mediasCount + 1),
+      },
+    });
 
-    // return { logo: restaurantUpdated.logo };
+    try {
+      const filename = `dish-flavors/${dishFlavorMedia.id + extname(file.originalname)}`;
+      await this.s3Service.uploadFile(file.buffer, filename, file.mimetype);
+
+      const dishFlavorMediaUploaded =
+        await this.prisma.dishFlavorsMedias.update({
+          data: {
+            url: filename,
+          },
+          where: {
+            id: dishFlavorMedia.id,
+          },
+        });
+      return dishFlavorMediaUploaded;
+    } catch (error) {
+      await this.prisma.dishFlavorsMedias.delete({
+        where: {
+          id: dishFlavorMedia.id,
+        },
+      });
+      throw new HttpException(
+        'Failed to upload image.',
+        HttpStatus.SERVICE_UNAVAILABLE,
+      );
+    }
+  }
+
+  async deleteImage(id: string) {
+    const dishFlavorMediaId = await this.prisma.dishFlavorsMedias.findFirst({
+      where: {
+        id,
+      },
+    });
+
+    if (!dishFlavorMediaId) {
+      throw new HttpException(
+        'DishFlavorMedia not found.',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    try {
+      await this.s3Service.deleteFile(dishFlavorMediaId.url);
+
+      await this.prisma.dishFlavorsMedias.delete({
+        where: {
+          id,
+        },
+      });
+    } catch (error) {
+      throw new HttpException(
+        'Failed to delete image.',
+        HttpStatus.SERVICE_UNAVAILABLE,
+      );
+    }
   }
 }
