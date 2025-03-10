@@ -1,8 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma/prisma.service';
 import { formatCurrency } from 'src/lib/utils';
-import { RequestCreateDishesExtraDTO } from './dto/request-create-dishes-extra.dto';
-import { RequestUpdateDishesExtraDTO } from './dto/request-update-dishes-extra.dto';
+import { RequestCreateDishExtraDTO, RequestUpdateDishExtraDTO } from './dto';
 
 @Injectable()
 export class DishesExtrasService {
@@ -37,7 +36,7 @@ export class DishesExtrasService {
     return sortedDishExtras;
   }
 
-  async create(dishId: string, { title, price }: RequestCreateDishesExtraDTO) {
+  async create(dishId: string, { title, price }: RequestCreateDishExtraDTO) {
     const dish = await this.prisma.dish.findFirst({
       where: {
         id: dishId,
@@ -47,9 +46,6 @@ export class DishesExtrasService {
     if (!dish) {
       throw new HttpException('Dish does not exists.', HttpStatus.NOT_FOUND);
     }
-
-    console.log(price);
-    console.log(formatCurrency(price, 'to-decimal'));
 
     const dishExtra = await this.prisma.dishExtras.create({
       data: {
@@ -78,7 +74,7 @@ export class DishesExtrasService {
     return dishExtra;
   }
 
-  async update(id: string, { title, price }: RequestUpdateDishesExtraDTO) {
+  async update(id: string, { title, price }: RequestUpdateDishExtraDTO) {
     const dishExtra = await this.prisma.dishExtras.findFirst({
       where: {
         id,

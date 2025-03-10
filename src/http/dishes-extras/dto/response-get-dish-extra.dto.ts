@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class ResponseGetDishesExtraDTO {
+export class ResponseGetDishExtraDTO {
   @ApiProperty()
   id: string;
 

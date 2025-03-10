@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { DishMediasDTO } from './dish-medias.dto';
-import { DishExtrasDTO } from 'src/http/dishes-extras/dto/dish-extras.dto';
 import { DishSpecsDTO } from 'src/http/dishes-specs/dto/dish-specs.dto';
 import { DishFlavorsDTO } from 'src/http/dishes-flavors/dto/dish-flavors.dto';
 import { SectionDTO } from 'src/http/sections/dto/section-dto';
+import { DishExtraDTO } from 'src/http/dishes-extras/dto';
 
 export class DishDTO {
   @ApiProperty()
@@ -27,8 +27,8 @@ export class DishDTO {
   @ApiProperty({ type: SectionDTO })
   section: SectionDTO;
 
-  @ApiProperty({ type: [DishExtrasDTO] })
-  dishExtras: DishExtrasDTO[] | [];
+  @ApiProperty({ type: [DishExtraDTO] })
+  dishExtras: DishExtraDTO[] | [];
 
   @ApiProperty({ type: [DishFlavorsDTO] })
   dishFlavors: DishFlavorsDTO[] | [];

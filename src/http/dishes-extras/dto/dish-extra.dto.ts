@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class ResponseCreateDishesExtraDTO {
+export class DishExtraDTO {
   @ApiProperty()
   id: string;
 
@@ -9,7 +9,4 @@ export class ResponseCreateDishesExtraDTO {
 
   @ApiProperty()
   price: number;
-
-  @ApiProperty()
-  dishId: string;
 }
