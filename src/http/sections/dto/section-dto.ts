@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class GetSectionsDTO {
+export class SectionDTO {
   @ApiProperty()
   id: string;
 

@@ -17,11 +17,11 @@ import {
   ApiOkResponse,
   ApiOperation,
 } from '@nestjs/swagger';
-import { GetSectionsDTO } from './dto/get-section-dto';
 import { ClerkAuthGuard } from '../auth/guards/clerk-auth.guard';
 import { ResponseGetSectionsWithItemsDTO } from './dto/response-get-sections-with-items.dto';
 import { ResponseGetSectionByIdDTO } from './dto/response-get-section-by-id.dto';
 import { RequestUpdateSectionDTO } from './dto/request-update-section.dto';
+import { SectionDTO } from './dto/section-dto';
 
 @Controller('sections')
 export class SectionsController {
@@ -33,7 +33,7 @@ export class SectionsController {
     operationId: 'getSections',
   })
   @ApiOkResponse({
-    type: GetSectionsDTO,
+    type: SectionDTO,
     isArray: true,
   })
   list(@Query('menuId') menuId: string) {

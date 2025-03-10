@@ -26,14 +26,14 @@ import { memoryStorage } from 'multer';
 import { imageFileFilter } from '../medias/medias.utils';
 
 import {
-  GetDishDTO,
-  GetDishesDTO,
+  DishDTO,
   RequestChangePriceDTO,
   RequestUpdateDishDTO,
   RequestUpdateDishExtrasOrderDTO,
   RequestUpdateDishFlavorsOrderDTO,
   RequestUploadDishImageDTO,
   ResponseCreateDishDTO,
+  ResponseGetDishesDTO,
   ResponseUploadDishImageDTO,
 } from './dto';
 
@@ -47,7 +47,7 @@ export class DishesController {
     operationId: 'getDishById',
   })
   @ApiOkResponse({
-    type: GetDishDTO,
+    type: DishDTO,
   })
   getById(@Param('id') dishId: string) {
     return this.dishesService.getById(dishId);
@@ -59,7 +59,7 @@ export class DishesController {
     operationId: 'getDishesBySectionId',
   })
   @ApiOkResponse({
-    type: GetDishesDTO,
+    type: ResponseGetDishesDTO,
     isArray: true,
   })
   getBySectionId(@Query('sectionId') sectionId: string) {
@@ -72,7 +72,7 @@ export class DishesController {
     operationId: 'getDishesBySlug',
   })
   @ApiOkResponse({
-    type: GetDishesDTO,
+    type: ResponseGetDishesDTO,
     isArray: true,
   })
   getBySlug(@Param('slug') slug: string) {
@@ -102,6 +102,7 @@ export class DishesController {
   }
 
   @Delete(':id')
+  @UseGuards(ClerkAuthGuard)
   @ApiOperation({
     summary: 'Delete dish',
     operationId: 'deleteDish',
@@ -161,8 +162,8 @@ export class DishesController {
     return this.dishesService.updateDishFlavorsOrder(id, data);
   }
 
-  @UseGuards(ClerkAuthGuard)
   @Patch('/:id/upload-image')
+  @UseGuards(ClerkAuthGuard)
   @ApiOperation({
     summary: 'Upload dish image',
     operationId: 'uploadDishImage',
@@ -186,6 +187,7 @@ export class DishesController {
   }
 
   @Delete('/delete-image/:id')
+  @UseGuards(ClerkAuthGuard)
   @ApiOperation({
     summary: 'Delete Dish image',
     operationId: 'deleteDishImage',

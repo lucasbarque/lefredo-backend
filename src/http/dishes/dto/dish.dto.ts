@@ -3,19 +3,9 @@ import { DishMediasDTO } from './dish-medias.dto';
 import { DishExtrasDTO } from 'src/http/dishes-extras/dto/dish-extras.dto';
 import { DishSpecsDTO } from 'src/http/dishes-specs/dto/dish-specs.dto';
 import { DishFlavorsDTO } from 'src/http/dishes-flavors/dto/dish-flavors.dto';
+import { SectionDTO } from 'src/http/sections/dto/section-dto';
 
-class Section {
-  @ApiProperty()
-  id: string;
-
-  @ApiProperty()
-  title: string;
-
-  @ApiProperty()
-  description: string | null;
-}
-
-export class GetDishDTO {
+export class DishDTO {
   @ApiProperty()
   id: string;
 
@@ -34,8 +24,8 @@ export class GetDishDTO {
   @ApiProperty()
   prepTime: string | null;
 
-  @ApiProperty({ type: Section })
-  section: Section;
+  @ApiProperty({ type: SectionDTO })
+  section: SectionDTO;
 
   @ApiProperty({ type: [DishExtrasDTO] })
   dishExtras: DishExtrasDTO[] | [];
