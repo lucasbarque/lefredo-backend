@@ -20,6 +20,7 @@ export class DishesService {
     const dish = await this.prisma.dish.findUnique({
       where: {
         id: dishId,
+        isActive: true,
       },
       include: {
         section: true,
@@ -42,19 +43,39 @@ export class DishesService {
       throw new HttpException('Dish not found.', HttpStatus.NOT_FOUND);
     }
 
-    let medias;
-    if (dish.dishFlavors.length > 0) {
+    const orderExtras = dish.dishExtrasOrder as string[] | null;
+    let sortedDishExtras;
+    if (orderExtras !== null) {
+      sortedDishExtras = orderExtras
+        .map((extraId) => dish.dishExtras.find((extra) => extra.id === extraId))
+        .filter((extra): extra is (typeof dish.dishExtras)[number] =>
+          Boolean(extra),
+        );
     } else {
+      sortedDishExtras = orderExtras;
     }
+    dish['dishExtras'] = sortedDishExtras;
 
-    Object.assign(dish, { medias });
+    const orderFlavors = dish.dishFlavorsOrder as string[] | null;
+
+    let sortedDishFlavors;
+    if (orderFlavors !== null) {
+      sortedDishFlavors = orderFlavors
+        .map((flavorId) =>
+          dish.dishFlavors.find((flavor) => flavor.id === flavorId),
+        )
+        .filter((flavor): flavor is (typeof dish.dishFlavors)[number] =>
+          Boolean(flavor),
+        );
+    } else {
+      sortedDishFlavors = orderFlavors;
+    }
+    dish['dishFlavors'] = sortedDishFlavors;
 
     return dish;
   }
 
   async getDishesBySectionId(sectionId: string) {
-    // await new Promise((resolve) => setTimeout(resolve, 2000));
-
     const sectionExists = await this.prisma.section.findUnique({
       where: {
         id: sectionId,
@@ -85,6 +106,7 @@ export class DishesService {
     const sectionExists = await this.prisma.section.findUnique({
       where: {
         slug,
+        isActive: true,
       },
     });
 
@@ -95,6 +117,7 @@ export class DishesService {
     const dishes = await this.prisma.dish.findMany({
       where: {
         sectionId: sectionExists.id,
+        isActive: true,
       },
       include: {
         dishSpecs: {

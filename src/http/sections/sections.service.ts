@@ -16,6 +16,7 @@ export class SectionsService {
     const sections = await this.prisma.section.findMany({
       where: {
         menuId,
+        isActive: true,
       },
     });
 

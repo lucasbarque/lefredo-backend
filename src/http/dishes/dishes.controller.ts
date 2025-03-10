@@ -53,19 +53,6 @@ export class DishesController {
     return this.dishesService.getById(dishId);
   }
 
-  @Get()
-  @ApiOperation({
-    summary: 'Get Dishes',
-    operationId: 'getDishesBySectionId',
-  })
-  @ApiOkResponse({
-    type: ResponseGetDishesDTO,
-    isArray: true,
-  })
-  getBySectionId(@Query('sectionId') sectionId: string) {
-    return this.dishesService.getDishesBySectionId(sectionId);
-  }
-
   @Get('/slug/:slug')
   @ApiOperation({
     summary: 'Get Dishes',
@@ -77,6 +64,20 @@ export class DishesController {
   })
   getBySlug(@Param('slug') slug: string) {
     return this.dishesService.getDishesBySlug(slug);
+  }
+
+  @Get()
+  @UseGuards(ClerkAuthGuard)
+  @ApiOperation({
+    summary: 'Get Dishes',
+    operationId: 'getDishesBySectionId',
+  })
+  @ApiOkResponse({
+    type: ResponseGetDishesDTO,
+    isArray: true,
+  })
+  getBySectionId(@Query('sectionId') sectionId: string) {
+    return this.dishesService.getDishesBySectionId(sectionId);
   }
 
   @Post()

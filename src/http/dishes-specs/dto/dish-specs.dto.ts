@@ -44,6 +44,9 @@ class DishSpec {
     ],
   })
   key: SpecsKey;
+
+  @ApiProperty({ nullable: true })
+  description: string | null;
 }
 
 export class DishSpecsDTO {
