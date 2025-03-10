@@ -2,14 +2,19 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma/prisma.service';
 import { RequestChangePriceDTO } from './dto/request-change-price.dto';
 import { RequestCreateDishDTO } from './dto/request-create-dish.dto';
-import { formatCurrency } from 'src/lib/utils';
+import { formatCurrency, slugify } from 'src/lib/utils';
 import { RequestUpdateDishDTO } from './dto/request-update-dish.dto';
 import { RequestUpdateDishExtrasOrderDTO } from './dto/request-update-dish-extras-order.dto';
 import { RequestUpdateDishFlavorsOrderDTO } from './dto/request-update-dish-flavors-order.dto';
+import { S3Service } from '../medias/s3.service';
+import { extname } from 'path';
 
 @Injectable()
 export class DishesService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private s3Service: S3Service,
+  ) {}
 
   async getById(dishId: string) {
     const dish = await this.prisma.dish.findUnique({
@@ -260,38 +265,58 @@ export class DishesService {
       throw new HttpException('Dish not found.', HttpStatus.NOT_FOUND);
     }
 
-    //   where: {
-    //     referenceName: 'dishes',
-    //     referenceId: id,
-    //   },
-    // });
-    let imagesDeleted = 0;
-    let imagesErrored = 0;
+    const dishMedias = await this.prisma.dishMedias.findMany({
+      where: {
+        dishId: dishToDelete.id,
+      },
+    });
 
-    // if (imagesDish.length > 0) {
-    //   for (const image of imagesDish) {
-    //     try {
-    //       await this.prisma.media.delete({
-    //         where: {
-    //           id: image.id,
-    //         },
-    //       });
-    //       imagesDeleted++;
-    //     } catch (err) {
-    //       imagesErrored++;
-    //       console.log(err);
-    //     }
-    //   }
-    // }
+    await Promise.all(
+      dishMedias.map(async (dishMedia) => {
+        await this.s3Service.deleteFile(dishMedia.url);
+        await this.prisma.dishMedias.delete({
+          where: {
+            id: dishMedia.id,
+          },
+        });
+      }),
+    );
+
+    const dishFlavors = await this.prisma.dishFlavors.findMany({
+      where: {
+        dishId: dishToDelete.id,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    const dishFlavorsIds = dishFlavors.map((dish) => dish.id);
+
+    const dishFlavorsMedia = await this.prisma.dishFlavorsMedias.findMany({
+      where: {
+        dishFlavorId: {
+          in: dishFlavorsIds,
+        },
+      },
+    });
+
+    await Promise.all(
+      dishFlavorsMedia.map(async (media) => {
+        await this.s3Service.deleteFile(media.url);
+        await this.prisma.dishFlavorsMedias.delete({
+          where: {
+            id: media.id,
+          },
+        });
+      }),
+    );
+
     await this.prisma.dish.delete({
       where: {
         id,
       },
     });
-
-    return {
-      message: `We removed the ${dishToDelete.title} | images deleted: ${imagesDeleted} | images with error: ${imagesErrored}`,
-    };
   }
 
   async updateDishExtrasOrder(
@@ -340,5 +365,94 @@ export class DishesService {
         dishFlavorsOrder: orderUpdated,
       },
     });
+  }
+
+  async uploadImage(id: string, file: Express.Multer.File) {
+    const dish = await this.prisma.dish.findFirst({
+      where: {
+        id,
+      },
+    });
+
+    if (!dish) {
+      throw new HttpException('Dish not found.', HttpStatus.NOT_FOUND);
+    }
+
+    const mediasCount = await this.prisma.dishMedias.count({
+      where: {
+        dishId: dish.id,
+        url: {
+          not: null,
+        },
+      },
+    });
+
+    if (mediasCount === 3)
+      throw new HttpException(
+        'It is only permitted to upload some 3 images',
+        HttpStatus.CONFLICT,
+      );
+
+    const dishMedia = await this.prisma.dishMedias.create({
+      data: {
+        dishId: dish.id,
+        title: slugify(dish.title) + '-' + (mediasCount + 1),
+      },
+    });
+
+    try {
+      const filename = `dish-medias/${dishMedia.id + extname(file.originalname)}`;
+      await this.s3Service.uploadFile(file.buffer, filename, file.mimetype);
+
+      const dishMediaUploaded = await this.prisma.dishMedias.update({
+        data: {
+          url: filename,
+        },
+        where: {
+          id: dishMedia.id,
+        },
+      });
+      return dishMediaUploaded;
+    } catch (error) {
+      await this.prisma.dishMedias.delete({
+        where: {
+          id: dishMedia.id,
+        },
+      });
+      throw new HttpException(
+        'Failed to upload image.',
+        HttpStatus.SERVICE_UNAVAILABLE,
+      );
+    }
+  }
+
+  async deleteImage(id: string) {
+    const dishMediaId = await this.prisma.dishMedias.findFirst({
+      where: {
+        id,
+      },
+    });
+
+    if (!dishMediaId) {
+      throw new HttpException(
+        'DishFlavorMedia not found.',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    try {
+      await this.s3Service.deleteFile(dishMediaId.url);
+
+      await this.prisma.dishMedias.delete({
+        where: {
+          id,
+        },
+      });
+    } catch (error) {
+      throw new HttpException(
+        'Failed to delete image.',
+        HttpStatus.SERVICE_UNAVAILABLE,
+      );
+    }
   }
 }

@@ -8,23 +8,34 @@ import {
   Post,
   Put,
   Query,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { RequestCreateDishDTO } from './dto/request-create-dish.dto';
 import { DishesService } from './dishes.service';
 import {
+  ApiConsumes,
   ApiCreatedResponse,
   ApiOkResponse,
   ApiOperation,
 } from '@nestjs/swagger';
-import { GetDishesDTO } from './dto/get-section.dto';
-import { GetDishDTO } from './dto/get-dish.dto';
 import { ClerkAuthGuard } from '../auth/guards/clerk-auth.guard';
-import { RequestChangePriceDTO } from './dto/request-change-price.dto';
-import { ResponseCreateDishDTO } from './dto/response-create-dish.dto';
-import { RequestUpdateDishDTO } from './dto/request-update-dish.dto';
-import { RequestUpdateDishExtrasOrderDTO } from './dto/request-update-dish-extras-order.dto';
-import { RequestUpdateDishFlavorsOrderDTO } from './dto/request-update-dish-flavors-order.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { memoryStorage } from 'multer';
+import { imageFileFilter } from '../medias/medias.utils';
+
+import {
+  GetDishDTO,
+  GetDishesDTO,
+  RequestChangePriceDTO,
+  RequestUpdateDishDTO,
+  RequestUpdateDishExtrasOrderDTO,
+  RequestUpdateDishFlavorsOrderDTO,
+  RequestUploadDishImageDTO,
+  ResponseCreateDishDTO,
+  ResponseUploadDishImageDTO,
+} from './dto';
 
 @Controller('dishes')
 export class DishesController {
@@ -148,5 +159,38 @@ export class DishesController {
     @Body() data: RequestUpdateDishFlavorsOrderDTO,
   ) {
     return this.dishesService.updateDishFlavorsOrder(id, data);
+  }
+
+  @UseGuards(ClerkAuthGuard)
+  @Patch('/:id/upload-image')
+  @ApiOperation({
+    summary: 'Upload dish image',
+    operationId: 'uploadDishImage',
+  })
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: memoryStorage(),
+      fileFilter: imageFileFilter,
+    }),
+  )
+  @ApiOkResponse({
+    type: ResponseUploadDishImageDTO,
+  })
+  uploadImage(
+    @Param('id') id: string,
+    @Body() _: RequestUploadDishImageDTO,
+    @UploadedFile() files: Express.Multer.File,
+  ) {
+    return this.dishesService.uploadImage(id, files);
+  }
+
+  @Delete('/delete-image/:id')
+  @ApiOperation({
+    summary: 'Delete Dish image',
+    operationId: 'deleteDishImage',
+  })
+  deleteImage(@Param('id') id: string) {
+    return this.dishesService.deleteImage(id);
   }
 }

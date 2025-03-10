@@ -148,6 +148,11 @@ export class DishesFlavorsService {
 
     dishesFlavors.dishFlavorsMedias.map(async (media) => {
       await this.s3Service.deleteFile(media.url);
+      await this.prisma.dishFlavorsMedias.delete({
+        where: {
+          id: media.id,
+        },
+      });
     });
 
     return await this.prisma.dishFlavors.delete({
