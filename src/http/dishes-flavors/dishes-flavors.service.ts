@@ -124,6 +124,7 @@ export class DishesFlavorsService {
       },
       include: {
         Dish: true,
+        dishFlavorsMedias: true,
       },
     });
 
@@ -143,6 +144,10 @@ export class DishesFlavorsService {
       where: {
         id: dishesFlavors.Dish.id,
       },
+    });
+
+    dishesFlavors.dishFlavorsMedias.map(async (media) => {
+      await this.s3Service.deleteFile(media.url);
     });
 
     return await this.prisma.dishFlavors.delete({
