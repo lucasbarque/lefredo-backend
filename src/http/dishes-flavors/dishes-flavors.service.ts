@@ -90,7 +90,7 @@ export class DishesFlavorsService {
 
   async update(
     id: string,
-    { title, price, description }: RequestUpdateDishesFlavorsDTO,
+    { title, price, label, description }: RequestUpdateDishesFlavorsDTO,
   ) {
     const dishFlavors = await this.prisma.dishFlavors.findFirst({
       where: {
@@ -108,6 +108,7 @@ export class DishesFlavorsService {
     return await this.prisma.dishFlavors.update({
       data: {
         title,
+        label,
         price: Number(formatCurrency(price, 'to-decimal')) || null,
         description,
       },

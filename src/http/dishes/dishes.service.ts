@@ -20,7 +20,6 @@ export class DishesService {
     const dish = await this.prisma.dish.findUnique({
       where: {
         id: dishId,
-        isActive: true,
       },
       include: {
         section: true,
