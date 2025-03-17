@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class RequestUpdateSectionDTO {
   @IsNotEmpty()
@@ -8,6 +8,7 @@ export class RequestUpdateSectionDTO {
   title: string;
 
   @IsString()
+  @IsOptional()
   @ApiProperty({ nullable: true })
-  description?: string | null;
+  description: string | null;
 }

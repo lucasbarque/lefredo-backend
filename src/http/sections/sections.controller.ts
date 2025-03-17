@@ -18,7 +18,7 @@ import {
   ApiOperation,
 } from '@nestjs/swagger';
 import { ClerkAuthGuard } from '../auth/guards/clerk-auth.guard';
-import { ResponseGetSectionsWithItemsDTO } from './dto/response-get-sections-with-items.dto';
+// import { ResponseGetSectionsWithItemsDTO } from './dto/response-get-sections-with-items.dto';
 import { ResponseGetSectionByIdDTO } from './dto/response-get-section-by-id.dto';
 import { RequestUpdateSectionDTO } from './dto/request-update-section.dto';
 import { SectionDTO } from './dto/section-dto';
@@ -40,18 +40,17 @@ export class SectionsController {
     return this.sectionsService.getByMenuId(menuId);
   }
 
-  @Get('/get-with-items')
-  @UseGuards(ClerkAuthGuard)
+  @Get('/get-all')
   @ApiOperation({
-    summary: 'Get Sections with items',
-    operationId: 'getSectionsWithItems',
+    summary: 'Get All Sections',
+    operationId: 'getAllSections',
   })
   @ApiOkResponse({
-    type: ResponseGetSectionsWithItemsDTO,
+    type: SectionDTO,
     isArray: true,
   })
-  getWithItems(@Query('menuId') menuId: string) {
-    return this.sectionsService.getWithItems(menuId);
+  getAll(@Query('menuId') menuId: string) {
+    return this.sectionsService.getAllSectionsByMenuId(menuId);
   }
 
   @Get(':id')

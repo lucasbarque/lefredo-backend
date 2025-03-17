@@ -8,7 +8,7 @@ import { RequestUpdateSectionDTO } from './dto/request-update-section.dto';
 export class SectionsService {
   constructor(private prisma: PrismaService) {}
 
-  async getByMenuId(menuId: string) {
+  async getAllSectionsByMenuId(menuId: string) {
     if (!menuId) {
       throw new HttpException('Menu does not exists.', HttpStatus.NOT_FOUND);
     }
@@ -16,7 +16,6 @@ export class SectionsService {
     const sections = await this.prisma.section.findMany({
       where: {
         menuId,
-        isActive: true,
       },
     });
 
@@ -27,7 +26,7 @@ export class SectionsService {
     return sections;
   }
 
-  async getWithItems(menuId: string) {
+  async getByMenuId(menuId: string) {
     if (!menuId) {
       throw new HttpException('Menu does not exists.', HttpStatus.NOT_FOUND);
     }
@@ -35,19 +34,7 @@ export class SectionsService {
     const sections = await this.prisma.section.findMany({
       where: {
         menuId,
-      },
-      include: {
-        Dish: {
-          include: {
-            dishMedias: true,
-          },
-          orderBy: {
-            createdAt: 'asc',
-          },
-        },
-      },
-      orderBy: {
-        createdAt: 'asc',
+        isActive: true,
       },
     });
 
@@ -106,7 +93,7 @@ export class SectionsService {
     });
   }
 
-  async update(id: string, { title, description }: RequestUpdateSectionDTO) {
+  async update(id: string, data: RequestUpdateSectionDTO) {
     const section = await this.prisma.section.findUnique({
       where: {
         id,
@@ -116,12 +103,25 @@ export class SectionsService {
     if (!section) {
       throw new HttpException('Section does not exists.', HttpStatus.NOT_FOUND);
     }
-    await this.prisma.section.update({
-      data: {
-        title,
-        description,
-        slug: slugify(title),
+    const sectionTitleExists = await this.prisma.section.findFirst({
+      where: {
+        title: data.title,
+        menuId: section.menuId,
+        id: {
+          not: section.id,
+        },
       },
+    });
+
+    if (sectionTitleExists !== null && sectionTitleExists.id !== section.id) {
+      throw new HttpException(
+        'Section title already exists.',
+        HttpStatus.CONFLICT,
+      );
+    }
+
+    await this.prisma.section.update({
+      data,
       where: {
         id,
       },

@@ -23,4 +23,7 @@ export class ResponseGetDishesDTO {
 
   @ApiProperty({ type: [DishMediasDTO] })
   dishMedias: DishMediasDTO[] | [];
+
+  @ApiProperty()
+  isActive: boolean;
 }

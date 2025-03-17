@@ -12,4 +12,7 @@ export class SectionDTO {
 
   @ApiProperty()
   slug: string;
+
+  @ApiProperty()
+  isActive: boolean;
 }

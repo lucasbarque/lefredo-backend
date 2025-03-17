@@ -16,10 +16,9 @@ import {
 } from '@nestjs/swagger';
 import { ClerkAuthGuard } from '../auth/guards/clerk-auth.guard';
 import {
+  DishExtraDTO,
   RequestCreateDishExtraDTO,
   RequestUpdateDishExtraDTO,
-  ResponseCreateDishExtraDTO,
-  ResponseGetDishExtraDTO,
 } from './dto';
 
 @Controller('dishes-extras')
@@ -27,12 +26,13 @@ export class DishesExtrasController {
   constructor(private dishesExtrasService: DishesExtrasService) {}
 
   @Get(':dishId')
+  @UseGuards(ClerkAuthGuard)
   @ApiOperation({
     summary: 'Get Dishes Extras',
     operationId: 'getDishesExtras',
   })
   @ApiOkResponse({
-    type: ResponseGetDishExtraDTO,
+    type: DishExtraDTO,
     isArray: true,
   })
   getDishesExtras(@Param('dishId') dishId: string) {
@@ -45,7 +45,7 @@ export class DishesExtrasController {
     summary: 'Create Dish Extra',
     operationId: 'createDishesExtra',
   })
-  @ApiCreatedResponse({ type: ResponseCreateDishExtraDTO, isArray: true })
+  @ApiCreatedResponse({ type: DishExtraDTO })
   create(
     @Param('dishId') dishId: string,
     @Body() data: RequestCreateDishExtraDTO,
@@ -59,7 +59,7 @@ export class DishesExtrasController {
     summary: 'Update Dish Extra',
     operationId: 'updateDishesExtra',
   })
-  @ApiOkResponse()
+  @ApiOkResponse({ type: DishExtraDTO })
   update(@Param('id') id: string, @Body() data: RequestUpdateDishExtraDTO) {
     return this.dishesExtrasService.update(id, data);
   }

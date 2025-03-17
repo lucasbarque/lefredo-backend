@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 
 export class RequestCreateSectionDTO {
   @IsNotEmpty()
@@ -13,6 +13,7 @@ export class RequestCreateSectionDTO {
   menuId: string;
 
   @IsString()
+  @IsOptional()
   @ApiProperty({ nullable: true })
   description?: string | null;
 }

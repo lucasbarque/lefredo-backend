@@ -95,6 +95,7 @@ export class DishesService {
             DishSpecs: true,
           },
         },
+        dishMedias: true,
       },
     });
 
