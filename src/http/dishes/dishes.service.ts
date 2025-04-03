@@ -423,6 +423,8 @@ export class DishesService {
       },
     });
 
+    console.log(file);
+
     try {
       const filename = `dish-medias/${dishMedia.id + extname(file.originalname)}`;
       await this.s3Service.uploadFile(file.buffer, filename, file.mimetype);
@@ -437,6 +439,7 @@ export class DishesService {
       });
       return dishMediaUploaded;
     } catch (error) {
+      console.log(error);
       await this.prisma.dishMedias.delete({
         where: {
           id: dishMedia.id,
