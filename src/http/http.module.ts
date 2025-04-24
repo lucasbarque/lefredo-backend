@@ -10,6 +10,7 @@ import { SectionsModule } from './sections/sections.module';
 import { DishesExtrasModule } from './dishes-extras/dishes-extras.module';
 import { DishesSpecsModule } from './dishes-specs/dishes-specs.module';
 import { DishesFlavorsModule } from './dishes-flavors/dishes-flavors.module';
+import { ReportsModule } from './reports/reports.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { DishesFlavorsModule } from './dishes-flavors/dishes-flavors.module';
     DishesFlavorsModule,
     RestaurantsModule,
     SectionsModule,
+    ReportsModule,
   ],
   providers: [],
   controllers: [],

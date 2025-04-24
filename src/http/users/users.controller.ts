@@ -32,7 +32,7 @@ export class UsersController {
   }
 
   @Patch('/change-onboarding-status/:id')
-  // @UseGuards(ClerkAuthGuard)
+  @UseGuards(ClerkAuthGuard)
   @ApiOperation({
     summary: 'Change onboarding status',
     operationId: 'changeOnboardingStatus',
@@ -40,17 +40,5 @@ export class UsersController {
   @ApiOkResponse()
   changeOnboardingStatus(@Param('id') id: string) {
     return this.usersService.changeOnboardingStatus(id);
-  }
-
-  @Get()
-  @ApiOperation({ summary: 'Get all users', operationId: 'getAllUsers' })
-  list() {
-    return this.usersService.list();
-  }
-
-  @Post()
-  @ApiOperation({ summary: 'Create user', operationId: 'createUser' })
-  create(@Body() data: CreateUserDTO) {
-    return this.usersService.create(data);
   }
 }

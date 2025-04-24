@@ -59,7 +59,7 @@ export class SectionsService {
     return section;
   }
 
-  async create({ title, menuId }: RequestCreateSectionDTO) {
+  async create({ title, menuId, description }: RequestCreateSectionDTO) {
     const menuExists = await this.prisma.menu.findUnique({
       where: {
         id: menuId,
@@ -88,6 +88,7 @@ export class SectionsService {
       data: {
         title,
         slug: slugify(title),
+        description,
         menuId,
       },
     });
