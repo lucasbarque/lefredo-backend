@@ -7,6 +7,10 @@ import { MenusModule } from './menus/menus.module';
 import { DishesModule } from './dishes/dishes.module';
 import { RestaurantsModule } from './restaurants/restaurants.module';
 import { SectionsModule } from './sections/sections.module';
+import { DishesExtrasModule } from './dishes-extras/dishes-extras.module';
+import { DishesSpecsModule } from './dishes-specs/dishes-specs.module';
+import { DishesFlavorsModule } from './dishes-flavors/dishes-flavors.module';
+import { ReportsModule } from './reports/reports.module';
 
 @Module({
   imports: [
@@ -16,10 +20,14 @@ import { SectionsModule } from './sections/sections.module';
     UsersModule,
     MenusModule,
     DishesModule,
+    DishesExtrasModule,
+    DishesSpecsModule,
+    DishesFlavorsModule,
     RestaurantsModule,
     SectionsModule,
+    ReportsModule,
   ],
   providers: [],
-  controllers: []
+  controllers: [],
 })
-export class HttpModule { }
+export class HttpModule {}

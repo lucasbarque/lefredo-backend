@@ -1,21 +1,44 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 
 import { UsersService } from './users.service';
 import { CreateUserDTO } from './create-user.dto';
-import { RestAuthGuard } from 'src/http/auth/guards/rest-jwt-auth.guard';
+import { ApiOkResponse, ApiOperation } from '@nestjs/swagger';
+import { ClerkAuthGuard } from '../auth/guards/clerk-auth.guard';
+import { GetUserByRestaurantId } from './dto/get-user-by-restaurant.dto';
 
 @Controller('users')
 export class UsersController {
-  constructor(private usersService: UsersService) { }
+  constructor(private usersService: UsersService) {}
 
-  @Get()
-  @UseGuards(RestAuthGuard)
-  list() {
-    return this.usersService.list();
+  @Get('/restaurant/:restaurantId')
+  @UseGuards(ClerkAuthGuard)
+  @ApiOperation({
+    summary: 'Get user by restaurantId',
+    operationId: 'getUserByRestaurantId',
+  })
+  @ApiOkResponse({
+    type: GetUserByRestaurantId,
+  })
+  getUserByRestaurantId(@Param('restaurantId') restaurantId: string) {
+    return this.usersService.getByRestaurantId(restaurantId);
   }
 
-  @Post()
-  create(@Body() data: CreateUserDTO) {
-    return this.usersService.create(data);
+  @Patch('/change-onboarding-status/:id')
+  @UseGuards(ClerkAuthGuard)
+  @ApiOperation({
+    summary: 'Change onboarding status',
+    operationId: 'changeOnboardingStatus',
+  })
+  @ApiOkResponse()
+  changeOnboardingStatus(@Param('id') id: string) {
+    return this.usersService.changeOnboardingStatus(id);
   }
 }
