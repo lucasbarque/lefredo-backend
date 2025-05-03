@@ -89,6 +89,9 @@ export class DishesService {
       where: {
         sectionId,
       },
+      orderBy: {
+        createdAt: 'asc',
+      },
       include: {
         dishSpecs: {
           include: {
@@ -118,6 +121,9 @@ export class DishesService {
       where: {
         sectionId: sectionExists.id,
         isActive: true,
+      },
+      orderBy: {
+        createdAt: 'asc',
       },
       include: {
         dishSpecs: {
@@ -401,6 +407,7 @@ export class DishesService {
       throw new HttpException('Dish not found.', HttpStatus.NOT_FOUND);
     }
 
+    console.log({ id, file });
     const mediasCount = await this.prisma.dishMedias.count({
       where: {
         dishId: dish.id,
@@ -419,11 +426,9 @@ export class DishesService {
     const dishMedia = await this.prisma.dishMedias.create({
       data: {
         dishId: dish.id,
-        title: slugify(dish.title) + '-' + (mediasCount + 1),
+        title: slugify(dish.title),
       },
     });
-
-    console.log(file);
 
     try {
       const filename = `dish-medias/${dishMedia.id + extname(file.originalname)}`;
@@ -432,6 +437,7 @@ export class DishesService {
       const dishMediaUploaded = await this.prisma.dishMedias.update({
         data: {
           url: filename,
+          title: slugify(dish.title) + '-' + dishMedia.id,
         },
         where: {
           id: dishMedia.id,

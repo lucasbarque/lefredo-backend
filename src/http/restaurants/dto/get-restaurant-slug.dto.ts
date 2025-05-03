@@ -24,6 +24,6 @@ export class GetRestaurantBySlugDTO {
   @ApiProperty()
   slug: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: Menu, isArray: true })
   Menu: Menu[];
 }
