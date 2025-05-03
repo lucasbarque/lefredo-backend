@@ -40,6 +40,19 @@ export class SectionsController {
     return this.sectionsService.getByMenuId(menuId);
   }
 
+  @Get()
+  @ApiOperation({
+    summary: 'Get Sections by Slug',
+    operationId: 'getSectionsBySlug',
+  })
+  @ApiOkResponse({
+    type: SectionDTO,
+    isArray: true,
+  })
+  getBySlug(@Query('slug') slug: string) {
+    return this.sectionsService.getBySlug(slug);
+  }
+
   @Get('/get-all')
   @ApiOperation({
     summary: 'Get All Sections',
@@ -49,8 +62,22 @@ export class SectionsController {
     type: SectionDTO,
     isArray: true,
   })
+  @UseGuards(ClerkAuthGuard)
   getAll(@Query('menuId') menuId: string) {
     return this.sectionsService.getAllSectionsByMenuId(menuId);
+  }
+
+  @Get('/get-active')
+  @ApiOperation({
+    summary: 'Get active Sections',
+    operationId: 'getActiveSections',
+  })
+  @ApiOkResponse({
+    type: SectionDTO,
+    isArray: true,
+  })
+  getActive(@Query('menuId') menuId: string) {
+    return this.sectionsService.getActiveSectionsByMenuId(menuId);
   }
 
   @Get(':id')

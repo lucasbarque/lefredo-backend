@@ -8,6 +8,25 @@ import { RequestUpdateSectionDTO } from './dto/request-update-section.dto';
 export class SectionsService {
   constructor(private prisma: PrismaService) {}
 
+  async getActiveSectionsByMenuId(menuId: string) {
+    if (!menuId) {
+      throw new HttpException('Menu does not exists.', HttpStatus.NOT_FOUND);
+    }
+
+    const sections = await this.prisma.section.findMany({
+      where: {
+        menuId,
+        isActive: true,
+      },
+    });
+
+    if (!sections) {
+      throw new HttpException('Section does not exists.', HttpStatus.NOT_FOUND);
+    }
+
+    return sections;
+  }
+
   async getAllSectionsByMenuId(menuId: string) {
     if (!menuId) {
       throw new HttpException('Menu does not exists.', HttpStatus.NOT_FOUND);
@@ -35,6 +54,24 @@ export class SectionsService {
       where: {
         menuId,
         isActive: true,
+      },
+    });
+
+    if (!sections) {
+      throw new HttpException('Section does not exists.', HttpStatus.NOT_FOUND);
+    }
+
+    return sections;
+  }
+
+  async getBySlug(slug: string) {
+    if (!slug) {
+      throw new HttpException('Slug does not exists.', HttpStatus.NOT_FOUND);
+    }
+
+    const sections = await this.prisma.section.findMany({
+      where: {
+        slug,
       },
     });
 
