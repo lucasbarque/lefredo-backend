@@ -21,7 +21,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "ngrok": "ngrok http --url=lasting-solely-macaw.ngrok-free.app 3333",
     "postinstall": "npx prisma generate",
-       "check-types": "tsc --pretty --noEmit"
+    "check-types": "tsc --pretty --noEmit"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.735.0",
