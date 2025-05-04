@@ -1,17 +1,19 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { extname } from 'node:path';
+import { FileFilterCallback } from 'multer';
+import { Request } from 'express';
 
-export const imageFileFilter = (_, file, callback) => {
-  if (!file.originalname.match(/\.(jpg|jpeg|png|gif|svg|webp)$/)) {
-    return callback(
-      new HttpException('Media not allowed.', HttpStatus.BAD_REQUEST),
-      false,
-    );
+export const imageFileFilter = (
+  _: Request,
+  file: Express.Multer.File,
+  callback: FileFilterCallback,
+): void => {
+  if (!file.originalname.match(/\.(jpg|jpeg|png|gif|svg|webp)$/i)) {
+    throw new HttpException('Media not allowed.', HttpStatus.BAD_REQUEST);
   }
   callback(null, true);
 };
 
-export const getTypeByMimeType = (mimeType) => {
+export const getTypeByMimeType = (mimeType: string) => {
   switch (mimeType) {
     case 'image/png':
     case 'image/avif':

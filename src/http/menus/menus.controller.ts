@@ -1,14 +1,5 @@
 import { CreateMenuDTO } from './create-menu-dto';
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Post,
-  Put,
-  Query,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { MenusService } from './menus.service';
 import { UpdateMenuDTO } from './update-menu-dto';
 

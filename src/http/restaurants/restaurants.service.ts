@@ -111,7 +111,7 @@ export class RestaurantsService {
     const sectionsWithDishesAndMedia = await Promise.all(
       sections.map(async (section) => {
         const dishesWithMedia = await Promise.all(
-          section.Dish.map(async (dish) => {
+          section.Dish.map((dish) => {
             return {
               ...dish,
             };

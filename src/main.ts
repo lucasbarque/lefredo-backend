@@ -1,7 +1,9 @@
+import 'reflect-metadata';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import * as express from 'express';
 import * as cookieParser from 'cookie-parser';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 import { join } from 'path';
 
@@ -23,7 +25,9 @@ async function bootstrap() {
     exposedHeaders: 'X-Service-Identifier',
   };
 
-  const app = await NestFactory.create(AppModule, { cors: options });
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    cors: options,
+  });
 
   const expressApp = app.getHttpAdapter().getInstance();
   app.use(cookieParser());
@@ -46,7 +50,6 @@ async function bootstrap() {
 
   app.use('/files', express.static(join(__dirname, '..', 'files')));
 
-  await app.listen(process.env.PORT);
+  await app.listen(process.env.PORT!);
 }
-
-bootstrap();
+void bootstrap();

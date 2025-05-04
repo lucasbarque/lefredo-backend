@@ -39,8 +39,7 @@ export class S3Service {
       );
 
       return `${env.AWS_PUBLIC_URL}/${fileName}`;
-    } catch (error) {
-      console.error('Upload Error:', error);
+    } catch {
       throw new Error('Error uploading file to S3');
     }
   }
@@ -53,8 +52,7 @@ export class S3Service {
           Key: fileName,
         }),
       );
-    } catch (error) {
-      console.error('Upload Error:', error);
+    } catch {
       throw new Error('Error uploading file to S3');
     }
   }

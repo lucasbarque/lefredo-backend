@@ -53,7 +53,7 @@ export class DishesController {
     return this.dishesService.getById(dishId);
   }
 
-  @Get('/slug/:slug')
+  @Get('/slug/:slug/:menuId')
   @ApiOperation({
     summary: 'Get Dishes',
     operationId: 'getDishesBySlug',
@@ -62,8 +62,8 @@ export class DishesController {
     type: ResponseGetDishesDTO,
     isArray: true,
   })
-  getBySlug(@Param('slug') slug: string) {
-    return this.dishesService.getDishesBySlug(slug);
+  getBySlug(@Param('slug') slug: string, @Param('menuId') menuId: string) {
+    return this.dishesService.getDishesBySlug(slug, menuId);
   }
 
   @Get()

@@ -43,7 +43,8 @@ export class DishesService {
     }
 
     const orderExtras = dish.dishExtrasOrder as string[] | null;
-    let sortedDishExtras;
+    let sortedDishExtras: (typeof dish)['dishExtras'];
+
     if (orderExtras !== null) {
       sortedDishExtras = orderExtras
         .map((extraId) => dish.dishExtras.find((extra) => extra.id === extraId))
@@ -51,13 +52,12 @@ export class DishesService {
           Boolean(extra),
         );
     } else {
-      sortedDishExtras = orderExtras;
+      sortedDishExtras = dish.dishExtras;
     }
-    dish['dishExtras'] = sortedDishExtras;
+    dish.dishExtras = sortedDishExtras;
 
     const orderFlavors = dish.dishFlavorsOrder as string[] | null;
-
-    let sortedDishFlavors;
+    let sortedDishFlavors: (typeof dish)['dishFlavors'];
     if (orderFlavors !== null) {
       sortedDishFlavors = orderFlavors
         .map((flavorId) =>
@@ -67,9 +67,9 @@ export class DishesService {
           Boolean(flavor),
         );
     } else {
-      sortedDishFlavors = orderFlavors;
+      sortedDishFlavors = dish.dishFlavors;
     }
-    dish['dishFlavors'] = sortedDishFlavors;
+    dish.dishFlavors = sortedDishFlavors;
 
     return dish;
   }
@@ -105,10 +105,11 @@ export class DishesService {
     return dishes;
   }
 
-  async getDishesBySlug(slug: string) {
-    const sectionExists = await this.prisma.section.findUnique({
+  async getDishesBySlug(slug: string, menuId: string) {
+    const sectionExists = await this.prisma.section.findFirst({
       where: {
         slug,
+        menuId,
         isActive: true,
       },
     });
@@ -219,7 +220,7 @@ export class DishesService {
       await this.prisma.dishSpecsDishes.create({
         data: {
           dishId: dish.id,
-          dishSpecsId: dishSpec.id,
+          dishSpecsId: dishSpec!.id,
         },
       });
     }
@@ -246,7 +247,7 @@ export class DishesService {
 
     const isFlagged = await this.prisma.dishSpecsDishes.findFirst({
       where: {
-        dishSpecsId: dishSpec.id,
+        dishSpecsId: dishSpec!.id,
         dishId: dish.id,
       },
     });
@@ -255,7 +256,7 @@ export class DishesService {
       await this.prisma.dishSpecsDishes.create({
         data: {
           dishId: dish.id,
-          dishSpecsId: dishSpec.id,
+          dishSpecsId: dishSpec!.id,
         },
       });
     } else if (data.flagged === 'false' && isFlagged) {
@@ -263,7 +264,7 @@ export class DishesService {
         where: {
           dishId_dishSpecsId: {
             dishId: dish.id,
-            dishSpecsId: dishSpec.id,
+            dishSpecsId: dishSpec!.id,
           },
         },
       });
@@ -283,68 +284,56 @@ export class DishesService {
     });
   }
 
-  async delete(id: string) {
+  async delete(id: string): Promise<void> {
     const dishToDelete = await this.prisma.dish.findUnique({
-      where: {
-        id,
-      },
+      where: { id },
     });
-
     if (!dishToDelete) {
       throw new HttpException('Dish not found.', HttpStatus.NOT_FOUND);
     }
-
     const dishMedias = await this.prisma.dishMedias.findMany({
-      where: {
-        dishId: dishToDelete.id,
-      },
+      where: { dishId: dishToDelete.id },
     });
-
     await Promise.all(
       dishMedias.map(async (dishMedia) => {
-        await this.s3Service.deleteFile(dishMedia.url);
+        const { id: mediaId, url } = dishMedia;
+        if (!url) {
+          throw new HttpException(
+            `Image URL not found for dishMedia ${mediaId}.`,
+            HttpStatus.NOT_FOUND,
+          );
+        }
+        await this.s3Service.deleteFile(url);
         await this.prisma.dishMedias.delete({
-          where: {
-            id: dishMedia.id,
-          },
+          where: { id: mediaId },
         });
       }),
     );
-
     const dishFlavors = await this.prisma.dishFlavors.findMany({
-      where: {
-        dishId: dishToDelete.id,
-      },
-      select: {
-        id: true,
-      },
+      where: { dishId: dishToDelete.id },
+      select: { id: true },
     });
-
-    const dishFlavorsIds = dishFlavors.map((dish) => dish.id);
-
+    const dishFlavorsIds = dishFlavors.map((f) => f.id);
     const dishFlavorsMedia = await this.prisma.dishFlavorsMedias.findMany({
-      where: {
-        dishFlavorId: {
-          in: dishFlavorsIds,
-        },
-      },
+      where: { dishFlavorId: { in: dishFlavorsIds } },
     });
-
     await Promise.all(
-      dishFlavorsMedia.map(async (media) => {
-        await this.s3Service.deleteFile(media.url);
+      dishFlavorsMedia.map(async (flavorMedia) => {
+        const { id: mediaId, url } = flavorMedia;
+        if (!url) {
+          throw new HttpException(
+            `Image URL not found for dishFlavorMedia ${mediaId}.`,
+            HttpStatus.NOT_FOUND,
+          );
+        }
+        await this.s3Service.deleteFile(url);
         await this.prisma.dishFlavorsMedias.delete({
-          where: {
-            id: media.id,
-          },
+          where: { id: mediaId },
         });
       }),
     );
-
     await this.prisma.dish.delete({
-      where: {
-        id,
-      },
+      where: { id: dishToDelete.id },
     });
   }
 
@@ -407,7 +396,6 @@ export class DishesService {
       throw new HttpException('Dish not found.', HttpStatus.NOT_FOUND);
     }
 
-    console.log({ id, file });
     const mediasCount = await this.prisma.dishMedias.count({
       where: {
         dishId: dish.id,
@@ -444,8 +432,7 @@ export class DishesService {
         },
       });
       return dishMediaUploaded;
-    } catch (error) {
-      console.log(error);
+    } catch {
       await this.prisma.dishMedias.delete({
         where: {
           id: dishMedia.id,
@@ -457,30 +444,28 @@ export class DishesService {
       );
     }
   }
-
-  async deleteImage(id: string) {
-    const dishMediaId = await this.prisma.dishMedias.findFirst({
-      where: {
-        id,
-      },
+  async deleteImage(id: string): Promise<void> {
+    const dishMedia = await this.prisma.dishMedias.findFirst({
+      where: { id },
     });
+    if (!dishMedia) {
+      throw new HttpException('Dish media not found.', HttpStatus.NOT_FOUND);
+    }
 
-    if (!dishMediaId) {
+    const { url } = dishMedia;
+    if (!url) {
       throw new HttpException(
-        'DishFlavorMedia not found.',
+        `Image URL not found for dishMedia ${dishMedia.id}.`,
         HttpStatus.NOT_FOUND,
       );
     }
 
     try {
-      await this.s3Service.deleteFile(dishMediaId.url);
-
+      await this.s3Service.deleteFile(url);
       await this.prisma.dishMedias.delete({
-        where: {
-          id,
-        },
+        where: { id: dishMedia.id },
       });
-    } catch (error) {
+    } catch {
       throw new HttpException(
         'Failed to delete image.',
         HttpStatus.SERVICE_UNAVAILABLE,

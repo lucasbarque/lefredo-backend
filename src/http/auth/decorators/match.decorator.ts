@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
   registerDecorator,
   ValidationArguments,
@@ -6,11 +8,14 @@ import {
   ValidatorConstraintInterface,
 } from 'class-validator';
 
-export function Match(property: string, validationOptions?: ValidationOptions) {
-  return (object: any, propertyName: string) => {
+export function Match(
+  property: string,
+  validationOptions?: ValidationOptions,
+): PropertyDecorator {
+  return (target: object, propertyKey: string | symbol): void => {
     registerDecorator({
-      target: object.constructor,
-      propertyName,
+      target: target.constructor,
+      propertyName: propertyKey.toString(),
       options: validationOptions,
       constraints: [property],
       validator: MatchConstraint,
@@ -20,9 +25,13 @@ export function Match(property: string, validationOptions?: ValidationOptions) {
 
 @ValidatorConstraint({ name: 'Match' })
 export class MatchConstraint implements ValidatorConstraintInterface {
-  validate(value: any, args: ValidationArguments) {
-    const [relatedPropertyName] = args.constraints;
+  validate(value: any, args: ValidationArguments): boolean {
+    const [relatedPropertyName] = args.constraints as [string];
     const relatedValue = (args.object as any)[relatedPropertyName];
     return value === relatedValue;
+  }
+
+  defaultMessage?(args: ValidationArguments): string {
+    return `${args.property} deve ser igual a ${args.constraints[0]}`;
   }
 }
