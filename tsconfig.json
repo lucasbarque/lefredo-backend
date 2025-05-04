@@ -1,4 +1,10 @@
 {
+  "include": [
+    "src/@types/**/*.d.ts",
+    "src/**/*",
+    "prisma/**/*.ts",
+    "commitlint.config.mjs"
+   ],
   "compilerOptions": {
     "module": "commonjs",
     "declaration": true,
@@ -6,16 +12,19 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "es2017",
+    "moduleResolution": "node",
+    "target": "esnext",
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
+    "allowJs": true,
+    "checkJs": false,
     "incremental": true,
     "skipLibCheck": true,
-    "strictNullChecks": false,
+    "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
-    "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@services/*": ["./src/http/services/*"],

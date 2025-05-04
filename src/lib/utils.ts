@@ -26,22 +26,27 @@ export const slugify = (str: string, forDisplayingInput?: boolean) => {
 export const formatCurrency = (
   amount: number | string,
   type: 'to-real' | 'to-decimal',
-) => {
+): string => {
   switch (type) {
-    case 'to-real':
+    case 'to-real': {
       const numericValue = Number(amount);
       return new Intl.NumberFormat('pt-BR', {
         style: 'currency',
         currency: 'BRL',
         minimumFractionDigits: 2,
       }).format(numericValue);
-    case 'to-decimal':
+    }
+
+    case 'to-decimal': {
       const stringValue = String(amount);
       const normalizedValue = stringValue.replace(/\./g, '').replace(',', '.');
       const numericValue1 = parseFloat(normalizedValue);
       const valueInCents = Math.round(numericValue1);
       return String(valueInCents);
-    default:
-      throw new Error(`Tipo de formatação inválido: ${type}`);
+    }
+
+    default: {
+      throw new Error(`Tipo de formatação inválido: ${String(type)}`);
+    }
   }
 };

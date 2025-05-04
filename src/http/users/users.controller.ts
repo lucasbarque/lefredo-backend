@@ -1,15 +1,6 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Patch,
-  Post,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Get, Param, Patch, UseGuards } from '@nestjs/common';
 
 import { UsersService } from './users.service';
-import { CreateUserDTO } from './create-user.dto';
 import { ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { ClerkAuthGuard } from '../auth/guards/clerk-auth.guard';
 import { GetUserByRestaurantId } from './dto/get-user-by-restaurant.dto';

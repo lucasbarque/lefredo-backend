@@ -22,7 +22,7 @@ export class DishesExtrasService {
 
     const order = dish.dishExtrasOrder as string[] | null;
 
-    let sortedDishExtras;
+    let sortedDishExtras: typeof dishExtras | null;
     if (order !== null) {
       sortedDishExtras = order
         .map((extraId) => dishExtras.find((extra) => extra.id === extraId))
@@ -30,7 +30,7 @@ export class DishesExtrasService {
           Boolean(extra),
         );
     } else {
-      sortedDishExtras = order;
+      sortedDishExtras = null;
     }
 
     return sortedDishExtras;
@@ -101,36 +101,31 @@ export class DishesExtrasService {
 
   async delete(id: string) {
     const dishesExtra = await this.prisma.dishExtras.findFirst({
-      where: {
-        id,
-      },
-      include: {
-        Dish: true,
-      },
+      where: { id },
+      include: { Dish: true },
     });
 
     if (!dishesExtra) {
+      throw new HttpException('Dish Extra not found.', HttpStatus.NOT_FOUND);
+    }
+
+    if (!dishesExtra.Dish) {
       throw new HttpException(
-        'DishesExtra does not exists.',
+        'Associated Dish not found for this extra.',
         HttpStatus.NOT_FOUND,
       );
     }
+
     const orderItems = dishesExtra.Dish.dishExtrasOrder as string[];
     const orderUpdated = orderItems.filter((item) => item !== dishesExtra.id);
 
     await this.prisma.dish.update({
-      data: {
-        dishExtrasOrder: orderUpdated,
-      },
-      where: {
-        id: dishesExtra.Dish.id,
-      },
+      where: { id: dishesExtra.Dish.id },
+      data: { dishExtrasOrder: orderUpdated },
     });
 
-    return await this.prisma.dishExtras.delete({
-      where: {
-        id,
-      },
+    return this.prisma.dishExtras.delete({
+      where: { id },
     });
   }
 }

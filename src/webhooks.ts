@@ -51,7 +51,6 @@ export const createWebooks = (app) => {
           'svix-signature': svix_signature as string,
         });
       } catch (err: any) {
-        console.log('Error: Could not verify webhook:', err.message);
         return res.status(400).json({
           success: false,
           message: err.message,
@@ -95,11 +94,9 @@ export const createWebooks = (app) => {
             });
             break;
           default:
-            console.log('Unhandled event', eventType);
+            return;
         }
-      } catch (error) {
-        console.log(error);
-      }
+      } catch {}
 
       return res.status(200).json({
         success: true,
