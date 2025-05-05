@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class RequestUpdateDishDTO {
   @IsString()
@@ -17,10 +17,8 @@ export class RequestUpdateDishDTO {
   @ApiProperty()
   price: string;
 
-  @IsString()
-  @IsOptional()
-  @ApiProperty({ nullable: true })
-  prepTime: string | null;
+  @IsNumber()
+  prepTime: number;
 
   @IsString()
   @ApiProperty()
@@ -29,5 +27,5 @@ export class RequestUpdateDishDTO {
   @IsString()
   @IsOptional()
   @ApiProperty({ nullable: true })
-  description: string | null;
+  description: string;
 }

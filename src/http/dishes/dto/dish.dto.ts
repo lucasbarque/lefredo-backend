@@ -12,8 +12,8 @@ export class DishDTO {
   @ApiProperty()
   title: string;
 
-  @ApiProperty()
-  description: string | null;
+  @ApiProperty({ nullable: true })
+  description: string;
 
   @ApiProperty()
   price: number;
@@ -22,7 +22,7 @@ export class DishDTO {
   portion: string;
 
   @ApiProperty()
-  prepTime: string | null;
+  prepTime: number;
 
   @ApiProperty({ type: SectionDTO })
   section: SectionDTO;

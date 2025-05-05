@@ -99,7 +99,7 @@ model Dish {
   dishMedias  DishMedias[]
 
   portion          String?
-  prepTime         String?
+  prepTime         Int     @default(0)
   dishExtrasOrder  Json?
   dishFlavorsOrder Json?
 

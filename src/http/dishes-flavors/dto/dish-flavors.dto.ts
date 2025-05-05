@@ -11,11 +11,11 @@ export class DishFlavorsDTO {
   @ApiProperty()
   label: string;
 
-  @ApiProperty()
-  price: number | null;
+  @ApiProperty({ nullable: true })
+  price: number;
 
-  @ApiProperty()
-  description: string | null;
+  @ApiProperty({ nullable: true })
+  description: string;
 
   @ApiProperty({ type: DishFlavorsMediaDTO, isArray: true })
   dishFlavorsMedias: DishFlavorsMediaDTO[];

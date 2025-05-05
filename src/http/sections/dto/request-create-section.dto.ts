@@ -15,5 +15,5 @@ export class RequestCreateSectionDTO {
   @IsString()
   @IsOptional()
   @ApiProperty({ nullable: true })
-  description?: string | null;
+  description?: string;
 }

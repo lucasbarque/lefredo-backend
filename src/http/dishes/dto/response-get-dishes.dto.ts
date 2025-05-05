@@ -16,7 +16,7 @@ export class ResponseGetDishesDTO {
   portion: string;
 
   @ApiProperty()
-  prepTime: string | null;
+  prepTime: number | undefined;
 
   @ApiProperty({ type: [DishSpecsDTO] })
   dishSpecs: DishSpecsDTO[] | [];

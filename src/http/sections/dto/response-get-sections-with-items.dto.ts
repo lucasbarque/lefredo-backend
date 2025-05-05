@@ -17,8 +17,8 @@ class Dish {
   @ApiProperty()
   portion: string;
 
-  @ApiProperty({ nullable: true })
-  prepTime: string | null;
+  @ApiProperty()
+  prepTime: number | undefined;
 
   @ApiProperty({ type: [DishMediasDTO] })
   dishMedias: DishMediasDTO | [];
