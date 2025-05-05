@@ -8,7 +8,7 @@ export class ResponseGetSectionByIdDTO {
   title: string;
 
   @ApiProperty({ nullable: true })
-  description: string | null;
+  description: string;
 
   @ApiProperty()
   slug: string;

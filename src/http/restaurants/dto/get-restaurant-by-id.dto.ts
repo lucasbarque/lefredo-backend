@@ -7,9 +7,9 @@ export class GetRestaurantByIdDTO {
   @ApiProperty()
   name: string;
 
-  @ApiProperty()
-  welcomeMessage: string | null;
+  @ApiProperty({ nullable: true })
+  welcomeMessage: string;
 
-  @ApiProperty()
-  logo: string | null;
+  @ApiProperty({ nullable: true })
+  logo: string;
 }

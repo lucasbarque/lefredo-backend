@@ -15,10 +15,10 @@ export class RequestCreateDishesFlavorsDTO {
   @IsString()
   @IsOptional()
   @ApiProperty({ nullable: true })
-  price: string | null;
+  price: string;
 
   @IsString()
   @IsOptional()
   @ApiProperty({ nullable: true })
-  description: string | null;
+  description: string;
 }
